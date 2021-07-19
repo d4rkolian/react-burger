@@ -2,37 +2,53 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+* {
+  padding: 0;
+  margin: 0;
+  font-family: 'JetBrains Mono Medium';
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+html {
+	background-color: #1C1C21;
+
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+main {
+	width: 1240px;
+	margin: auto;
+	display: flex;
+	flex-direction: row;
 }
 
-.App-link {
-  color: #61dafb;
+section {
+	width: 600px;
+	height: 912px;
+	overflow: scroll;
+	overflow-x: hidden;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+ul {
+	list-style-type: none;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono Regular';
+  src: url('fonts/JetBrainsMono-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono Medium';
+  src: url('fonts/JetBrainsMono-Medium.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Iceland';
+  src: url('fonts/Iceland-Regular.ttf') format('ttf');
+  font-weight: normal;
+  font-style: normal;
 }

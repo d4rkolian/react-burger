@@ -1,0 +1,91 @@
+/* left panel specific styles */
+
+h1, h2 {
+	font-weight: normal;
+}
+
+h1 { font-size: 36px; }
+h2 { font-size: 24px; }
+
+.ingList {
+	height: 716px;
+	overflow: scroll;
+	overflow-x: hidden;
+}
+
+.ingList::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ingList::-webkit-scrollbar-track {
+  background: #2F2F37;
+}
+
+.ingList::-webkit-scrollbar-thumb {
+  background: #8585AD;
+}
+
+.jumpTo {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.jumpTo li {
+	width: 200px;
+	height: 56px;
+	line-height: 56px;
+	text-align: center;
+	cursor: pointer;
+}
+
+.jumpTo li.active {
+	box-shadow: inset 0px -2px 0px #4C4CFF;
+}
+
+.card {
+	overflow: auto;
+	display: inline-block;
+	text-align: center;
+	position: relative;
+
+}
+
+.card:nth-child(odd){
+	margin-right: 24px;
+}
+
+.badge {
+	display: block;
+	width: 32px;
+	height: 32px;
+	border-radius: 16px;
+	font-size: 28px;
+	text-align: center;
+	background-color: #4C4CFF;
+	font-family: 'Iceland';
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+.img {
+	text-decoration: none;
+	display: block;
+	width: 240px;
+	height: 120px;
+	margin: 0px 16px 4px 16px;
+	background-repeat: no-repeat;
+	background-position: top left;
+	background-size: 240px 120px;
+}
+
+.price {
+	margin-bottom: 4px;
+}
+
+.name {
+	height: 48px;
+	word-wrap: break-word;
+	max-width: 272px;
+}

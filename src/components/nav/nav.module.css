@@ -1,0 +1,39 @@
+nav {
+	display: flex;
+	height: 88px;
+	width: 1240px;
+	margin: auto;
+	justify-content: space-between;
+	position: relative;
+}
+
+nav > svg {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform:translate(-50%,-50%);
+}
+
+.topnav {
+	display: flex;
+	flex-direction: row;
+}
+
+.topnav li {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.icon, .text {
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.topnav li a {
+	text-decoration: none;
+	color: #fff;
+}
+
+.topnav li a:hover {
+	text-decoration: underline;
+}

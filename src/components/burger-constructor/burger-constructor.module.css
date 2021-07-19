@@ -1,0 +1,72 @@
+/* left panel specific styles */
+
+.inglist {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.ajustable {
+	max-height: 440px;
+	overflow: scroll;
+	overflow-x: hidden;
+	margin-bottom: 0;
+}
+
+.ajustable::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ajustable::-webkit-scrollbar-track {
+  background: #2F2F37;
+}
+
+.ajustable::-webkit-scrollbar-thumb {
+  background: #8585AD;
+}
+
+.ajustable li {
+	margin-bottom: 10px;
+	position: relative;
+}
+
+.ajustable li:last-child {
+	margin: 0;
+}
+
+.ajustable li .icon {
+	position: absolute;
+	left: 0;
+	top: 50px;
+	transform: translate(0,-75%);
+	cursor: pointer;
+}
+
+.total {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	line-height: 36px;
+	background-color: red;
+}
+
+.total svg {
+	width: 33px;
+	height: 33px;
+}
+
+.summ { 
+	display: table-cell;
+	vertical-align: middle;
+	line-height: 48px;
+}
+
+.text {
+	font-family: Iceland;
+	font-size: 48px;
+}
+
+.icon, .text {
+	display: inline-block;
+	vertical-align: middle;
+}
