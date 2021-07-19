@@ -47,26 +47,22 @@
 	flex-direction: row;
 	justify-content: flex-end;
 	line-height: 36px;
-	background-color: red;
-}
-
-.total svg {
-	width: 33px;
-	height: 33px;
 }
 
 .summ { 
-	display: table-cell;
-	vertical-align: middle;
+	display: flex;
+	align-items: center;
 	line-height: 48px;
+}
+
+.summ svg {
+	width: 33px;
+	height: 33px;
+	margin-top: 18px;
+	margin-left: 10px;
 }
 
 .text {
 	font-family: Iceland;
 	font-size: 48px;
-}
-
-.icon, .text {
-	display: inline-block;
-	vertical-align: middle;
 }

@@ -4,18 +4,6 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 
 import * as utils from '../../utils/data.js';
 
-class IngredientsType extends React.Component {
-	render(){
-		return(
-				<>
-					<h2 className="mt-10 text_color_inactive">Соусы</h2>
-					<div className="pl-4">
-		      </div>
-	      </>
-			);
-	}
-}
-
 class Card extends React.Component {
 	render(){
 		return(
@@ -41,7 +29,7 @@ class BurgerIngredients extends React.Component {
 				</ul>
 
 				<div className={BIStyles.ingList}>
-					<h2 className="mt-10 mb-6">Булки</h2>
+					<h2 className="mt-10 mb-6" id="buns">Булки</h2>
 					<div className="pl-4">
 						{
 		      		utils.ingredients.map((product,index)=>{
@@ -50,7 +38,7 @@ class BurgerIngredients extends React.Component {
 		      	}	
 					</div>
 
-					<h2 className="mt-10 text_color_inactive">Соусы</h2>
+					<h2 className="mt-10 text_color_inactive" id="sauces">Соусы</h2>
 					<div className="pl-4">
 						{
 		      		utils.ingredients.map((product,index)=>{
@@ -59,7 +47,7 @@ class BurgerIngredients extends React.Component {
 		      	}	
 	      	</div>
 
-					<h2 className="mt-10 text_color_inactive">Начинки</h2>
+					<h2 className="mt-10 text_color_inactive" id="toppings">Начинки</h2>
 					<div className="pl-4">
 						{
 		      		utils.ingredients.map((product,index)=>{
