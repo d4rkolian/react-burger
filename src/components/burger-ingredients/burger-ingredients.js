@@ -36,7 +36,7 @@ class BurgerIngredients extends React.Component {
 
   render() {
     return (
-			<section>
+			<section className={this.props.appStyles.leftright}>
 				<h1 className="mt-10">Соберите бургер</h1>
 				<ul className={[BIStyles.jumpTo, "mt-5"].join(" ")}>
 					<li className={BIStyles.active}>Булки</li>
@@ -44,7 +44,7 @@ class BurgerIngredients extends React.Component {
 					<li>Начинки</li>
 				</ul>
 
-				<div className={BIStyles.ingList}>
+				<div className={[BIStyles.ingList, this.props.appStyles.customscroll].join(" ")} >
 					<h2 className="mt-10 mb-6" id="buns">Булки</h2>
 					<div className="pl-4">
 						{

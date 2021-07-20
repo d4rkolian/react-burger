@@ -27,7 +27,7 @@ class Ingredient extends React.Component {
 class BurgerConstructor extends React.Component {
   render() {
     return (
-			<section className="ml-10 pt-25">
+			<section className={[this.props.appStyles.leftright, "ml-10", "pt-25"].join(" ")}>
 				<ul className={[BGStyles.inglist, "ml-4"].join(" ")} >
 		      <li className="pl-8">
 			      <ConstructorElement
@@ -38,7 +38,7 @@ class BurgerConstructor extends React.Component {
 			        thumbnail={meatImg}
 			      />
 		      </li>
-		      <ul className={BGStyles.ajustable}>
+		      <ul className={[BGStyles.ajustable, this.props.appStyles.customscroll].join(" ")}>
 		      	{
 		      		utils.ingredients.map((product,index)=>{
 		      			let draggable = product.type !== "bun" ? true : false; 

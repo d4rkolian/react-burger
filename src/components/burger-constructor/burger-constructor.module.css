@@ -13,18 +13,6 @@
 	margin-bottom: 0;
 }
 
-.ajustable::-webkit-scrollbar {
-  width: 8px;
-}
-
-.ajustable::-webkit-scrollbar-track {
-  background: #2F2F37;
-}
-
-.ajustable::-webkit-scrollbar-thumb {
-  background: #8585AD;
-}
-
 .ajustable li {
 	margin-bottom: 10px;
 	position: relative;
