@@ -18,13 +18,29 @@ class Card extends React.Component {
 
 class BurgerIngredients extends React.Component {
 
+	constructor(props) {
+    super(props);
+
+    this.onButtonClick = this.onButtonClick.bind(this);
+    this.state = {
+        isToggled: false,
+    }
+  }
+
+  onButtonClick () {
+  	alert('test switch');
+    this.setState({
+        isToggled: !this.state.isToggled,
+    })
+  }
+
   render() {
     return (
 			<section>
 				<h1 className="mt-10">Соберите бургер</h1>
 				<ul className={[BIStyles.jumpTo, "mt-5"].join(" ")}>
 					<li className={BIStyles.active}>Булки</li>
-					<li>Соусы</li>
+					<li onClick={this.onButtonClick}>Соусы</li>
 					<li>Начинки</li>
 				</ul>
 
