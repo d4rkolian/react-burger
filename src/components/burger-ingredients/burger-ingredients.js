@@ -49,7 +49,7 @@ class BurgerIngredients extends React.Component {
 					<div className="pl-4">
 						{
 		      		utils.ingredients.map((product,index)=>{
-		      			return product.type === 'bun' ? <Card key={index} name={product.name} price={product.price} image={product.image}/> : null
+		      			return product.type === 'bun' ? <Card key={product._id} name={product.name} price={product.price} image={product.image}/> : null
 		      		})
 		      	}	
 					</div>
@@ -58,7 +58,7 @@ class BurgerIngredients extends React.Component {
 					<div className="pl-4">
 						{
 		      		utils.ingredients.map((product,index)=>{
-		      			return product.type === 'sauce' ? <Card key={index} name={product.name} price={product.price} image={product.image}/> : null
+		      			return product.type === 'sauce' ? <Card key={product._id} name={product.name} price={product.price} image={product.image}/> : null
 		      		})
 		      	}	
 	      	</div>
@@ -67,7 +67,7 @@ class BurgerIngredients extends React.Component {
 					<div className="pl-4">
 						{
 		      		utils.ingredients.map((product,index)=>{
-		      			return product.type === 'main' ? <Card key={index} name={product.name} price={product.price} image={product.image}/> : null
+		      			return product.type === 'main' ? <Card key={product._id} name={product.name} price={product.price} image={product.image}/> : null
 		      		})
 		      	}	
 	      	</div>

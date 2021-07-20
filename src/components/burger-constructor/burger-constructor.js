@@ -42,7 +42,7 @@ class BurgerConstructor extends React.Component {
 		      	{
 		      		utils.ingredients.map((product,index)=>{
 		      			let draggable = product.type !== "bun" ? true : false; 
-		      			return product.type === 'main' ? <Ingredient key={index} name={product.name} price={product.price} image={product.image} draggable={draggable} /> : null
+		      			return product.type === 'main' ? <Ingredient key={product._id} name={product.name} price={product.price} image={product.image} draggable={draggable} /> : null
 		      		})
 		      	}		
 			     </ul>
