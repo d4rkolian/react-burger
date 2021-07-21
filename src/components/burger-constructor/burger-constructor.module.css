@@ -1,0 +1,56 @@
+/* left panel specific styles */
+
+.inglist {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.ajustable {
+	max-height: 440px;
+	overflow: scroll;
+	overflow-x: hidden;
+	margin-bottom: 0;
+}
+
+.ajustable li {
+	margin-bottom: 10px;
+	position: relative;
+}
+
+.ajustable li:last-child {
+	margin: 0;
+}
+
+.ajustable li .icon {
+	position: absolute;
+	left: 0;
+	top: 50px;
+	transform: translate(0,-75%);
+	cursor: pointer;
+}
+
+.total {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	line-height: 36px;
+}
+
+.summ { 
+	display: flex;
+	align-items: center;
+	line-height: 48px;
+}
+
+.summ svg {
+	width: 33px;
+	height: 33px;
+	margin-top: 18px;
+	margin-left: 10px;
+}
+
+.text {
+	font-family: Iceland;
+	font-size: 48px;
+}
