@@ -40,6 +40,21 @@ main {
   background: #8585AD;
 }
 
+.loading {
+  height: 200px !important;
+  background-image: url('../../images/logo.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  overflow-y: hidden !important;
+  -webkit-animation: spin 3s infinite;
+  animation: spin 2s infinite;
+}
+
+@keyframes spin{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(360deg)}  
+}
+
 ul {
 	list-style-type: none;
 }

@@ -48,7 +48,6 @@ h2 { font-size: 24px; }
 	display: inline-block;
 	text-align: center;
 	position: relative;
-
 }
 
 .card:nth-child(odd){
@@ -81,7 +80,8 @@ h2 { font-size: 24px; }
 }
 
 .price {
-	margin-bottom: 4px;
+	display: flex;
+	justify-content: center;
 }
 
 .name {
