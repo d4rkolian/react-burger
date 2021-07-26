@@ -15,23 +15,6 @@ function Card(props) {
 
 function BurgerIngredients(props) {
 
-	const [state,setState] = React.useState({
-		isLoading: true,
-		ingredients: [],
-	});
-
-  React.useEffect(() => {
-	  	const getIngredients = async () => {
-		    fetch(props.apiUrl)
-		    .then(res => res.json())
-		    .then(data => setState({...state, ingredients: data.data, isLoading: false}) )
-		    .catch(e => console.log('error see can I, my young padavan'))
-		  }
-		  getIngredients();
-	  },
-  	[]
-  );
-
   return (
 		<section className={props.appStyles.leftright}>
 			<h1 className="mt-10">Соберите бургер</h1>
@@ -41,13 +24,13 @@ function BurgerIngredients(props) {
 				<li>Начинки</li>
 			</ul>
 
-			<div className={[BIStyles.ingList, props.appStyles.customscroll, state.isLoading ? props.appStyles.loading : "" ].join(" ")} >
-				{!state.isLoading && (
+			<div className={[BIStyles.ingList, props.appStyles.customscroll, props.isLoading ? props.appStyles.loading : "" ].join(" ")} >
+				{!props.isLoading && (
 					<>
 						<h2 className="mt-10 mb-6" id="buns">Булки</h2>
 						<div className="pl-4">
 							{
-			      		state.ingredients.map((product,index)=>{
+			      		props.ingredients.map((product,index)=>{
 			      			return product.type === 'bun' ? <Card key={index} name={product.name} price={product.price} image={product.image}/> : null
 			      		})
 			      	}	
@@ -56,7 +39,7 @@ function BurgerIngredients(props) {
 						<h2 className="mt-10 text_color_inactive" id="sauces">Соусы</h2>
 						<div className="pl-4">
 							{
-			      		state.ingredients.map((product,index)=>{
+			      		props.ingredients.map((product,index)=>{
 			      			return product.type === 'sauce' ? <Card key={index} name={product.name} price={product.price} image={product.image}/> : null
 			      		})
 			      	}	
@@ -65,7 +48,7 @@ function BurgerIngredients(props) {
 						<h2 className="mt-10 text_color_inactive" id="toppings">Начинки</h2>
 						<div className="pl-4">
 							{
-			      		state.ingredients.map((product,index)=>{
+			      		props.ingredients.map((product,index)=>{
 			      			return product.type === 'main' ? <Card key={index} name={product.name} price={product.price} image={product.image}/> : null
 			      		})
 			      	}	

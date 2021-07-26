@@ -6,6 +6,10 @@
 	gap: 10px;
 }
 
+.inglist li {
+	cursor: pointer;
+}
+
 .ajustable {
 	max-height: 440px;
 	overflow: scroll;

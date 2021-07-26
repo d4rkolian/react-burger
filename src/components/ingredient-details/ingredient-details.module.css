@@ -1,0 +1,38 @@
+/* ingredient details styles */
+.ingredientDetails img {
+	margin-bottom: 16px;
+}
+
+.ingredientDetails h2 {
+	margin: 40px;
+	position: relative;
+	text-align: left;
+	font-size: 36px;
+}
+
+.ingredientDetails .desc {
+	width: 520px;
+	margin: auto;
+	margin-bottom: 60px;
+}
+
+.ingredientDetails h3 {
+	margin-bottom: 32px;
+}
+
+.ccal {
+	display: flex;
+	list-style: none;
+	justify-content: space-between;
+
+}
+
+.ingredientDetails h4 {
+	margin-bottom: 8px;
+	font-size: 16px;
+}
+
+.ingredientDetails .ccal span {
+	font-family: 'Iceland';
+	font-size:  24px;
+}

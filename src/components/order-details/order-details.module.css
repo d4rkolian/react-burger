@@ -1,0 +1,31 @@
+/* order details styles */
+.orderDetails {
+
+}
+
+.orderId {
+	font-family: 'Iceland';
+
+	text-align: center;
+	margin: 120px auto 32px auto;
+	text-shadow: 0px 0px 16px rgba(51, 51, 255, 0.25), 0px 0px 8px rgba(51, 51, 255, 0.25), 0px 4px 32px rgba(51, 51, 255, 0.5);
+}
+
+.subline {
+	font-size: 24px;
+}
+
+.statusIcon {
+	display: block;
+	margin: 60px auto 60px auto;
+	width: 120px;
+	height: 120px;
+	text-align: center;
+	background: url(../../images/done.png) center center no-repeat;
+}
+
+.detailedStatus {
+	font-size: 16px;
+	text-align: center;
+	margin-bottom: 120px;
+}
