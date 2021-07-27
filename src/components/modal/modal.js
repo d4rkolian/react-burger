@@ -31,7 +31,7 @@ function Modal(props) {
 Modal.propTypes = {
   modaltype: PropTypes.string,
   clickHandle: PropTypes.func.isRequired,
-  product: PropTypes.object.isRequired
+  product: PropTypes.object
 }
 
 export default Modal;

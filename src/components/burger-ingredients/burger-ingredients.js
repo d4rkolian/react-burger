@@ -9,7 +9,7 @@ function Card(props) {
 	return(
 			<div className={[BIStyles.card, "mb-10"].join(" ")} onClick={props.clickHandle} product={product} modaltype="ingredients">
 				{/* <span className={BIStyles.badge}>1</span> */}
-				<a href="#" className={BIStyles.img} ><img src={props.details.product.image} /></a>
+				<img src={props.details.product.image} className={BIStyles.img} alt={props.details.product.name} />
 				<p className={BIStyles.price}>{props.details.product.price}&nbsp;<CurrencyIcon type="primary" /></p>
 				<p className={BIStyles.name}>{props.details.product.name}</p>
 			</div>

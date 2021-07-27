@@ -14,7 +14,6 @@ function App() {
 	const [state,setState] = React.useState({
 		isLoading: true,
 		ingredients: [],
-		modalsRed: null,
 	});
 
 	const [modalVisible, setVisible] = React.useState(false);
@@ -60,7 +59,7 @@ function App() {
 		const getIngredients = async () => {
 	    fetch(API_URL)
 	    .then(res => res.json())
-	    .then(data => setState({...state, ingredients: data.data, isLoading: false}) )
+	    .then(data => setState({ingredients: data.data, isLoading: false}) )
 	    .catch(e => console.log('Error see can I, my young padavan'));
 	  }
 	  getIngredients();

@@ -1,6 +1,5 @@
-/* @import fonts.css */
 
-header {
+header.stellarHeader {
 	max-width: 1920px;
 	height: 88px;
 	width: 100%;

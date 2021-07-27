@@ -4,7 +4,7 @@ import headerStyles from './app-header.module.css';
 
 function AppHeader() {
 	return (
-	  <header>
+	  <header className={headerStyles.stellarHeader}>
 		  	<Nav />
 	  </header>
 	);

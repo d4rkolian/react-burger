@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -6,17 +6,14 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import ModalOverlay from '../modal-overlay/modal-overlay';
-import Modal from '../modal/modal';
-
 import BGStyles from './burger-constructor.module.css';
 
 const Ingredient = (props) => {
 	var product = JSON.stringify(props.details.product);
 	var type = (props.type) ? props.type : "";
 	var name = props.details.product.name;
-	if (props.type && props.type == "top") name = props.details.product.name+' (верх)';
-	if (props.type && props.type == "bottom") name = props.details.product.name+' (низ)';
+	if (props.type && props.type === "top") name = props.details.product.name+' (верх)';
+	if (props.type && props.type === "bottom") name = props.details.product.name+' (низ)';
 
 	return (
 	  <li className="pl-8" onClick={props.clickHandle} product={product} modaltype="ingredients">
@@ -79,7 +76,10 @@ BurgerConstructor.propTypes = {
 }
 
 Ingredient.propTypes = {
-	details: PropTypes.array.isRequired,
+	details: PropTypes.oneOfType([
+		PropTypes.array,
+		PropTypes.object
+	]),
 	clickHandle: PropTypes.func.isRequired,
 	isLocked: PropTypes.bool.isRequired,
 	type: PropTypes.string,
