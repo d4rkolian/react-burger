@@ -1,6 +1,7 @@
 /* ingredient details styles */
 .ingredientDetails img {
 	margin-bottom: 16px;
+	min-height: 240px; /* чтобы модальное окно не прыгало по высоте */
 }
 
 .ingredientDetails h2 {

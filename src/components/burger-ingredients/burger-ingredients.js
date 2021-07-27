@@ -3,12 +3,13 @@ import BIStyles from './burger-ingredients.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 function Card(props) {
+	var product = JSON.stringify(props.details.product);
 	return(
-			<div className={[BIStyles.card, "mb-10"].join(" ")}>
+			<div className={[BIStyles.card, "mb-10"].join(" ")} onClick={props.clickHandle} product={product} modaltype="ingredients">
 				{/* <span className={BIStyles.badge}>1</span> */}
-				<a href="#" className={BIStyles.img} ><img src={props.image} /></a>
-				<p className={BIStyles.price}>{props.price}&nbsp;<CurrencyIcon type="primary" /></p>
-				<p className={BIStyles.name}>{props.name}</p>
+				<a href="#" className={BIStyles.img} ><img src={props.details.product.image} /></a>
+				<p className={BIStyles.price}>{props.details.product.price}&nbsp;<CurrencyIcon type="primary" /></p>
+				<p className={BIStyles.name}>{props.details.product.name}</p>
 			</div>
 		);
 }
@@ -31,7 +32,7 @@ function BurgerIngredients(props) {
 						<div className="pl-4">
 							{
 			      		props.ingredients.map((product,index)=>{
-			      			return product.type === 'bun' ? <Card key={index} name={product.name} price={product.price} image={product.image}/> : null
+			      			return product.type === 'bun' ? <Card key={index} clickHandle={props.clickHandle} details={{product}} /> : null
 			      		})
 			      	}	
 						</div>
@@ -40,7 +41,7 @@ function BurgerIngredients(props) {
 						<div className="pl-4">
 							{
 			      		props.ingredients.map((product,index)=>{
-			      			return product.type === 'sauce' ? <Card key={index} name={product.name} price={product.price} image={product.image}/> : null
+			      			return product.type === 'sauce' ? <Card key={index} clickHandle={props.clickHandle} details={{product}} /> : null
 			      		})
 			      	}	
 		      	</div>
@@ -49,14 +50,13 @@ function BurgerIngredients(props) {
 						<div className="pl-4">
 							{
 			      		props.ingredients.map((product,index)=>{
-			      			return product.type === 'main' ? <Card key={index} name={product.name} price={product.price} image={product.image}/> : null
+			      			return product.type === 'main' ? <Card key={index} clickHandle={props.clickHandle} details={{product}} /> : null
 			      		})
 			      	}	
 		      	</div>
 		      </>
 				)}	
     	</div>
-
 		</section>
   );
 

@@ -17,6 +17,46 @@ function App() {
 		modalsRed: null,
 	});
 
+	const [modalVisible, setVisible] = React.useState(false);
+	const [modalType, setModalType] = React.useState(null);
+	const [productObj, setProduct] = React.useState({ product: '' });
+
+	function clickHandle(event) {
+
+		if ( event.currentTarget.getAttribute('modaltype') )
+		{
+			setModalType(event.currentTarget.getAttribute('modaltype'));
+			if ( event.currentTarget.getAttribute('product') )
+			{
+				const newProduct = {
+					product: JSON.parse(event.currentTarget.getAttribute('product'))
+				}
+				setProduct(newProduct);
+			}
+		} else {
+			setModalType(null);
+		}
+		setVisible(!modalVisible);
+		event.preventDefault();
+	}
+
+	// не работает с кнопки
+	function handleUserKeyPress(event) { 
+	  if (event.keyCode === 27 && modalVisible) {
+	  	clickHandle()
+	  }
+	}
+
+	React.useEffect(
+		() => {
+			window.addEventListener('keydown', handleUserKeyPress);
+	    return () => {
+	      window.removeEventListener('keydown', handleUserKeyPress);
+	    };
+		}
+	,[]
+	);
+
 	React.useEffect(() => {
 		const getIngredients = async () => {
 	    fetch(API_URL)
@@ -33,8 +73,14 @@ function App() {
     <>
       <AppHeader />
       <main>
-        <BurgerIngredients appStyles={AppStyles} ingredients={state.ingredients} isLoading={state.isLoading} />
-        <BurgerConstructor appStyles={AppStyles} ingredients={state.ingredients} isLoading={state.isLoading} />
+        <BurgerIngredients appStyles={AppStyles} ingredients={state.ingredients} isLoading={state.isLoading} clickHandle={clickHandle} />
+        <BurgerConstructor appStyles={AppStyles} ingredients={state.ingredients} isLoading={state.isLoading} clickHandle={clickHandle} />
+        { modalVisible && (
+					<>
+						<Modal clickHandle={clickHandle} product={modalType === 'ingredients' ? productObj : null} modaltype={modalType}  />
+						<ModalOverlay clickHandle={clickHandle} />
+					</>
+				)}
       </main>
     </>
   );
