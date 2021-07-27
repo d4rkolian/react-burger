@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import BIStyles from './burger-ingredients.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -60,6 +62,18 @@ function BurgerIngredients(props) {
 		</section>
   );
 
+}
+
+BurgerIngredients.propTypes = {
+	ingredients: PropTypes.array.isRequired,
+	isLoading: PropTypes.bool.isRequired,
+	clickHandle: PropTypes.func.isRequired,
+	appStyles: PropTypes.object.isRequired,
+}
+
+Card.propTypes = {
+	details: PropTypes.object.isRequired,
+	clickHandle: PropTypes.func.isRequired,
 }
 
 export default BurgerIngredients;

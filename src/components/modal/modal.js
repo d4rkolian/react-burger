@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
+import PropTypes from 'prop-types'
+
 import modalStyles from './modal.module.css';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
@@ -24,6 +26,12 @@ function Modal(props) {
 			{component}
 		</div>
   ), modalRoot);
+}
+
+Modal.propTypes = {
+  modaltype: PropTypes.string,
+  clickHandle: PropTypes.func.isRequired,
+  product: PropTypes.object.isRequired
 }
 
 export default Modal;

@@ -40,10 +40,9 @@ function App() {
 		event.preventDefault();
 	}
 
-	// не работает с кнопки
 	function handleUserKeyPress(event) { 
-	  if (event.keyCode === 27 && modalVisible) {
-	  	clickHandle()
+	  if (event.keyCode === 27) {
+	  	setVisible(false);
 	  }
 	}
 
@@ -77,8 +76,8 @@ function App() {
         <BurgerConstructor appStyles={AppStyles} ingredients={state.ingredients} isLoading={state.isLoading} clickHandle={clickHandle} />
         { modalVisible && (
 					<>
-						<Modal clickHandle={clickHandle} product={modalType === 'ingredients' ? productObj : null} modaltype={modalType}  />
-						<ModalOverlay clickHandle={clickHandle} />
+					<Modal clickHandle={clickHandle} product={modalType === 'ingredients' ? productObj : null} modaltype={modalType}  />
+					<ModalOverlay clickHandle={clickHandle} />
 					</>
 				)}
       </main>

@@ -1,4 +1,6 @@
 import React, { useCallback } from 'react';
+import PropTypes from 'prop-types';
+
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -52,7 +54,7 @@ const BurgerConstructor = (props) => {
 			      	}		
 						</ul>
 					</li>
-				  { !props.isLoading && (<Ingredient key={firstBun._id} details={firstBun} clickHandle={props.clickHandle} isLocked="true" type="bottom" />) }	
+				  { !props.isLoading && (<Ingredient key={firstBun._id} details={firstBun} clickHandle={props.clickHandle} isLocked={true} type="bottom" />) }	
 			  </ul>
 		    <div className={[BGStyles.total, "mt-10"].join(" ")}>
 		    	<p className={[BGStyles.summ,"mr-10"].join(" ")}>
@@ -67,6 +69,20 @@ const BurgerConstructor = (props) => {
 		</>
   );
 
+}
+
+BurgerConstructor.propTypes = {
+	ingredients: PropTypes.array.isRequired,
+	isLoading: PropTypes.bool.isRequired,
+	clickHandle: PropTypes.func.isRequired,
+	appStyles: PropTypes.object.isRequired,
+}
+
+Ingredient.propTypes = {
+	details: PropTypes.array.isRequired,
+	clickHandle: PropTypes.func.isRequired,
+	isLocked: PropTypes.bool.isRequired,
+	type: PropTypes.string,
 }
 
 export default BurgerConstructor;

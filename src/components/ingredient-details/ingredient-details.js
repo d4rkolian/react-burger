@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
+import PropTypes from 'prop-types';
+
 import IgDStyles from './ingredient-details.module.css';
 
 function IngredientDetails(props) {
@@ -30,6 +32,10 @@ function IngredientDetails(props) {
 			</div>
 		</div>
   );
+}
+
+IngredientDetails.propTypes = {
+	product: PropTypes.object.isRequired,
 }
 
 export default IngredientDetails;
