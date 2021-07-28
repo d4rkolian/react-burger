@@ -18,8 +18,7 @@ main {
 .leftright {
 	width: 600px;
 	height: 912px;
-	overflow: scroll;
-	overflow-x: hidden;
+	overflow: hidden;
 }
 
 .customscroll {
