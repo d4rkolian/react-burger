@@ -1,0 +1,1 @@
+// simple index.js stub according to checklist https://code.s3.yandex.net/react/checklists/checklist-1/index.html
