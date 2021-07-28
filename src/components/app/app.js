@@ -4,7 +4,9 @@ import AppStyles from './app.module.css';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 
-import ModalOverlay from '../modal-overlay/modal-overlay';
+import IngredientDetails from '../ingredient-details/ingredient-details';
+import OrderDetails from '../order-details/order-details';
+
 import Modal from '../modal/modal';
 
 function App() {
@@ -16,24 +18,28 @@ function App() {
 		ingredients: [],
 	});
 
-	const [modalVisible, setVisible] = React.useState(false);
-	const [modalType, setModalType] = React.useState(null);
-	const [productObj, setProduct] = React.useState({ product: '' });
+	const [modalVisible, setVisible] = React.useState(false)
+	const [modalChildren, setModalChildren] = React.useState(null);
 
 	function clickHandle(event) {
 
 		if ( event.currentTarget.getAttribute('modaltype') )
 		{
-			setModalType(event.currentTarget.getAttribute('modaltype'));
-			if ( event.currentTarget.getAttribute('product') )
-			{
-				const newProduct = {
-					product: JSON.parse(event.currentTarget.getAttribute('product'))
-				}
-				setProduct(newProduct);
-			}
+			let component = null;
+		  switch( event.currentTarget.getAttribute('modaltype') ) {
+		    case "ingredients":
+		    	const currProduct = JSON.parse(event.currentTarget.getAttribute('product'));
+		      component = <IngredientDetails product={currProduct} />;
+		      break;
+		    case "order":
+		    	component = <OrderDetails />;
+		    	break;
+		    default:
+		      component = 'Сюда можно поставить компонент-заглушку модалки';
+		  }
+		  setModalChildren(component);
 		} else {
-			setModalType(null);
+			setModalChildren(null);
 		}
 		setVisible(!modalVisible);
 		event.preventDefault();
@@ -74,11 +80,10 @@ function App() {
         <BurgerIngredients appStyles={AppStyles} ingredients={state.ingredients} isLoading={state.isLoading} clickHandle={clickHandle} />
         <BurgerConstructor appStyles={AppStyles} ingredients={state.ingredients} isLoading={state.isLoading} clickHandle={clickHandle} />
         { modalVisible && (
-					<>
-					<Modal clickHandle={clickHandle} product={modalType === 'ingredients' ? productObj : null} modaltype={modalType}  />
-					<ModalOverlay clickHandle={clickHandle} />
-					</>
-				)}
+        	<Modal clickHandle={clickHandle}  >
+        		{modalChildren}
+        	</Modal>
+        )}
       </main>
     </>
   );
