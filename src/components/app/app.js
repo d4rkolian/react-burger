@@ -64,7 +64,12 @@ function App() {
 	React.useEffect(() => {
 		const getIngredients = async () => {
 	    fetch(API_URL)
-	    .then(res => res.json())
+	    .then(res => {
+				if (res.ok) {
+					return res.json();
+				}
+					return Promise.reject(`Ошибка ${res.status}`);
+			})
 	    .then(data => setState({ingredients: data.data, isLoading: false}) )
 	    .catch(e => console.log('Error see can I, my young padavan'));
 	  }
