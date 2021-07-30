@@ -48,7 +48,6 @@ function BurgerIngredients(props) {
 			      	}	
 		      	</div>
 
-<<<<<<< HEAD
 						<h2 className="mt-10 text_color_inactive" id="toppings">Начинки</h2>
 						<div className="pl-4">
 							{
@@ -71,36 +70,6 @@ BurgerIngredients.propTypes = {
 	clickHandle: PropTypes.func.isRequired,
 	appStyles: PropTypes.object.isRequired,
 }
-=======
-				<div className={[BIStyles.ingList, this.props.appStyles.customscroll].join(" ")} >
-					<h2 className="mt-10 mb-6" id="buns">Булки</h2>
-					<div className="pl-4">
-						{
-		      		utils.ingredients.map((product,index)=>{
-		      			return product.type === 'bun' ? <Card key={product._id} name={product.name} price={product.price} image={product.image}/> : null
-		      		})
-		      	}	
-					</div>
-
-					<h2 className="mt-10 text_color_inactive" id="sauces">Соусы</h2>
-					<div className="pl-4">
-						{
-		      		utils.ingredients.map((product,index)=>{
-		      			return product.type === 'sauce' ? <Card key={product._id} name={product.name} price={product.price} image={product.image}/> : null
-		      		})
-		      	}	
-	      	</div>
-
-					<h2 className="mt-10 text_color_inactive" id="toppings">Начинки</h2>
-					<div className="pl-4">
-						{
-		      		utils.ingredients.map((product,index)=>{
-		      			return product.type === 'main' ? <Card key={product._id} name={product.name} price={product.price} image={product.image}/> : null
-		      		})
-		      	}	
-	      	</div>
-      	</div>
->>>>>>> c1a962d8c71e402515a655b69a00ea8b903fcf14
 
 Card.propTypes = {
 	details: PropTypes.object.isRequired,

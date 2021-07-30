@@ -40,7 +40,6 @@ const BurgerConstructor = (props) => {
   	<>
 			<section className={[props.appStyles.leftright, "ml-10", "pt-25"].join(" ")}>
 				<ul className={[BGStyles.inglist, "ml-4"].join(" ")} >
-<<<<<<< HEAD
 
 					{ !props.isLoading && (<Ingredient key={firstBun._id} details={firstBun} clickHandle={props.clickHandle} isLocked={true} type="top" />) }	
 				  <li>
@@ -54,35 +53,6 @@ const BurgerConstructor = (props) => {
 					</li>
 				  { !props.isLoading && (<Ingredient key={firstBun._id} details={firstBun} clickHandle={props.clickHandle} isLocked={true} type="bottom" />) }	
 			  </ul>
-=======
-		      <li className="pl-8">
-			      <ConstructorElement
-			        type="top"
-			        isLocked={true}
-			        text="Краторная булка N-200i (верх)"
-			        price={200}
-			        thumbnail={meatImg}
-			      />
-		      </li>
-		      <ul className={[BGStyles.ajustable, this.props.appStyles.customscroll].join(" ")}>
-		      	{
-		      		utils.ingredients.map((product,index)=>{
-		      			let draggable = product.type !== "bun" ? true : false; 
-		      			return product.type === 'main' ? <Ingredient key={product._id} name={product.name} price={product.price} image={product.image} draggable={draggable} /> : null
-		      		})
-		      	}		
-			     </ul>
-			     <li className="pl-8">
-				      <ConstructorElement
-				        type="bottom"
-				        isLocked={true}
-				        text="Краторная булка N-200i (низ)"
-				        price={200}
-				        thumbnail={meatImg}
-				      />
-			     </li>
-		    </ul>
->>>>>>> c1a962d8c71e402515a655b69a00ea8b903fcf14
 		    <div className={[BGStyles.total, "mt-10"].join(" ")}>
 		    	<p className={[BGStyles.summ,"mr-10"].join(" ")}>
 		    		<span className={BGStyles.text}>610</span>
