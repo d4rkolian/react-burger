@@ -7,6 +7,8 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
 
+import {IngredientsContext} from '../../utils/ingredientsContext.js';
+
 import Modal from '../modal/modal';
 
 function App() {
@@ -82,8 +84,11 @@ function App() {
     <>
       <AppHeader />
       <main>
-        <BurgerIngredients appStyles={AppStyles} ingredients={state.ingredients} isLoading={state.isLoading} clickHandle={clickHandle} />
-        <BurgerConstructor appStyles={AppStyles} ingredients={state.ingredients} isLoading={state.isLoading} clickHandle={clickHandle} />
+      	<IngredientsContext.Provider value={state.ingredients} >
+        	<BurgerIngredients appStyles={AppStyles} isLoading={state.isLoading} clickHandle={clickHandle} />
+        	<BurgerConstructor appStyles={AppStyles} isLoading={state.isLoading} clickHandle={clickHandle} />
+        </IngredientsContext.Provider >
+
         { modalVisible && (
         	<Modal clickHandle={clickHandle}  >
         		{modalChildren}

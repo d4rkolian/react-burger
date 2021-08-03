@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
+import {IngredientsContext} from '../../utils/ingredientsContext.js';
 
 import BIStyles from './burger-ingredients.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -18,6 +19,8 @@ function Card(props) {
 
 function BurgerIngredients(props) {
 
+	const ingredients = useContext(IngredientsContext);
+
   return (
 		<section className={props.appStyles.leftright}>
 			<h1 className="mt-10">Соберите бургер</h1>
@@ -33,7 +36,7 @@ function BurgerIngredients(props) {
 						<h2 className="mt-10 mb-6" id="buns">Булки</h2>
 						<div className="pl-4">
 							{
-			      		props.ingredients.map((product,index)=>{
+			      		ingredients.map((product,index)=>{
 			      			return product.type === 'bun' ? <Card key={index} clickHandle={props.clickHandle} details={{product}} /> : null
 			      		})
 			      	}	
@@ -42,7 +45,7 @@ function BurgerIngredients(props) {
 						<h2 className="mt-10 text_color_inactive" id="sauces">Соусы</h2>
 						<div className="pl-4">
 							{
-			      		props.ingredients.map((product,index)=>{
+			      		ingredients.map((product,index)=>{
 			      			return product.type === 'sauce' ? <Card key={index} clickHandle={props.clickHandle} details={{product}} /> : null
 			      		})
 			      	}	
@@ -51,7 +54,7 @@ function BurgerIngredients(props) {
 						<h2 className="mt-10 text_color_inactive" id="toppings">Начинки</h2>
 						<div className="pl-4">
 							{
-			      		props.ingredients.map((product,index)=>{
+			      		ingredients.map((product,index)=>{
 			      			return product.type === 'main' ? <Card key={index} clickHandle={props.clickHandle} details={{product}} /> : null
 			      		})
 			      	}	
@@ -65,7 +68,6 @@ function BurgerIngredients(props) {
 }
 
 BurgerIngredients.propTypes = {
-	ingredients: PropTypes.array.isRequired,
 	isLoading: PropTypes.bool.isRequired,
 	clickHandle: PropTypes.func.isRequired,
 	appStyles: PropTypes.object.isRequired,

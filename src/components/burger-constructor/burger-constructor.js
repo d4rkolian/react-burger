@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
+import {IngredientsContext} from '../../utils/ingredientsContext.js';
 
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -33,8 +34,10 @@ const Ingredient = (props) => {
 
 const BurgerConstructor = (props) => {
 
+	const ingredients = useContext(IngredientsContext);
+
 	const firstBun = [];
-	firstBun['product'] = props.ingredients.find(element => element.type = 'bun');
+	firstBun['product'] = ingredients.find(element => element.type = 'bun');
 
   return (
   	<>
@@ -45,7 +48,7 @@ const BurgerConstructor = (props) => {
 				  <li>
 				  	<ul className={[BGStyles.ajustable, props.appStyles.customscroll, props.isLoading ? props.appStyles.loading : ""].join(" ")}>
 			      	{ !props.isLoading &&
-			      		props.ingredients.map((product,index)=>{
+			      		ingredients.map((product,index)=>{
 			      			return product.type === 'main' ? <Ingredient key={product._id} details={{product}} clickHandle={props.clickHandle} isLocked={false} /> : null
 			      		})
 			      	}		
@@ -69,7 +72,6 @@ const BurgerConstructor = (props) => {
 }
 
 BurgerConstructor.propTypes = {
-	ingredients: PropTypes.array.isRequired,
 	isLoading: PropTypes.bool.isRequired,
 	clickHandle: PropTypes.func.isRequired,
 	appStyles: PropTypes.object.isRequired,
