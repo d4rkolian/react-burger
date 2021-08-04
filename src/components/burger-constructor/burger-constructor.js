@@ -17,7 +17,7 @@ const Ingredient = (props) => {
 	if (props.type && props.type === "bottom") name = props.details.product.name+' (низ)';
 
 	return (
-	  <li className="pl-8" onClick={props.clickHandle} product={product} modaltype="ingredients">
+	  <li className="pl-8 ingredient" onClick={props.clickHandle} product={product} modaltype="ingredients" >
 			{ !props.isLocked ? (
 				<span className={BGStyles.icon}><DragIcon type="primary" /></span>) : null
 			}
@@ -35,13 +35,17 @@ const Ingredient = (props) => {
 const BurgerConstructor = (props) => {
 
 	const ingredients = useContext(IngredientsContext);
-
+	let summ = 0; 
 	const firstBun = [];
-	firstBun['product'] = ingredients.find(element => element.type = 'bun');
+
+	if ( !props.isLoading ){
+		firstBun['product'] = ingredients.find(element => element.type = 'bun');
+		summ += firstBun.product.price*2;
+	}
 
   return (
   	<>
-			<section className={[props.appStyles.leftright, "ml-10", "pt-25"].join(" ")}>
+			<section className={[props.appStyles.leftright, "ml-10", "pt-25"].join(" ")} id="burgerconstructor">
 				<ul className={[BGStyles.inglist, "ml-4"].join(" ")} >
 
 					{ !props.isLoading && (<Ingredient key={firstBun._id} details={firstBun} clickHandle={props.clickHandle} isLocked={true} type="top" />) }	
@@ -49,7 +53,10 @@ const BurgerConstructor = (props) => {
 				  	<ul className={[BGStyles.ajustable, props.appStyles.customscroll, props.isLoading ? props.appStyles.loading : ""].join(" ")}>
 			      	{ !props.isLoading &&
 			      		ingredients.map((product,index)=>{
-			      			return product.type === 'main' ? <Ingredient key={product._id} details={{product}} clickHandle={props.clickHandle} isLocked={false} /> : null
+			      			if ( product.type === 'main' ){
+			      				summ += product.price
+			      				return <Ingredient key={product._id} details={{product}} clickHandle={props.clickHandle} isLocked={false} />
+			      			}
 			      		})
 			      	}		
 						</ul>
@@ -58,7 +65,7 @@ const BurgerConstructor = (props) => {
 			  </ul>
 		    <div className={[BGStyles.total, "mt-10"].join(" ")}>
 		    	<p className={[BGStyles.summ,"mr-10"].join(" ")}>
-		    		<span className={BGStyles.text}>610</span>
+		    		<span className={BGStyles.text}>{summ}</span>
 		    		<span className={BGStyles.icon}><CurrencyIcon /></span>
 		    	</p>
 		    	<Button type="primary" size="large" onClick={props.clickHandle} modaltype="order">

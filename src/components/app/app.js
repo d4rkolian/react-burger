@@ -14,10 +14,13 @@ import Modal from '../modal/modal';
 function App() {
 
 	const API_URL = 'https://norma.nomoreparties.space/api/ingredients';
+	const ORDER_URL = 'https://norma.nomoreparties.space/api/orders';
 
 	const [state,setState] = React.useState({
 		isLoading: true,
 		ingredients: [],
+		orderNumber: null,
+		orderLoading: true,
 	});
 
 	const [modalVisible, setVisible] = React.useState(false)
@@ -34,7 +37,17 @@ function App() {
 		      component = <IngredientDetails product={currProduct} />;
 		      break;
 		    case "order":
-		    	component = <OrderDetails />;
+		    	// рендерим компонент
+		    	component = <OrderDetails orderNumber={state.orderNumber} orderLoading={state.orderLoading} />;
+
+		    	// собираем ID продуктов
+		    	var ingredientsIDs = [];
+		    	var ingredientsElements = document.getElementById('burgerconstructor').querySelectorAll('li.ingredient');
+		    	for (let i = 0; i < ingredientsElements.length; i++) {
+					  ingredientsIDs.push(JSON.parse(ingredientsElements[i].getAttribute('product'))._id)
+					}
+		    	// обращаемся к API, получаем номер заказа
+		    	getOrderNum(ingredientsIDs);
 		    	break;
 		    default:
 		      component = 'Сюда можно поставить компонент-заглушку модалки';
@@ -45,6 +58,28 @@ function App() {
 		}
 		setVisible(!modalVisible);
 		event.preventDefault();
+	}
+
+	function getOrderNum(ingredientsIDs){
+		setState({ ...state, orderLoading: true });
+		const reqOptions = {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				'ingredients': ingredientsIDs
+			})
+		};
+		fetch(ORDER_URL, reqOptions)
+			.then(res => {
+			if (res.ok) {
+				return res.json();
+			}
+				return Promise.reject(`Ошибка ${res.status}`);
+			})
+			.then(data => {
+				setState({...state, orderNumber: data.order.number, orderLoading: false });
+			})
+			.catch(e => console.log('Error see can I in order number, my young padavan'));
 	}
 
 	function handleUserKeyPress(event) { 
@@ -72,7 +107,7 @@ function App() {
 				}
 					return Promise.reject(`Ошибка ${res.status}`);
 			})
-	    .then(data => setState({ingredients: data.data, isLoading: false}) )
+	    .then(data => setState({...state, ingredients: data.data, isLoading: false}) )
 	    .catch(e => console.log('Error see can I, my young padavan'));
 	  }
 	  getIngredients();
