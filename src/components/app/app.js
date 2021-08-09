@@ -1,19 +1,22 @@
 import React, {useContext} from 'react';
+
+// импортируем все, что связано с App
 import AppHeader from '../app-header/app-header';
 import AppStyles from './app.module.css';
+
+// импортируем другие компоненты
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
-
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
-
-import {IngredientsContext} from '../../utils/ingredientsContext.js';
-
 import Modal from '../modal/modal';
+
+import {IngredientsContext} from '../../utils/ingredientsContext.js'; // TODO удалить после переноса на Redux
+import { useSelector, useDispatch } from 'react-redux';
 
 function App() {
 
-	const API_URL = 'https://norma.nomoreparties.space/api/ingredients';
+	const API_URL = 'https://norma.nomoreparties.space/api/ingredients';	// TODO удалить
 	const ORDER_URL = 'https://norma.nomoreparties.space/api/orders';
 
 	const [state,setState] = React.useState({
@@ -109,24 +112,6 @@ function App() {
 	      .catch(e => console.log('Error see can I in order number, my young padavan'));
 	  }
 	  // getOrderNum(state.ingredientsConstructor);
-		},
-		[]
-	);
-
-
-	React.useEffect(() => {
-		const getIngredients = async () => {
-	    fetch(API_URL)
-	    .then(res => {
-				if (res.ok) {
-					return res.json();
-				}
-					return Promise.reject(`Ошибка ${res.status}`);
-			})
-	    .then(data => setState({...state, ingredients: data.data, isLoading: false}) )
-	    .catch(e => console.log('Error see can I, my young padavan'));
-	  }
-	  getIngredients();
 		},
 		[]
 	);

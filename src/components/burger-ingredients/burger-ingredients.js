@@ -1,4 +1,5 @@
-import React, {useContext} from 'react';
+import React, {useContext} from 'react'; // TODO удалить useContext
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import {IngredientsContext} from '../../utils/ingredientsContext.js';
 import Card from '../card/card';
@@ -6,7 +7,30 @@ import BIStyles from './burger-ingredients.module.css';
 
 function BurgerIngredients(props) {
 
-	const ingredients = useContext(IngredientsContext);
+	const API_URL = 'https://norma.nomoreparties.space/api/ingredients';	
+	const dispatch = useDispatch();
+
+	const { ingLoading, ingredients } = useSelector( store => ({
+		ingLoading: store.burger.loaders.ingredients,
+		ingredients: store.burger.ingredients.all,
+	}));
+
+	React.useEffect(() => {
+		const getIngredients = async () => {
+	    fetch(API_URL)
+	    .then(res => {
+				if (res.ok) {
+					return res.json();
+				}
+					return Promise.reject(`Ошибка ${res.status}`);
+			})
+	    .then(data => dispatch({type: 'LOAD_INGREDIENTS', data: data.data}) )
+	    .catch(e => console.log('Error see can I, my young padavan'));
+	  }
+	  getIngredients();
+		},
+		[]
+	);
 
   return (
 		<section className={props.appStyles.leftright}>
@@ -17,8 +41,8 @@ function BurgerIngredients(props) {
 				<li>Начинки</li>
 			</ul>
 
-			<div className={[BIStyles.ingList, props.appStyles.customscroll, props.isLoading ? props.appStyles.loading : "" ].join(" ")} >
-				{!props.isLoading && (
+			<div className={[BIStyles.ingList, props.appStyles.customscroll, ingLoading ? props.appStyles.loading : "" ].join(" ")} >
+				{!ingLoading && (
 					<>
 						<h2 className="mt-10 mb-6" id="buns">Булки</h2>
 						<div className="pl-4">
