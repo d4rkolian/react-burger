@@ -4,6 +4,10 @@ import React, {useContext} from 'react';
 import AppHeader from '../app-header/app-header';
 import AppStyles from './app.module.css';
 
+// импортируем все, что связано с drag and drop
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+
 // импортируем другие компоненты
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
@@ -122,7 +126,7 @@ function App() {
       <main>
       	<IngredientsContext.Provider value={state.ingredients} >
         	<BurgerIngredients appStyles={AppStyles} isLoading={state.isLoading} clickHandle={clickHandle} />
-        	<BurgerConstructor appStyles={AppStyles} clickHandle={clickHandle} ingredientsConstructor={state.ingredientsConstructor} ingredientsConstructorBun={state.ingredientsConstructorBun} />
+        	<BurgerConstructor appStyles={AppStyles} clickHandle={clickHandle}  />
         </IngredientsContext.Provider >
 
         { modalVisible && (

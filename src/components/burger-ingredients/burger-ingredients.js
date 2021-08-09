@@ -1,7 +1,7 @@
-import React, {useContext} from 'react'; // TODO удалить useContext
+import React, {useContext, useState } from 'react'; // TODO удалить useContext
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import {IngredientsContext} from '../../utils/ingredientsContext.js';
+import {IngredientsContext} from '../../utils/ingredientsContext.js'; // TODO Удалить
 import Card from '../card/card';
 import BIStyles from './burger-ingredients.module.css';
 
@@ -9,12 +9,14 @@ function BurgerIngredients(props) {
 
 	const API_URL = 'https://norma.nomoreparties.space/api/ingredients';	
 	const dispatch = useDispatch();
+	const [activeTab, setActiveTab] = React.useState('');
 
 	const { ingLoading, ingredients } = useSelector( store => ({
 		ingLoading: store.burger.loaders.ingredients,
 		ingredients: store.burger.ingredients.all,
 	}));
 
+	// получаем данные по ингредиентам от API
 	React.useEffect(() => {
 		const getIngredients = async () => {
 	    fetch(API_URL)
@@ -24,7 +26,10 @@ function BurgerIngredients(props) {
 				}
 					return Promise.reject(`Ошибка ${res.status}`);
 			})
-	    .then(data => dispatch({type: 'LOAD_INGREDIENTS', data: data.data}) )
+	    .then(data => {
+	    	dispatch({type: 'LOAD_INGREDIENTS', data: data.data});
+	    	setActiveTab('buns'); // ставим активный таб
+	    	})
 	    .catch(e => console.log('Error see can I, my young padavan'));
 	  }
 	  getIngredients();
@@ -32,16 +37,42 @@ function BurgerIngredients(props) {
 		[]
 	);
 
+	// работаем со скроллом и табами внутри контейнера ингредиентов
+	const handleScroll = () => {
+		const parentElPos = document.getElementById('inglist').getBoundingClientRect();		
+		const headers = [
+			'buns',
+			'sauces',
+			'toppings',
+		];
+		const positions = []
+		headers.map( (header, index) => {
+				const elPos = document.getElementById(header).getBoundingClientRect();
+				positions.push(Math.abs(elPos.top - parentElPos.top));
+		});
+		setActiveTab(headers[positions.indexOf(Math.min.apply(null, positions))]);
+	}
+	const scrollableRef = React.createRef();
+	React.useEffect(
+		() => {
+			scrollableRef.current.addEventListener('scroll', handleScroll);
+	    return () => {
+	      window.removeEventListener('scroll', handleScroll);
+	    };
+		}
+	,[ingLoading]
+	);
+
   return (
 		<section className={props.appStyles.leftright}>
 			<h1 className="mt-10">Соберите бургер</h1>
 			<ul className={[BIStyles.jumpTo, "mt-5"].join(" ")}>
-				<li className={BIStyles.active}>Булки</li>
-				<li>Соусы</li>
-				<li>Начинки</li>
+				<li className={activeTab === 'buns' ? BIStyles.active : ''}>Булки</li>
+				<li className={activeTab === 'sauces' ? BIStyles.active : ''}>Соусы</li>
+				<li className={activeTab === 'toppings' ? BIStyles.active : ''}>Начинки</li>
 			</ul>
 
-			<div className={[BIStyles.ingList, props.appStyles.customscroll, ingLoading ? props.appStyles.loading : "" ].join(" ")} >
+			<div ref={scrollableRef} id="inglist" className={[BIStyles.ingList, props.appStyles.customscroll, ingLoading ? props.appStyles.loading : "" ].join(" ")} >
 				{!ingLoading && (
 					<>
 						<h2 className="mt-10 mb-6" id="buns">Булки</h2>

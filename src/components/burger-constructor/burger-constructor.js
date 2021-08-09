@@ -48,7 +48,7 @@ const BurgerConstructor = (props) => {
 			      	}
 						</ul>
 					) : (
-						<p className={[props.appStyles.empty, "pt-25"].join(" ")}>Нажимайте на ингредиенты слева, чтобы добавлять их в этот список и собрать свой космический бургер мечты!</p>
+						<p className={[props.appStyles.empty, "pt-25"].join(" ")}>Перетащите ингредиенты из леовго окна, чтобы добавить их в этот список и собрать свой космический бургер мечты!</p>
 					)}
 				
 		    <div className={[BGStyles.total, "mt-10"].join(" ")}>
