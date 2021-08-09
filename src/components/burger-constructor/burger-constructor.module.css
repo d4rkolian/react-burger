@@ -26,14 +26,6 @@
 	margin: 0;
 }
 
-.ajustable li .icon {
-	position: absolute;
-	left: 0;
-	top: 50px;
-	transform: translate(0,-75%);
-	cursor: pointer;
-}
-
 .total {
 	display: flex;
 	flex-direction: row;

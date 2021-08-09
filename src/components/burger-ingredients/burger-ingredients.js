@@ -1,21 +1,8 @@
 import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import {IngredientsContext} from '../../utils/ingredientsContext.js';
-
+import Card from '../card/card';
 import BIStyles from './burger-ingredients.module.css';
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-
-function Card(props) {
-	var product = JSON.stringify(props.details.product);
-	return(
-			<div className={[BIStyles.card, "mb-10"].join(" ")} onClick={props.clickHandle} product={product} modaltype="ingredients">
-				{/* <span className={BIStyles.badge}>1</span> */}
-				<img src={props.details.product.image} className={BIStyles.img} alt={props.details.product.name} />
-				<p className={BIStyles.price}>{props.details.product.price}&nbsp;<CurrencyIcon type="primary" /></p>
-				<p className={BIStyles.name}>{props.details.product.name}</p>
-			</div>
-		);
-}
 
 function BurgerIngredients(props) {
 
@@ -37,7 +24,7 @@ function BurgerIngredients(props) {
 						<div className="pl-4">
 							{
 			      		ingredients.map((product,index)=>{
-			      			return product.type === 'bun' ? <Card key={index} clickHandle={props.clickHandle} details={{product}} /> : null
+			      			return product.type === 'bun' ? <Card key={product._id} clickHandle={props.clickHandle} details={{product}} /> : null
 			      		})
 			      	}	
 						</div>
@@ -46,7 +33,7 @@ function BurgerIngredients(props) {
 						<div className="pl-4">
 							{
 			      		ingredients.map((product,index)=>{
-			      			return product.type === 'sauce' ? <Card key={index} clickHandle={props.clickHandle} details={{product}} /> : null
+			      			return product.type === 'sauce' ? <Card key={product._id} clickHandle={props.clickHandle} details={{product}} /> : null
 			      		})
 			      	}	
 		      	</div>
@@ -55,7 +42,7 @@ function BurgerIngredients(props) {
 						<div className="pl-4">
 							{
 			      		ingredients.map((product,index)=>{
-			      			return product.type === 'main' ? <Card key={index} clickHandle={props.clickHandle} details={{product}} /> : null
+			      			return product.type === 'main' ? <Card key={product._id} clickHandle={props.clickHandle} details={{product}} /> : null
 			      		})
 			      	}	
 		      	</div>
@@ -71,11 +58,6 @@ BurgerIngredients.propTypes = {
 	isLoading: PropTypes.bool.isRequired,
 	clickHandle: PropTypes.func.isRequired,
 	appStyles: PropTypes.object.isRequired,
-}
-
-Card.propTypes = {
-	details: PropTypes.object.isRequired,
-	clickHandle: PropTypes.func.isRequired,
 }
 
 export default BurgerIngredients;

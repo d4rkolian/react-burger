@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import AppHeader from '../app-header/app-header';
 import AppStyles from './app.module.css';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
@@ -14,14 +14,18 @@ import Modal from '../modal/modal';
 function App() {
 
 	const API_URL = 'https://norma.nomoreparties.space/api/ingredients';
+	const ORDER_URL = 'https://norma.nomoreparties.space/api/orders';
 
 	const [state,setState] = React.useState({
 		isLoading: true,
-		ingredients: [],
+		ingredientsConstructor: [],
+		ingredientsConstructorBun: [],
+		orderNumber: null,
 	});
 
 	const [modalVisible, setVisible] = React.useState(false)
 	const [modalChildren, setModalChildren] = React.useState(null);
+	const [orderLoading, setOrderLoading] = React.useState(false);
 
 	function clickHandle(event) {
 
@@ -32,19 +36,28 @@ function App() {
 		    case "ingredients":
 		    	const currProduct = JSON.parse(event.currentTarget.getAttribute('product'));
 		      component = <IngredientDetails product={currProduct} />;
+
+		      // отловить клик по ингредиенту в основном их списке
+		      if ( event.currentTarget.getAttribute('source') && event.currentTarget.getAttribute('source') === 'ingredientsList' ){
+		      	if ( event.currentTarget.getAttribute('ingtype') === 'bun' ) {
+		      		setState({
+			      		...state,
+			      		ingredientsConstructorBun: currProduct._id,
+			      	});
+		      	} else {
+			      	setState({
+			      		...state,
+			      		ingredientsConstructor: [
+			      			...state.ingredientsConstructor,
+			      			currProduct._id,
+			      		]
+			      	});
+			      }
+		      }
 		      break;
 		    case "order":
-		    	
-		    	// собираем ID продуктов
-		    	var ingredientsIDs = [];
-		    	var ingredientsElements = document.getElementById('burgerconstructor').querySelectorAll('li.ingredient');
-		    	for (let i = 0; i < ingredientsElements.length; i++) {
-					  ingredientsIDs.push(JSON.parse(ingredientsElements[i].getAttribute('product'))._id)
-					}
-
 					// рендерим компонент
-		    	component = <OrderDetails ingredientsIDs={{ingredientsIDs}} />;
-
+		    	component = <OrderDetails orderLoading={orderLoading} orderNumber={state.orderNumber} />;
 		    	break;
 		    default:
 		      component = 'Сюда можно поставить компонент-заглушку модалки';
@@ -73,6 +86,34 @@ function App() {
 	,[]
 	);
 
+  React.useEffect(
+  	() => {
+		const getOrderNum = async (ingredientsIDs) => {
+	    const reqOptions = {
+	      method: 'POST',
+	      headers: { 'Content-Type': 'application/json' },
+	      body: JSON.stringify({
+	        'ingredients': ingredientsIDs
+	      })
+	    };
+	    fetch(ORDER_URL, reqOptions)
+	      .then(res => {
+	      if (res.ok) {
+	        return res.json();
+	      }
+	        return Promise.reject(`Ошибка ${res.status}`);
+	      })
+	      .then(data => {
+	        setState({...state, orderNumber: data.order.number, orderLoading: true });
+	      })
+	      .catch(e => console.log('Error see can I in order number, my young padavan'));
+	  }
+	  // getOrderNum(state.ingredientsConstructor);
+		},
+		[]
+	);
+
+
 	React.useEffect(() => {
 		const getIngredients = async () => {
 	    fetch(API_URL)
@@ -96,7 +137,7 @@ function App() {
       <main>
       	<IngredientsContext.Provider value={state.ingredients} >
         	<BurgerIngredients appStyles={AppStyles} isLoading={state.isLoading} clickHandle={clickHandle} />
-        	<BurgerConstructor appStyles={AppStyles} isLoading={state.isLoading} clickHandle={clickHandle} />
+        	<BurgerConstructor appStyles={AppStyles} clickHandle={clickHandle} ingredientsConstructor={state.ingredientsConstructor} ingredientsConstructorBun={state.ingredientsConstructorBun} />
         </IngredientsContext.Provider >
 
         { modalVisible && (
