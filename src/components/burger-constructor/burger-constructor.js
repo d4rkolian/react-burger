@@ -1,36 +1,59 @@
-import React, {useContext} from 'react';
+import React, {useContext} from 'react'; // TODO удалить useContext
 import PropTypes from 'prop-types';
-import {IngredientsContext} from '../../utils/ingredientsContext.js';
+import {IngredientsContext} from '../../utils/ingredientsContext.js'; // TODO удалить
+import { useSelector, useDispatch }  from 'react-redux';
+import { useDrop } from "react-dnd";
 
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Ingredient from '../ingredient/ingredient';
-
 import BGStyles from './burger-constructor.module.css';
 
 const BurgerConstructor = (props) => {
 
-	const ingredients = useContext(IngredientsContext);
+	const ingredients = useContext(IngredientsContext); // TODO удалить
 	let summ = 0; 
+
+	// получаем из хранилища данные по ингредиентам, добавленным в конструктор
+	const { ingredientsConstructor, bunChosen } = useSelector( store => ({
+		ingredientsConstructor: store.burger.ingredients.constructor,
+		bunChosen: store.burger.ingredients.bunChosen,
+	}));
+	//console.log(ingredientsConstructor); // TODO убрать
+	//console.log(bunChosen);
+
+	const dispatch = useDispatch();
+
+	const [, dropRef] = useDrop({
+		accept: 'ingredient',
+		drop (itemId) {
+			// вызвать апдейт store
+			dispatch({
+				type: 'MOVE_TO_CONSTRUCTOR',
+				arraykey: itemId.arraykey,
+				productType: itemId.type,
+			});
+		}
+	});
 
   return (
   	<>
-			<section className={[props.appStyles.leftright, "ml-10", "pt-25"].join(" ")} id="burgerconstructor">
-				{ props.ingredientsConstructor.length > 0 ? (
+			<section className={[props.appStyles.leftright, "ml-10", "pt-25"].join(" ")} id="burgerconstructor" ref={dropRef} >
+				{ ingredientsConstructor.length > 0 ? (
 						<ul className={[BGStyles.inglist, "ml-4"].join(" ")} >
 							{
-			      		ingredients.map((product,index) => {
-			      			if ( props.ingredientsConstructorBun.indexOf(product._id) > -1 ){
-			      				summ += product.price;
-			      				return <Ingredient key={index} details={{product}} clickHandle={props.clickHandle} isLocked={false} type="top" />
+			      		ingredientsConstructor.map((product,index) => {
+			      			if ( product.type === 'bun' ){
+			      				summ += product.price
+			      				return <Ingredient key={index} details={{product}} clickHandle={props.clickHandle} isLocked={false} type="top"  />
 			      			}
 			      		})
 			      	}
 							<li>
 								<ul className={[BGStyles.ajustable, props.appStyles.customscroll, props.isLoading ? props.appStyles.loading : ""].join(" ")}>
 								{
-				      		ingredients.map((product,index) => {
-				      			if ( props.ingredientsConstructor.indexOf(product._id) > -1 && product.type !== 'bun' ){
+				      		ingredientsConstructor.map((product,index) => {
+				      			if ( product.type !== 'bun' ){
 				      				summ += product.price
 				      				return <Ingredient key={index} details={{product}} clickHandle={props.clickHandle} isLocked={false} />
 				      			}
@@ -39,16 +62,16 @@ const BurgerConstructor = (props) => {
 								</ul>
 							</li>
 							{
-			      		ingredients.map((product,index) => {
-			      			if ( props.ingredientsConstructorBun.indexOf(product._id) > -1 ){
-			      				summ += product.price;
-			      				return <Ingredient key={index} details={{product}} clickHandle={props.clickHandle} isLocked={false} type="bottom" />
+			      		ingredientsConstructor.map((product,index) => {
+			      			if ( product.type === 'bun' ){
+			      				summ += product.price
+			      				return <Ingredient key={index} details={{product}} clickHandle={props.clickHandle} isLocked={false} type="bottom"  />
 			      			}
 			      		})
 			      	}
 						</ul>
 					) : (
-						<p className={[props.appStyles.empty, "pt-25"].join(" ")}>Перетащите ингредиенты из леовго окна, чтобы добавить их в этот список и собрать свой космический бургер мечты!</p>
+						<p className={[props.appStyles.empty, "pt-25"].join(" ")}>Перетащите ингредиенты из левого окна, чтобы добавить их в этот список и собрать свой космический бургер мечты!</p>
 					)}
 				
 		    <div className={[BGStyles.total, "mt-10"].join(" ")}>

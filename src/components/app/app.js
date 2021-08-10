@@ -30,6 +30,7 @@ function App() {
 		orderNumber: null,
 	});
 
+	// TODO вычистить
 	const [modalVisible, setVisible] = React.useState(false)
 	const [modalChildren, setModalChildren] = React.useState(null);
 	const [orderLoading, setOrderLoading] = React.useState(false);
@@ -120,14 +121,15 @@ function App() {
 		[]
 	);
 
+  // TODO: поправить state.isLoading на хранилище
   return (
     <>
       <AppHeader />
       <main>
-      	<IngredientsContext.Provider value={state.ingredients} >
+      	<DndProvider backend={HTML5Backend}>
         	<BurgerIngredients appStyles={AppStyles} isLoading={state.isLoading} clickHandle={clickHandle} />
         	<BurgerConstructor appStyles={AppStyles} clickHandle={clickHandle}  />
-        </IngredientsContext.Provider >
+        </DndProvider>
 
         { modalVisible && (
         	<Modal clickHandle={clickHandle}  >

@@ -79,7 +79,7 @@ function BurgerIngredients(props) {
 						<div className="pl-4">
 							{
 			      		ingredients.map((product,index)=>{
-			      			return product.type === 'bun' ? <Card key={product._id} clickHandle={props.clickHandle} details={{product}} /> : null
+			      			return product.type === 'bun' ? <Card key={product._id} clickHandle={props.clickHandle} details={{product}} arraykey={index} /> : null
 			      		})
 			      	}	
 						</div>
@@ -88,7 +88,7 @@ function BurgerIngredients(props) {
 						<div className="pl-4">
 							{
 			      		ingredients.map((product,index)=>{
-			      			return product.type === 'sauce' ? <Card key={product._id} clickHandle={props.clickHandle} details={{product}} /> : null
+			      			return product.type === 'sauce' ? <Card key={product._id} clickHandle={props.clickHandle} details={{product}} arraykey={index}  /> : null
 			      		})
 			      	}	
 		      	</div>
@@ -97,7 +97,7 @@ function BurgerIngredients(props) {
 						<div className="pl-4">
 							{
 			      		ingredients.map((product,index)=>{
-			      			return product.type === 'main' ? <Card key={product._id} clickHandle={props.clickHandle} details={{product}} /> : null
+			      			return product.type === 'main' ? <Card key={product._id} clickHandle={props.clickHandle} details={{product}} arraykey={index}  /> : null
 			      		})
 			      	}	
 		      	</div>
