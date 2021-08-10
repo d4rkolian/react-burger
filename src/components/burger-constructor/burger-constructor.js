@@ -11,7 +11,6 @@ import BGStyles from './burger-constructor.module.css';
 
 const BurgerConstructor = (props) => {
 
-	const ingredients = useContext(IngredientsContext); // TODO удалить
 	let summ = 0; 
 
 	// получаем из хранилища данные по ингредиентам, добавленным в конструктор
@@ -19,11 +18,8 @@ const BurgerConstructor = (props) => {
 		ingredientsConstructor: store.burger.ingredients.constructor,
 		bunChosen: store.burger.ingredients.bunChosen,
 	}));
-	//console.log(ingredientsConstructor); // TODO убрать
-	//console.log(bunChosen);
 
 	const dispatch = useDispatch();
-
 	const [, dropRef] = useDrop({
 		accept: 'ingredient',
 		drop (itemId) {
@@ -83,6 +79,7 @@ const BurgerConstructor = (props) => {
 					  Оформить заказ
 					</Button>
 		    </div>
+		    <p className="text_color_inactive">Добавьте в заказ хотя бы одну булку, чтобы отправить его на орбитальную  кухню</p>
 			</section>
 		</>
   );

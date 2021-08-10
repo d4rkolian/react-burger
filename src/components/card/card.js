@@ -22,7 +22,7 @@ function Card(props) {
 
 	// плохо, что тут будет ререндер всех карточек. 
 	// TODO Возможно, в третьем спринте или после сдачи подумать, как перерисовать только одну по key
-	const count = countInArray(useSelector( store => store.burger.ingredients.constructor ), product);
+	const count = countInArray(useSelector( store => store.burger.ingredients.constructor ), product );
 
 	return(
 			<div
@@ -34,6 +34,7 @@ function Card(props) {
 				ingtype={props.details.product.type}
 				ref={dragRef}
 				draggable
+				arraykey={arraykey}
 			>
 				{ count !== 0 ? (<span className={CardStyles.badge}>{count}</span>) : '' }
 				<img src={props.details.product.image} className={CardStyles.img} alt={props.details.product.name} />

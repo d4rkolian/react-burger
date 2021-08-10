@@ -15,13 +15,16 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
 
-import {IngredientsContext} from '../../utils/ingredientsContext.js'; // TODO удалить после переноса на Redux
 import { useSelector, useDispatch } from 'react-redux';
 
 function App() {
 
-	const API_URL = 'https://norma.nomoreparties.space/api/ingredients';	// TODO удалить
 	const ORDER_URL = 'https://norma.nomoreparties.space/api/orders';
+	const dispatch = useDispatch();
+	const ingredientsIDs = []; 
+	useSelector( store => store.burger.ingredients.constructor ).map( (item, index) => {
+		return ingredientsIDs.push(item._id);
+	});
 
 	const [state,setState] = React.useState({
 		isLoading: true,
@@ -33,7 +36,6 @@ function App() {
 	// TODO вычистить
 	const [modalVisible, setVisible] = React.useState(false)
 	const [modalChildren, setModalChildren] = React.useState(null);
-	const [orderLoading, setOrderLoading] = React.useState(false);
 
 	function clickHandle(event) {
 
@@ -41,31 +43,36 @@ function App() {
 		{
 			let component = null;
 		  switch( event.currentTarget.getAttribute('modaltype') ) {
-		    case "ingredients":
-		    	const currProduct = JSON.parse(event.currentTarget.getAttribute('product'));
-		      component = <IngredientDetails product={currProduct} />;
-
-		      // отловить клик по ингредиенту в основном их списке
-		      if ( event.currentTarget.getAttribute('source') && event.currentTarget.getAttribute('source') === 'ingredientsList' ){
-		      	if ( event.currentTarget.getAttribute('ingtype') === 'bun' ) {
-		      		setState({
-			      		...state,
-			      		ingredientsConstructorBun: currProduct._id,
-			      	});
-		      	} else {
-			      	setState({
-			      		...state,
-			      		ingredientsConstructor: [
-			      			...state.ingredientsConstructor,
-			      			currProduct._id,
-			      		]
-			      	});
-			      }
-		      }
+		    case "ingredients":		      
+		      component = <IngredientDetails />;
+		      dispatch({
+		      	type: 'SET_AS_DETAILED',
+	      		arraykey: event.currentTarget.getAttribute('arraykey'),
+		      });
 		      break;
 		    case "order":
-					// рендерим компонент
-		    	component = <OrderDetails orderLoading={orderLoading} orderNumber={state.orderNumber} />;
+					const getOrderNum = async (ingredientsIDs) => {
+				    const reqOptions = {
+				      method: 'POST',
+				      headers: { 'Content-Type': 'application/json' },
+				      body: JSON.stringify({
+				        'ingredients': ingredientsIDs
+				      })
+				    };
+				    fetch(ORDER_URL, reqOptions)
+				      .then(res => {
+				      if (res.ok) {
+				        return res.json();
+				      }
+				        return Promise.reject(`Ошибка ${res.status}`);
+				      })
+				      .then(data => {
+				        dispatch({ type: 'GET_ORDER_NUMBER', orderNumber: data.order.number });
+				      })
+				      .catch(e => console.log('Error see can I in order number, my young padavan'));
+				  }
+				  getOrderNum(ingredientsIDs);
+		    	component = <OrderDetails  />;
 		    	break;
 		    default:
 		      component = 'Сюда можно поставить компонент-заглушку модалки';
@@ -73,6 +80,7 @@ function App() {
 		  setModalChildren(component);
 		} else {
 			setModalChildren(null);
+			dispatch({type: 'CLEAN_DETAILED'});
 		}
 		setVisible(!modalVisible);
 		event.preventDefault();
@@ -81,6 +89,7 @@ function App() {
 	function handleUserKeyPress(event) { 
 	  if (event.keyCode === 27) {
 	  	setVisible(false);
+	  	dispatch({type: 'CLEAN_DETAILED'});
 	  }
 	}
 
