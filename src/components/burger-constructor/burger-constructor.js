@@ -1,6 +1,5 @@
-import React, {useContext} from 'react'; // TODO удалить useContext
+import React from 'react';
 import PropTypes from 'prop-types';
-import {IngredientsContext} from '../../utils/ingredientsContext.js'; // TODO удалить
 import { useSelector, useDispatch }  from 'react-redux';
 import { useDrop } from "react-dnd";
 
@@ -14,9 +13,8 @@ const BurgerConstructor = (props) => {
 	let summ = 0; 
 
 	// получаем из хранилища данные по ингредиентам, добавленным в конструктор
-	const { ingredientsConstructor, bunChosen, notice } = useSelector( store => ({
+	const { ingredientsConstructor, notice } = useSelector( store => ({
 		ingredientsConstructor: store.burger.ingredients.constructor,
-		bunChosen: store.burger.ingredients.bunChosen,
 		notice: store.burger.order.notice,
 	}));
 

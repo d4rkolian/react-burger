@@ -21,7 +21,7 @@ function Card(props) {
 		}); 
 
 	// плохо, что тут будет ререндер всех карточек. 
-	// TODO Возможно, в третьем спринте или после сдачи подумать, как перерисовать только одну по key
+	// TODO-LATER Возможно, в третьем спринте или после сдачи подумать, как перерисовать только одну по key
 	const count = countInArray(useSelector( store => store.burger.ingredients.constructor ), product );
 
 	return(

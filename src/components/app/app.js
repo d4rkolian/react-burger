@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 
 // импортируем все, что связано с App
 import AppHeader from '../app-header/app-header';
@@ -29,13 +29,11 @@ function App() {
 		return ingredientsIDs.push(item._id);
 	});
 
-	const bunChosen = useSelector( store => store.burger.ingredients.bunChosen );
+	const {isLoading, bunChosen} = useSelector( store => ({
+		isLoading: store.burger.loaders.ingredients,
+		bunChosen: store.burger.ingredients.bunChosen
+	}));
 
-	const [state,setState] = React.useState({
-		isLoading: true,
-	});
-
-	// TODO вычистить
 	const [modalVisible, setVisible] = React.useState(false)
 	const [modalChildren, setModalChildren] = React.useState(null);
 
@@ -120,13 +118,12 @@ function App() {
 	,[]
 	);
 
-  // TODO: поправить state.isLoading на хранилище
   return (
     <>
       <AppHeader />
       <main>
       	<DndProvider backend={HTML5Backend}>
-        	<BurgerIngredients appStyles={AppStyles} isLoading={state.isLoading} clickHandle={clickHandle} />
+        	<BurgerIngredients appStyles={AppStyles} isLoading={isLoading} clickHandle={clickHandle} />
         	<BurgerConstructor appStyles={AppStyles} clickHandle={clickHandle}  />
         </DndProvider>
 

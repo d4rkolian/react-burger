@@ -1,7 +1,6 @@
-import React, {useContext, useState } from 'react'; // TODO удалить useContext
+import React, { useState } from 'react'; 
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import {IngredientsContext} from '../../utils/ingredientsContext.js'; // TODO Удалить
 import Card from '../card/card';
 import BIStyles from './burger-ingredients.module.css';
 
