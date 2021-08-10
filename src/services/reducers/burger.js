@@ -4,6 +4,9 @@ import {
 		SET_AS_DETAILED,
 		CLEAN_DETAILED,
 		GET_ORDER_NUMBER,
+		TURN_ON_NOTICE,
+		DELETE_FROM_CONSTRUCTOR,
+		MOVE_CONSTRUCTOR ,
 	} from '../actions';
 
 const initialState = {
@@ -14,7 +17,10 @@ const initialState = {
 		bunIndex: -1,
 	},
 	currentIngredient: [],
-	orderNumber: 0,
+	order: {
+		number: 0,
+		notice: false,
+	},
 	loaders: {
 		ingredients: true,
 		order: true,
@@ -59,8 +65,43 @@ export const burgerReducer = (state = initialState, action) => {
 					bunIndex: action.productType === 'bun' && !state.ingredients.bunChosen
 						? state.ingredients.constructor.length
 						: action.productType !== 'bun' && state.ingredients.bunChosen
-						? state.ingredients.bunIndex : -1,
+						? state.ingredients.bunIndex : state.ingredients.bunIndex,
+				},
+				order: {
+					...state.order,
+					notice: action.productType === 'bun' || state.ingredients.bunChosen ? false : true,
 				}
+			}
+		}
+		// удаляем из конструкторам
+		case DELETE_FROM_CONSTRUCTOR: {
+			// надо обновить bunIndex
+			var newConstructor = [...state.ingredients.constructor];
+			newConstructor.splice(action.id,1);
+			return {
+				...state,
+				ingredients: {
+					...state.ingredients,
+					constructor: newConstructor,
+					bunIndex: action.id < state.ingredients.bunIndex ? state.ingredients.bunIndex-1 : state.ingredients.bunIndex,
+				}
+			}
+		}
+		case MOVE_CONSTRUCTOR: {
+			if ( action.fromIndex !== undefined ) {
+				var newConstructor = [...state.ingredients.constructor];
+				var backup = newConstructor[action.toIndex]; // сохранили элемент, который заменим
+				newConstructor[action.toIndex] = newConstructor[action.fromIndex];
+				newConstructor[action.fromIndex] = backup;
+				return {
+					...state,
+					ingredients: {
+						...state.ingredients,
+						constructor: newConstructor
+					}
+				}
+			} else {
+				return state;
 			}
 		}
 		// ставим продуктом для просмотра в модальном окне
@@ -81,10 +122,23 @@ export const burgerReducer = (state = initialState, action) => {
 		case GET_ORDER_NUMBER: {
 			return {
 				...state,
-				orderNumber: action.orderNumber,
+				order: {
+					...state.order,
+					number: action.orderNumber
+				},
 				loaders: {
 					...state.loaders,
 					order: false,
+				}
+			}
+		}
+		// включаем уведомление о том, что нельзя отправить заказ
+		case TURN_ON_NOTICE: {
+			return {
+				...state,
+				order: {
+					...state.order,
+					notice: true,
 				}
 			}
 		}

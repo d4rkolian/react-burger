@@ -7,7 +7,7 @@ function OrderDetails(props){
 
   const {orderLoading, orderNumber} = useSelector( store => ({
     orderLoading: store.burger.loaders.order,
-    orderNumber: store.burger.orderNumber,
+    orderNumber: store.burger.order.number,
   }));
 
   return (

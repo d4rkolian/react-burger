@@ -13,7 +13,7 @@ function BurgerIngredients(props) {
 
 	const { ingLoading, ingredients } = useSelector( store => ({
 		ingLoading: store.burger.loaders.ingredients,
-		ingredients: store.burger.ingredients.all,
+		ingredients: store.burger.ingredients.all
 	}));
 
 	// получаем данные по ингредиентам от API

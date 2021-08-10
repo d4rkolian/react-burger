@@ -19,6 +19,9 @@ import { useSelector, useDispatch } from 'react-redux';
 
 function App() {
 
+	// const temp = useSelector( store => store.burger.ingredients.constructor );
+	// console.log(temp);
+
 	const ORDER_URL = 'https://norma.nomoreparties.space/api/orders';
 	const dispatch = useDispatch();
 	const ingredientsIDs = []; 
@@ -26,11 +29,10 @@ function App() {
 		return ingredientsIDs.push(item._id);
 	});
 
+	const bunChosen = useSelector( store => store.burger.ingredients.bunChosen );
+
 	const [state,setState] = React.useState({
 		isLoading: true,
-		ingredientsConstructor: [],
-		ingredientsConstructorBun: [],
-		orderNumber: null,
 	});
 
 	// TODO вычистить
@@ -39,6 +41,14 @@ function App() {
 
 	function clickHandle(event) {
 
+		if ( event.currentTarget.tagName === 'svg' ){
+			// получить индекс элемента, которого надо удалить
+			const listkey = event.currentTarget.closest('li').getAttribute('listkey');
+			dispatch({type: 'DELETE_FROM_CONSTRUCTOR', id: listkey});
+			event.stopPropagation();
+		}
+
+		let visible = false;
 		if ( event.currentTarget.getAttribute('modaltype') )
 		{
 			let component = null;
@@ -49,6 +59,7 @@ function App() {
 		      	type: 'SET_AS_DETAILED',
 	      		arraykey: event.currentTarget.getAttribute('arraykey'),
 		      });
+		      visible = true;
 		      break;
 		    case "order":
 					const getOrderNum = async (ingredientsIDs) => {
@@ -71,7 +82,13 @@ function App() {
 				      })
 				      .catch(e => console.log('Error see can I in order number, my young padavan'));
 				  }
-				  getOrderNum(ingredientsIDs);
+				  if ( bunChosen ) {
+				  	getOrderNum(ingredientsIDs);
+				  	visible = true;
+				  } else {
+				  	dispatch({type: 'TURN_ON_NOTICE'});
+				  	break;
+				  }
 		    	component = <OrderDetails  />;
 		    	break;
 		    default:
@@ -82,7 +99,7 @@ function App() {
 			setModalChildren(null);
 			dispatch({type: 'CLEAN_DETAILED'});
 		}
-		setVisible(!modalVisible);
+		setVisible(visible);
 		event.preventDefault();
 	}
 
@@ -101,33 +118,6 @@ function App() {
 	    };
 		}
 	,[]
-	);
-
-  React.useEffect(
-  	() => {
-		const getOrderNum = async (ingredientsIDs) => {
-	    const reqOptions = {
-	      method: 'POST',
-	      headers: { 'Content-Type': 'application/json' },
-	      body: JSON.stringify({
-	        'ingredients': ingredientsIDs
-	      })
-	    };
-	    fetch(ORDER_URL, reqOptions)
-	      .then(res => {
-	      if (res.ok) {
-	        return res.json();
-	      }
-	        return Promise.reject(`Ошибка ${res.status}`);
-	      })
-	      .then(data => {
-	        setState({...state, orderNumber: data.order.number, orderLoading: true });
-	      })
-	      .catch(e => console.log('Error see can I in order number, my young padavan'));
-	  }
-	  // getOrderNum(state.ingredientsConstructor);
-		},
-		[]
 	);
 
   // TODO: поправить state.isLoading на хранилище

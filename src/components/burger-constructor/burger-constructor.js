@@ -14,10 +14,13 @@ const BurgerConstructor = (props) => {
 	let summ = 0; 
 
 	// получаем из хранилища данные по ингредиентам, добавленным в конструктор
-	const { ingredientsConstructor, bunChosen } = useSelector( store => ({
+	const { ingredientsConstructor, bunChosen, notice } = useSelector( store => ({
 		ingredientsConstructor: store.burger.ingredients.constructor,
 		bunChosen: store.burger.ingredients.bunChosen,
+		notice: store.burger.order.notice,
 	}));
+
+	//console.log(ingredientsConstructor);
 
 	const dispatch = useDispatch();
 	const [, dropRef] = useDrop({
@@ -41,7 +44,7 @@ const BurgerConstructor = (props) => {
 			      		ingredientsConstructor.map((product,index) => {
 			      			if ( product.type === 'bun' ){
 			      				summ += product.price
-			      				return <Ingredient key={index} details={{product}} clickHandle={props.clickHandle} isLocked={false} type="top"  />
+			      				return <Ingredient key={index} details={{product}} clickHandle={props.clickHandle} isLocked={true} type="top"  />
 			      			}
 			      		})
 			      	}
@@ -51,7 +54,7 @@ const BurgerConstructor = (props) => {
 				      		ingredientsConstructor.map((product,index) => {
 				      			if ( product.type !== 'bun' ){
 				      				summ += product.price
-				      				return <Ingredient key={index} details={{product}} clickHandle={props.clickHandle} isLocked={false} />
+				      				return <Ingredient key={index} details={{product}} clickHandle={props.clickHandle} listkey={index} isLocked={false} />
 				      			}
 				      		})
 				      	}
@@ -61,7 +64,7 @@ const BurgerConstructor = (props) => {
 			      		ingredientsConstructor.map((product,index) => {
 			      			if ( product.type === 'bun' ){
 			      				summ += product.price
-			      				return <Ingredient key={index} details={{product}} clickHandle={props.clickHandle} isLocked={false} type="bottom"  />
+			      				return <Ingredient key={index} details={{product}} clickHandle={props.clickHandle} isLocked={true} type="bottom"  />
 			      			}
 			      		})
 			      	}
@@ -79,7 +82,10 @@ const BurgerConstructor = (props) => {
 					  Оформить заказ
 					</Button>
 		    </div>
-		    <p className="text_color_inactive">Добавьте в заказ хотя бы одну булку, чтобы отправить его на орбитальную  кухню</p>
+		    { notice && (
+		    	<p className={["text_color_inactive","text_type_main-small","pt-4",BGStyles.notice].join(" ")}>Добавьте в заказ хотя бы одну булку,<br/>чтобы отправить его на орбитальную  кухню</p>
+		    )}
+		    
 			</section>
 		</>
   );
