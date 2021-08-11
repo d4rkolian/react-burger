@@ -16,11 +16,15 @@ import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
 
 import { useSelector, useDispatch } from 'react-redux';
+import {
+		GET_ORDER_NUMBER_REQUEST,
+		GET_ORDER_NUMBER_SUCCESS,
+		GET_ORDER_NUMBER_ERROR,
+		CLEAN_DETAILED,
+		DELETE_FROM_CONSTRUCTOR,
+		TURN_ON_NOTICE } from '../../services/actions';
 
 function App() {
-
-	// const temp = useSelector( store => store.burger.ingredients.constructor );
-	// console.log(temp);
 
 	const ORDER_URL = 'https://norma.nomoreparties.space/api/orders';
 	const dispatch = useDispatch();
@@ -42,7 +46,7 @@ function App() {
 		if ( event.currentTarget.tagName === 'svg' ){
 			// получить индекс элемента, которого надо удалить
 			const listkey = event.currentTarget.closest('li').getAttribute('listkey');
-			dispatch({type: 'DELETE_FROM_CONSTRUCTOR', id: listkey});
+			dispatch({type: DELETE_FROM_CONSTRUCTOR, id: listkey});
 			event.stopPropagation();
 		}
 
@@ -62,7 +66,7 @@ function App() {
 		    case "order":
 		    // получаем номер заказа
 					const getOrderNum = async (ingredientsIDs) => {
-						dispatch({type: 'GET_ORDER_NUMBER_REQUEST'});
+						dispatch({type: GET_ORDER_NUMBER_REQUEST});
 				    const reqOptions = {
 				      method: 'POST',
 				      headers: { 'Content-Type': 'application/json' },
@@ -78,15 +82,15 @@ function App() {
 				        return Promise.reject(`Ошибка ${res.status}`);
 				      })
 				      .then(data => {
-				        dispatch({ type: 'GET_ORDER_NUMBER_SUCCESS', orderNumber: data.order.number });
+				        dispatch({ type: GET_ORDER_NUMBER_SUCCESS, orderNumber: data.order.number });
 				      })
-				      .catch(e => dispatch({type: 'GET_ORDER_NUMBER_ERROR'}) );
+				      .catch(e => dispatch({type: GET_ORDER_NUMBER_ERROR}) );
 				  }
 				  if ( bunChosen ) {
 				  	getOrderNum(ingredientsIDs);
 				  	visible = true;
 				  } else {
-				  	dispatch({type: 'TURN_ON_NOTICE'});
+				  	dispatch({type: TURN_ON_NOTICE});
 				  	break;
 				  }
 		    	component = <OrderDetails  />;
@@ -97,7 +101,7 @@ function App() {
 		  setModalChildren(component);
 		} else {
 			setModalChildren(null);
-			dispatch({type: 'CLEAN_DETAILED'});
+			dispatch({type: CLEAN_DETAILED});
 		}
 		setVisible(visible);
 		event.preventDefault();
@@ -106,7 +110,7 @@ function App() {
 	function handleUserKeyPress(event) { 
 	  if (event.keyCode === 27) {
 	  	setVisible(false);
-	  	dispatch({type: 'CLEAN_DETAILED'});
+	  	dispatch({type: CLEAN_DETAILED});
 	  }
 	}
 

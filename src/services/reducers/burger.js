@@ -83,7 +83,7 @@ export const burgerReducer = (state = initialState, action) => {
 		// добавляем ингредиент в конструктор
 		case MOVE_TO_CONSTRUCTOR: {
 			// проверяем, если уже есть булочка
-			var newConstructor = [];
+			let newConstructor = [];
 			if ( state.ingredients.bunChosen && action.productType === 'bun' ) {				
 				newConstructor = [...state.ingredients.constructor];
 				newConstructor[state.ingredients.bunIndex] = state.ingredients.all[action.arraykey]; 
@@ -113,7 +113,7 @@ export const burgerReducer = (state = initialState, action) => {
 		// удаляем из конструкторам
 		case DELETE_FROM_CONSTRUCTOR: {
 			// надо обновить bunIndex
-			var newConstructor = [...state.ingredients.constructor];
+			let newConstructor = [...state.ingredients.constructor];
 			newConstructor.splice(action.id,1);
 			return {
 				...state,
@@ -126,7 +126,7 @@ export const burgerReducer = (state = initialState, action) => {
 		}
 		case MOVE_CONSTRUCTOR: {
 			if ( action.fromIndex !== undefined ) {
-				var newConstructor = [...state.ingredients.constructor];
+				let newConstructor = [...state.ingredients.constructor];
 				var backup = newConstructor[action.toIndex]; // сохранили элемент, который заменим
 				newConstructor[action.toIndex] = newConstructor[action.fromIndex];
 				newConstructor[action.fromIndex] = backup;
@@ -174,6 +174,13 @@ export const burgerReducer = (state = initialState, action) => {
 		case GET_ORDER_NUMBER_SUCCESS: {
 			return {
 				...state,
+				ingredients: {
+					...state.ingredients,
+					constructor: initialState.ingredients.constructor,
+					bunChosen: initialState.ingredients.bunChosen,
+					bunIndex: initialState.ingredients.bunIndex,
+					error: initialState.ingredients.error,
+				},
 				order: {
 					...state.order,
 					number: action.orderNumber,

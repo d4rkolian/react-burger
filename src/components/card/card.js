@@ -21,7 +21,8 @@ function Card(props) {
 
 	// плохо, что тут будет ререндер всех карточек. 
 	// TODO-LATER Возможно, в третьем спринте или после сдачи подумать, как перерисовать только одну по key
-	const count = countInArray(useSelector( store => store.burger.ingredients.constructor ), product );
+	let count = countInArray(useSelector( store => store.burger.ingredients.constructor ), product );
+	count = product.type === 'bun' ? count*2 : count;
 
 	return(
 			<div
@@ -29,7 +30,6 @@ function Card(props) {
 				onClick={props.clickHandle}
 				product={product}
 				modaltype="ingredients"
-				source="ingredientsList"
 				ingtype={props.details.product.type}
 				ref={dragRef}
 				draggable

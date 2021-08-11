@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux'; 
+import { MOVE_CONSTRUCTOR } from '../../services/actions';
 import { useDrag,  useDrop } from 'react-dnd';
 
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -59,7 +60,7 @@ const Ingredient = (props) => {
         }
         // Вызываем с двумя полученными индексами наше действие
         dispatch({
-        	type: 'MOVE_CONSTRUCTOR',
+        	type: MOVE_CONSTRUCTOR,
         	fromIndex: dragIndex,
         	toIndex: hoverIndex,
         })
