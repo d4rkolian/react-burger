@@ -22,7 +22,7 @@ import {
 		GET_ORDER_NUMBER_ERROR,
 		CLEAN_DETAILED,
 		DELETE_FROM_CONSTRUCTOR,
-		TURN_ON_NOTICE } from '../../services/actions';
+		TURN_ON_NOTICE, getOrderNumber } from '../../services/actions';
 
 function App() {
 
@@ -65,29 +65,8 @@ function App() {
 		      break;
 		    case "order":
 		    // получаем номер заказа
-					const getOrderNum = async (ingredientsIDs) => {
-						dispatch({type: GET_ORDER_NUMBER_REQUEST});
-				    const reqOptions = {
-				      method: 'POST',
-				      headers: { 'Content-Type': 'application/json' },
-				      body: JSON.stringify({
-				        'ingredients': ingredientsIDs
-				      })
-				    };
-				    fetch(ORDER_URL, reqOptions)
-				      .then(res => {
-				      if (res.ok) {
-				        return res.json();
-				      }
-				        return Promise.reject(`Ошибка ${res.status}`);
-				      })
-				      .then(data => {
-				        dispatch({ type: GET_ORDER_NUMBER_SUCCESS, orderNumber: data.order.number });
-				      })
-				      .catch(e => dispatch({type: GET_ORDER_NUMBER_ERROR}) );
-				  }
 				  if ( bunChosen ) {
-				  	getOrderNum(ingredientsIDs);
+				  	dispatch(getOrderNumber(ingredientsIDs,ORDER_URL));
 				  	visible = true;
 				  } else {
 				  	dispatch({type: TURN_ON_NOTICE});

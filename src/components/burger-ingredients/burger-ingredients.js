@@ -1,6 +1,6 @@
 import React, { useState } from 'react'; 
 import { useSelector, useDispatch } from 'react-redux';
-import { LOAD_INGREDIENTS_REQUEST, LOAD_INGREDIENTS_SUCCESS, LOAD_INGREDIENTS_ERROR } from '../../services/actions';
+import { getIngredients } from '../../services/actions';
 import PropTypes from 'prop-types';
 import Card from '../card/card';
 import BIStyles from './burger-ingredients.module.css';
@@ -9,7 +9,7 @@ function BurgerIngredients(props) {
 
 	const API_URL = 'https://norma.nomoreparties.space/api/ingredients';	
 	const dispatch = useDispatch();
-	const [activeTab, setActiveTab] = useState('');
+	const [activeTab, setActiveTab] = useState('buns');
 
 	const { ingLoading, ingredients, apiError } = useSelector( store => ({
 		ingLoading: store.burger.loaders.ingredients,
@@ -19,25 +19,8 @@ function BurgerIngredients(props) {
 
 	// получаем данные по ингредиентам от API
 	React.useEffect(() => {
-		dispatch({type: LOAD_INGREDIENTS_REQUEST});
-		const getIngredients = async () => {
-	    fetch(API_URL)
-	    .then(res => {
-				if (res.ok) {
-					return res.json();
-				}
-					return Promise.reject(`Ошибка ${res.status}`);
-			})
-	    .then(data => {
-	    	dispatch({type: LOAD_INGREDIENTS_SUCCESS, data: data.data});
-	    	setActiveTab('buns'); // ставим активный таб
-	    	})
-	    .catch(e => dispatch({type: LOAD_INGREDIENTS_ERROR}));
-	  }
-	  getIngredients();
-		},
-		[]
-	);
+ 		dispatch(getIngredients(API_URL));
+	},[]);
 
 	// работаем со скроллом и табами внутри контейнера ингредиентов
 	const handleScroll = () => {
