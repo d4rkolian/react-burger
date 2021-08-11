@@ -1,40 +1,36 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
+import { useSelector } from 'react-redux';
 import IgDStyles from './ingredient-details.module.css';
 
-function IngredientDetails(props) {
+function IngredientDetails() {
+	const product = useSelector( store => store.burger.currentIngredient );
   return (
   	<div className={IgDStyles.ingredientDetails} >
 			<h2>Детали ингредиента</h2>
-			<img src={props.product.image_large} alt=""  />
+			<img src={product.image_large} alt=""  />
 			<div className={IgDStyles.desc}>
-				<h3>{props.product.name}</h3>
+				<h3>{product.name}</h3>
 				<ul className={[IgDStyles.ccal, "text_color_inactive"].join(" ")}>
 					<li>
 						<h4>Калории,ккал</h4>
-						<span>{props.product.calories}</span>
+						<span>{product.calories}</span>
 					</li>
 					<li>
 						<h4>Белки, г</h4>
-						<span>{props.product.proteins}</span>
+						<span>{product.proteins}</span>
 					</li>
 					<li>
 						<h4>Жиры, г</h4>
-						<span>{props.product.fat}</span>
+						<span>{product.fat}</span>
 					</li>
 					<li>
 						<h4>Углеводы, г</h4>
-						<span>{props.product.carbohydrates}</span>
+						<span>{product.carbohydrates}</span>
 					</li>
 				</ul>
 			</div>
 		</div>
   );
-}
-
-IngredientDetails.propTypes = {
-	product: PropTypes.object.isRequired,
 }
 
 export default IngredientDetails;
