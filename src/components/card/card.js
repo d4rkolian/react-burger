@@ -7,7 +7,6 @@ import CardStyles from './card.module.css';
 import { countInArray } from '../../utils';
 
 function Card(props) {
-	//var product = JSON.stringify(props.details.product);
 	const product = props.details.product;
 	const arraykey = props.arraykey;
 	const productType = props.details.product.type;
@@ -62,6 +61,7 @@ Card.propTypes = {
 	  })
   }).isRequired,
 	clickHandle: PropTypes.func.isRequired,
+	arraykey: PropTypes.number.isRequired,
 }
 
 export default Card;

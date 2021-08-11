@@ -8,15 +8,17 @@ function BurgerIngredients(props) {
 
 	const API_URL = 'https://norma.nomoreparties.space/api/ingredients';	
 	const dispatch = useDispatch();
-	const [activeTab, setActiveTab] = React.useState('');
+	const [activeTab, setActiveTab] = useState('');
 
-	const { ingLoading, ingredients } = useSelector( store => ({
+	const { ingLoading, ingredients, apiError } = useSelector( store => ({
 		ingLoading: store.burger.loaders.ingredients,
-		ingredients: store.burger.ingredients.all
+		ingredients: store.burger.ingredients.all,
+		apiError: store.burger.ingredients.error,
 	}));
 
 	// получаем данные по ингредиентам от API
 	React.useEffect(() => {
+		dispatch({type: 'LOAD_INGREDIENTS_REQUEST'});
 		const getIngredients = async () => {
 	    fetch(API_URL)
 	    .then(res => {
@@ -26,10 +28,10 @@ function BurgerIngredients(props) {
 					return Promise.reject(`Ошибка ${res.status}`);
 			})
 	    .then(data => {
-	    	dispatch({type: 'LOAD_INGREDIENTS', data: data.data});
+	    	dispatch({type: 'LOAD_INGREDIENTS_SUCCESS', data: data.data});
 	    	setActiveTab('buns'); // ставим активный таб
 	    	})
-	    .catch(e => console.log('Error see can I, my young padavan'));
+	    .catch(e => dispatch({type: 'LOAD_INGREDIENTS_ERROR'}));
 	  }
 	  getIngredients();
 		},
@@ -72,7 +74,8 @@ function BurgerIngredients(props) {
 			</ul>
 
 			<div ref={scrollableRef} id="inglist" className={[BIStyles.ingList, props.appStyles.customscroll, ingLoading ? props.appStyles.loading : "" ].join(" ")} >
-				{!ingLoading && (
+				{
+				!ingLoading && !apiError ? (
 					<>
 						<h2 className="mt-10 mb-6" id="buns">Булки</h2>
 						<div className="pl-4">
@@ -101,7 +104,8 @@ function BurgerIngredients(props) {
 			      	}	
 		      	</div>
 		      </>
-				)}	
+				) : apiError ? (<p className="pt-20" style={{'text-align': 'center'}}>Ошибка получения данных</p>) : ''
+				}	
     	</div>
 		</section>
   );

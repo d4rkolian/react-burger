@@ -1,9 +1,13 @@
 import {
 		MOVE_TO_CONSTRUCTOR,
-		LOAD_INGREDIENTS,
+		LOAD_INGREDIENTS_REQUEST,
+		LOAD_INGREDIENTS_SUCCESS,
+		LOAD_INGREDIENTS_ERROR,
 		SET_AS_DETAILED,
 		CLEAN_DETAILED,
-		GET_ORDER_NUMBER,
+		GET_ORDER_NUMBER_REQUEST,
+		GET_ORDER_NUMBER_SUCCESS,
+		GET_ORDER_NUMBER_ERROR,
 		TURN_ON_NOTICE,
 		DELETE_FROM_CONSTRUCTOR,
 		MOVE_CONSTRUCTOR ,
@@ -15,27 +19,60 @@ const initialState = {
 		constructor: [],
 		bunChosen: false,
 		bunIndex: -1,
+		error: false,
 	},
 	currentIngredient: [],
 	order: {
 		number: 0,
 		notice: false,
+		error: false,
 	},
 	loaders: {
 		ingredients: true,
-		order: true,
+		order: false,
 	}
 };
 
 export const burgerReducer = (state = initialState, action) => {
 	switch (action.type){
+		// инициируем запрос к серверу: ставим лоадер, приводим массив в изначальное состояние (там могли оказаться битые данные)
+		case LOAD_INGREDIENTS_REQUEST: {
+			return {
+				...state,
+				ingredients: {
+					...state.ingredients,
+					all: initialState.ingredients.all,
+					error: false,
+				},
+				loaders: {
+					...state.loaders,
+					ingredients: true,
+				}
+			}
+		}
 		// подставляем полученные с сервера данные
-		case LOAD_INGREDIENTS: {
+		case LOAD_INGREDIENTS_SUCCESS: {
 			return {
 				...state,
 				ingredients: {
 					...state.ingredients,
 					all: action.data,
+					error: false,
+				},
+				loaders: {
+					...state.loaders,
+					ingredients: false,
+				}
+			}
+		}
+		// обрабатываем ошибку
+		case LOAD_INGREDIENTS_ERROR: {
+			return {
+				...state,
+				ingredients: {
+					...state.ingredients,
+					all: initialState.ingredients.all,
+					error: true,
 				},
 				loaders: {
 					...state.loaders,
@@ -118,17 +155,44 @@ export const burgerReducer = (state = initialState, action) => {
 				currentIngredient: initialState.currentIngredient,
 			}
 		}
+		// начинаем отправлять запрос на получение номера заказа - сбрасываем значения
+		case GET_ORDER_NUMBER_REQUEST: {
+			return {
+				...state,
+				order: {
+					number: initialState.order.number,
+					notice: initialState.order.notice,
+					error: initialState.order.error,
+				},
+				loaders: {
+					...state.loaders,
+					order: true,
+				}
+			}
+		}
 		// получаем номер заказа
-		case GET_ORDER_NUMBER: {
+		case GET_ORDER_NUMBER_SUCCESS: {
 			return {
 				...state,
 				order: {
 					...state.order,
-					number: action.orderNumber
+					number: action.orderNumber,
+					error: initialState.order.error,
 				},
 				loaders: {
 					...state.loaders,
 					order: false,
+				}
+			}
+		}
+		// ошибка при получении номера заказа
+		case GET_ORDER_NUMBER_ERROR: {
+			return {
+				...state,
+				order: {
+					number: initialState.order.number,
+					notice: initialState.order.notice,
+					error: true,
 				}
 			}
 		}

@@ -60,7 +60,9 @@ function App() {
 		      visible = true;
 		      break;
 		    case "order":
+		    // получаем номер заказа
 					const getOrderNum = async (ingredientsIDs) => {
+						dispatch({type: 'GET_ORDER_NUMBER_REQUEST'});
 				    const reqOptions = {
 				      method: 'POST',
 				      headers: { 'Content-Type': 'application/json' },
@@ -76,9 +78,9 @@ function App() {
 				        return Promise.reject(`Ошибка ${res.status}`);
 				      })
 				      .then(data => {
-				        dispatch({ type: 'GET_ORDER_NUMBER', orderNumber: data.order.number });
+				        dispatch({ type: 'GET_ORDER_NUMBER_SUCCESS', orderNumber: data.order.number });
 				      })
-				      .catch(e => console.log('Error see can I in order number, my young padavan'));
+				      .catch(e => dispatch({type: 'GET_ORDER_NUMBER_ERROR'}) );
 				  }
 				  if ( bunChosen ) {
 				  	getOrderNum(ingredientsIDs);

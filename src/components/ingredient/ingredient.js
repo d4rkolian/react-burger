@@ -1,5 +1,4 @@
-import React, { useRef, useCallback } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux'; 
 import { useDrag,  useDrop } from 'react-dnd';
@@ -16,7 +15,6 @@ const Ingredient = (props) => {
 	if (props.type && props.type === "bottom") name = props.details.product.name+' (низ)';
 	const arraykey = useSelector( store => store.burger.ingredients.all ).indexOf(props.details.product);
 
-	const list = useSelector( store => store.burger.ingredients.constructor );
 	const id = [props.listkey, props.details.product._id].join("-");
 	const index = props.listkey;
 	const dispatch = useDispatch();
@@ -70,7 +68,7 @@ const Ingredient = (props) => {
     },
     });
 
-	const [{ }, drag] = useDrag({
+	const [, drag] = useDrag({
       type: 'movedingredient',
       item: () => {
           return { id, index };
