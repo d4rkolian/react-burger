@@ -17,9 +17,6 @@ import Modal from '../modal/modal';
 
 import { useSelector, useDispatch } from 'react-redux';
 import {
-		GET_ORDER_NUMBER_REQUEST,
-		GET_ORDER_NUMBER_SUCCESS,
-		GET_ORDER_NUMBER_ERROR,
 		CLEAN_DETAILED,
 		DELETE_FROM_CONSTRUCTOR,
 		TURN_ON_NOTICE, getOrderNumber } from '../../services/actions';
