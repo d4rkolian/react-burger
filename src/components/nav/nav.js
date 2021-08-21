@@ -7,7 +7,7 @@ import navStyles from './nav.module.css';
 
 function Nav() {
   return (
-		<nav>
+		<nav className={navStyles.navigation}>
 			<ul className={navStyles.topnav}>
 				<li className="mt-4 mb-4 pr-5 pt-4">
 					<span className={navStyles.icon}><BurgerIcon type="primary" /></span>

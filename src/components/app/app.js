@@ -126,6 +126,9 @@ function App() {
 		        <Route path="/reset-password" exact="true">
 		        	<Pages.PasswordResetPage />
 		        </Route>
+		        <Route path="/profile" exact="true">
+		        	<Pages.ProfilePage />
+		        </Route>
 		        <Route>
 		        	<Pages.Page404 />
 		        </Route>
