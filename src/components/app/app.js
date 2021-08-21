@@ -1,4 +1,6 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import * as Pages from '../../pages'; 
 
 // импортируем все, что связано с App
 import AppHeader from '../app-header/app-header';
@@ -104,10 +106,31 @@ function App() {
     <>
       <AppHeader />
       <main>
-      	<DndProvider backend={HTML5Backend}>
-        	<BurgerIngredients appStyles={AppStyles} isLoading={isLoading} clickHandle={clickHandle} />
-        	<BurgerConstructor appStyles={AppStyles} clickHandle={clickHandle}  />
-        </DndProvider>
+      	<Router>
+      		<Switch>
+	      		<Route path="/" exact="true">{ /* TODO: перенести на страницу HomePage*/ }
+			      	<DndProvider backend={HTML5Backend}>
+			        	<BurgerIngredients appStyles={AppStyles} isLoading={isLoading} clickHandle={clickHandle} />
+			        	<BurgerConstructor appStyles={AppStyles} clickHandle={clickHandle}  />
+			        </DndProvider>
+		        </Route>
+		        <Route path="/login" exact="true">
+		        	<Pages.LoginPage />
+		        </Route>
+		        <Route path="/register" exact="true">
+		        	<Pages.RegistrationPage />
+		        </Route>
+		        <Route path="/forgot-password" exact="true">
+		        	<Pages.PasswordForgotPage />
+		        </Route>
+		        <Route path="/reset-password" exact="true">
+		        	<Pages.PasswordResetPage />
+		        </Route>
+		        <Route>
+		        	<Pages.Page404 />
+		        </Route>
+	        </Switch>
+        </Router>
 
         { modalVisible && (
         	<Modal clickHandle={clickHandle}  >

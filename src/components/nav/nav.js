@@ -22,7 +22,7 @@ function Nav() {
 			<ul className={[navStyles.notlogged, navStyles.topnav].join(" ")}>
 			  	<li className="mt-4 mb-4 pl-5 pt-4">
 					<span className={navStyles.icon}><ProfileIcon type="primary" /></span>
-					<a href="/" className={[navStyles.text, "ml-2"].join(" ")}  >Личный кабинет</a>
+					<a href="/login" className={[navStyles.text, "ml-2"].join(" ")}  >Личный кабинет</a>
 				</li>
 			</ul>
 		</nav>
