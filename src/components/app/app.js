@@ -114,19 +114,19 @@ function App() {
 			        	<BurgerConstructor appStyles={AppStyles} clickHandle={clickHandle}  />
 			        </DndProvider>
 		        </Route>
-		        <Route path="/login" exact="true">
+		        <Route path="/login" exact={true}>
 		        	<Pages.LoginPage />
 		        </Route>
-		        <Route path="/register" exact="true">
+		        <Route path="/register" exact={true}>
 		        	<Pages.RegistrationPage />
 		        </Route>
-		        <Route path="/forgot-password" exact="true">
+		        <Route path="/forgot-password" exact={true}>
 		        	<Pages.PasswordForgotPage />
 		        </Route>
-		        <Route path="/reset-password" exact="true">
+		        <Route path="/reset-password" exact={true}>
 		        	<Pages.PasswordResetPage />
 		        </Route>
-		        <Route path="/profile" exact="true">
+		        <Route path="/profile" exact={true}>
 		        	<Pages.ProfilePage />
 		        </Route>
 		        <Route>
