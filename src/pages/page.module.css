@@ -15,6 +15,10 @@
   	transform: translate(-50%,-50%);
 }
 
+.formcontainer p a {
+	color: #fff !important;
+}
+
 .inputcontainer {
 	display: flex;
 	justify-content: center;

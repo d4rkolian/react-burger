@@ -18,6 +18,11 @@
 	line-height: 64px;
 }
 
+.navigation ul li a {
+	color: #fff !important;
+	text-decoration: none !important;
+}
+
 .details {
 	width:  320px;
 }

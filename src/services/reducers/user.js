@@ -1,11 +1,21 @@
 import {
 	USER_REGISTRATION_START,
 	USER_REGISTRATION_SUCCESS,
-	USER_REGISTRATION_ERROR
+	USER_REGISTRATION_ERROR,
+	USER_AUTH_START,
+	USER_AUTH_SUCCESS,
+	USER_AUTH_ERROR,
+	USER_LOGOUT_START,
+	USER_LOGOUT_SUCCESS,
+	USER_LOGOUT_ERROR,
 } from '../actions/user';
 
 const initialState = {
 	isCreating: false,
+	isAuthorizing: false,
+	isAuthorized: false,
+	details: {},
+	isLoggingOut: false,
 }
 
 export const userReducer = (state = initialState, action) => {
@@ -18,10 +28,59 @@ export const userReducer = (state = initialState, action) => {
 			}
 		}
 		case USER_REGISTRATION_SUCCESS: {
-			return state;
+			return {
+				...state,
+				isCreating: false,
+			}
 		}
 		case USER_REGISTRATION_ERROR: {
-			return state;
+			return {
+				...state,
+				isCreating: false,
+			}
+		}
+		case USER_AUTH_START: {
+			return {
+				...state,
+				isAuthorizing: true,
+			}
+		}
+		case USER_AUTH_SUCCESS: {
+			return {
+				...state,
+				isAuthorizing: initialState.isAuthorizing,
+				isAuthorized: true,
+				details: {
+					email: action.user.email,
+					name: action.user.name,
+				}
+			}
+		}
+		case USER_AUTH_ERROR: {
+			return {
+				...state,
+				isAuthorizing: initialState.isAuthorizing,
+			}
+		}
+		case USER_LOGOUT_START: {
+			return {
+				...state,
+				isLoggingOut: true,
+			}
+		}
+		case USER_LOGOUT_SUCCESS: {
+			return {
+				...state,
+				isLoggingOut: initialState.isLoggingOut,
+				isAuthorized: initialState.isAuthorized,
+				details: {}
+			}
+		}
+		case USER_LOGOUT_ERROR: {
+			return {
+				...state,
+				isLoggingOut: initialState.isLoggingOut,
+			}
 		}
 		default: {
 			return state;
