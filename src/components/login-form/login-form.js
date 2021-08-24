@@ -1,6 +1,6 @@
 import { React, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { authUser } from '../../services/actions/user';
 
 import PagesStyles from '../../pages/page.module.css'
@@ -14,13 +14,6 @@ const LoginForm = () => {
 		isAuthorized: store.user.isAuthorized,
 	}));
 
-	console.log(isAuthorized);
-
-	const history = useHistory();
-	if (isAuthorized) {
-		console.log('авторизован');
-	}
-
 	const [state, setState] = useState({
 		notReady: true,
 		noticeShown: false,
@@ -28,7 +21,11 @@ const LoginForm = () => {
     	email: '',
     	password: '',
  		} 
-  })
+  });
+
+	if (isAuthorized) {
+		return <Redirect to="/profile" />
+	}	
 
 	// TODO объединить попробовать
   const changeHandle = (event) => {

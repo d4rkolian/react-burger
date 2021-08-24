@@ -90,8 +90,7 @@ function App() {
 	);
 
   return (
-    <>
-    	<Router>
+    <Router>
       <AppHeader />
       <main>
       		<Switch>
@@ -123,8 +122,7 @@ function App() {
         	</Modal>
         )}
       </main>
-      </Router>
-    </>
+    </Router>
   );
 }
 
