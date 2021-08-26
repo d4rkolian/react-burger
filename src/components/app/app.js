@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import * as Pages from '../../pages'; 
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
+import ProtectedRoute from '../protected-route/protected-route';
 
 import AppHeader from '../app-header/app-header';
 import AppStyles from './app.module.css';
@@ -60,7 +61,7 @@ function App() {
 		      visible = true;
 		      break;
 		    case "order":
-		    // получаем номер заказа
+		    // оформляем заказ
 				  if ( bunChosen ) {
 				  	dispatch(getOrderNumber(ingredientsIDs,ORDER_URL));
 				  	visible = true;
@@ -105,21 +106,21 @@ function App() {
 		        <Route path="/login" exact={true}>
 		        	<Pages.LoginPage />
 		        </Route>
-		        <Route path="/register" exact={true}>
+		        <ProtectedRoute path="/register" exact={true} reqauth={false}>
 		        	<Pages.RegistrationPage />
-		        </Route>
-		        <Route path="/forgot-password" exact={true}>
+		        </ProtectedRoute>
+		        <ProtectedRoute path="/forgot-password" exact={true} reqauth={false}>
 		        	<Pages.PasswordForgotPage />
-		        </Route>
-		        <Route path="/reset-password" exact={true}>
+		        </ProtectedRoute>
+		        <ProtectedRoute path="/reset-password" exact={true} reqauth={false}>
 		        	<Pages.PasswordResetPage />
-		        </Route>
-		        <Route path="/profile" exact={true}>
+		        </ProtectedRoute>
+		        <ProtectedRoute path="/profile" exact={true} reqauth={true}>
 		        	<Pages.ProfilePage />
-		        </Route>
-		        <Route path="/profile/orders" exact={true}>
+		        </ProtectedRoute>
+		        <ProtectedRoute path="/profile/orders" exact={true} reqauth={true}>
 		        	<Pages.ProfilePage child="orders" />
-		        </Route>
+		        </ProtectedRoute>
 		        <Route path="/ingredients/:id" exact={true}  >
 		        	<Pages.IngredientPage />
 		        </Route>

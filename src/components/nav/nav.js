@@ -15,15 +15,15 @@ function Nav() {
 					<Link to="/" className={[navStyles.text, "ml-2"].join(" ")}  >Конструктор</Link>
 				</li>
 				<li className="mt-4 mb-4 pl-5 pr-5 pt-4">
-					<span className={navStyles.icon}><ListIcon type="primary" /></span>
-					<a href="/feed" onClick={ (e) => {e.preventDefault();} } className={[navStyles.text, "ml-2"].join(" ")}  >Лента заказов</a>
+					<span className={navStyles.icon}><ListIcon type="secondary" /></span>
+					<a href="/feed" onClick={ (e) => {e.preventDefault();} } className={[navStyles.text, "ml-2", navStyles.inactive].join(" ")}  >Лента заказов</a>
 				</li>
 			</ul>     
 			<Logo />
 			<ul className={[navStyles.notlogged, navStyles.topnav].join(" ")}>
 			  	<li className="mt-4 mb-4 pl-5 pt-4">
 					<span className={navStyles.icon}><ProfileIcon type="primary" /></span>
-					<Link to="/login" className={[navStyles.text, "ml-2"].join(" ")}  >Личный кабинет</Link>
+					<Link to="/profile" className={[navStyles.text, "ml-2"].join(" ")}  >Личный кабинет</Link>
 				</li>
 			</ul>
 		</nav>

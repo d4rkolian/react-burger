@@ -16,7 +16,7 @@ const PasswordReset = (props) => {
 		token: '',
   })
 
-	const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const { isPasswordRequested, stepTwoAllowed } = useSelector( store => ({
   	isPasswordRequested: {
   		step1: store.userDetails.isPasswordRequested.step1,

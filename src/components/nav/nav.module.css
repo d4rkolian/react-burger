@@ -29,11 +29,16 @@
   display: inline-block;
 }
 
-.topnav li a {
+.topnav li a.text {
 	text-decoration: none;
 	color: #fff;
 }
 
-.topnav li a:hover {
+.topnav li a.text.inactive {
+	color: #8585ad;
+	cursor:  default;
+}
+
+.topnav li a.text:hover {
 	text-decoration: underline;
 }
