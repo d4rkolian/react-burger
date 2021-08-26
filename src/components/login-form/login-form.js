@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import { authUser } from '../../services/actions/user';
 
-import PagesStyles from '../../pages/page.module.css'
+import PagesStyles from '../../pages/page.module.css';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
 const LoginForm = () => {

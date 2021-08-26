@@ -1,0 +1,28 @@
+/* profile nav styles */
+.navigation {
+	width: 320px;
+	margin-right: 60px;
+}
+
+.navigation ul li {
+	height: 64px;
+	line-height: 64px;
+}
+
+.navigation ul li a {
+	color: #8585AD!important;
+	text-decoration: none !important;
+}
+.navigation li a.selected {
+	text-decoration: none !important;
+	color: #fff !important;
+	cursor: default !important;
+}
+
+.navigation ul li a:hover {
+	text-decoration: underline !important;
+}
+.navigation li a.selected:hover {
+	text-decoration: none !important;
+}
+

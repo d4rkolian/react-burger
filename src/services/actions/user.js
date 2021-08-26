@@ -50,23 +50,23 @@ export function authUser (data) {
 	      headers: { 'Content-Type': 'application/json' },
 	      body: JSON.stringify(data)
 	    };
-	    fetch(AUTH_ENDPOINT, reqOptions)
-	      .then(res => {
-	      if (res.ok) {
-	        return res.json();
-	      }
-	        return Promise.reject(`Ошибка ${res.status}`);
-	      })
-	      .then(data => {
-	      	const accessToken = data.accessToken.split('Bearer ')[1];
-	      	const refreshToken = data.refreshToken;
-	   			setCookie('refreshToken', refreshToken);
-	   			setCookie('token', accessToken);
-	   			if ( data.success ) {
-	        	dispatch({ type: USER_AUTH_SUCCESS, user: data.user });
-	        }
-	      })
-	      .catch(e => dispatch({type: USER_AUTH_ERROR}) );
+    fetch(AUTH_ENDPOINT, reqOptions)
+      .then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+        return Promise.reject(`Ошибка ${res.status}`);
+      })
+      .then(data => {
+      	const accessToken = data.accessToken.split('Bearer ')[1];
+      	const refreshToken = data.refreshToken;
+   			setCookie('refreshToken', refreshToken);
+   			setCookie('token', accessToken);
+   			if ( data.success ) {
+        	dispatch({ type: USER_AUTH_SUCCESS, user: data.user });
+        }
+      })
+      .catch(e => dispatch({type: USER_AUTH_ERROR}) );
 	}
 }
 

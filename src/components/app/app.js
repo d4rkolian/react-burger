@@ -15,7 +15,9 @@ import {
 function App() {
 
 	const ORDER_URL = 'https://norma.nomoreparties.space/api/orders';
-	const dispatch = useDispatch();
+	const dispatch = useDispatch();	
+
+
 	const ingredientsIDs = []; 
 	useSelector( store => store.burger.ingredients.constructor ).map( (item, index) => {
 		return ingredientsIDs.push(item._id);
@@ -50,7 +52,7 @@ function App() {
 			let component = null;
 		  switch( event.currentTarget.getAttribute('modaltype') ) {
 		    case "ingredients":		      
-		      component = <IngredientDetails />;
+		      component = <IngredientDetails id={event.currentTarget.getAttribute('arraykey')} />;
 		      dispatch({
 		      	type: 'SET_AS_DETAILED',
 	      		arraykey: event.currentTarget.getAttribute('arraykey'),
@@ -75,6 +77,9 @@ function App() {
 		} else {
 			setModalChildren(null);
 			dispatch({type: CLEAN_DETAILED});
+			if ( window.location.pathname !== '/' ) {
+				window.history.replaceState(null, "Stellar Burgers", "/");
+			} 
 		}
 		setVisible(visible);
 		event.preventDefault();
@@ -111,6 +116,12 @@ function App() {
 		        </Route>
 		        <Route path="/profile" exact={true}>
 		        	<Pages.ProfilePage />
+		        </Route>
+		        <Route path="/profile/orders" exact={true}>
+		        	<Pages.ProfilePage child="orders" />
+		        </Route>
+		        <Route path="/ingredients/:id" exact={true}  >
+		        	<Pages.IngredientPage />
 		        </Route>
 		        <Route>
 		        	<Pages.Page404 />

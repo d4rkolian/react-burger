@@ -1,0 +1,32 @@
+/* profile details styles */
+
+.details {
+	width:  320px;
+}
+
+.details.empty {
+	line-height: 320px;
+}
+
+.fieldcontainer {
+	position: relative;
+}
+
+.fieldcontainer svg {
+	position: absolute;
+	z-index: 2;
+	top: 20px;
+	right:  25px;
+	cursor: pointer;
+}
+
+.buttons {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.notice {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+}

@@ -37,3 +37,15 @@ export function getCookie(name) {
   );
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
+
+// according to https://stackoverflow.com/questions/4639716/dot-dotdot-dotdotdot-as-loading
+export const dots = window.setInterval(
+  function() {
+    const wait = document.getElementById("wait");
+    if ( wait !== null ) {
+      if ( wait.innerHTML.length > 2 ) 
+          wait.innerHTML = "";
+      else 
+          wait.innerHTML += ".";
+    }
+  }, 300);

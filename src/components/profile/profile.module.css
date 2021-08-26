@@ -2,38 +2,9 @@
 
 .profilecontainer {
 	margin-top:  208px;
+	min-height: 320px;
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-start;
 	position: relative;
-}
-
-.navigation {
-	width: 320px;
-	margin-right: 60px;
-}
-
-.navigation ul li {
-	height: 64px;
-	line-height: 64px;
-}
-
-.navigation ul li a {
-	color: #fff !important;
-	text-decoration: none !important;
-}
-
-.details {
-	width:  320px;
-}
-
-.buttons {
-	display: flex;
-	justify-content: flex-end;
-}
-
-.notice {
-	position: absolute;
-	left: 0;
-	bottom: 0;
 }

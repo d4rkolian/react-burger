@@ -4,3 +4,5 @@ export const LOGOUT_ENDPOINT = 'https://norma.nomoreparties.space/api/auth/logou
 export const TOKEN_ENDPOINT = 'https://norma.nomoreparties.space/api/auth/token'; // эндпоинт обновления токена. 
 export const PASS_RESET_ENDPOINT = 'https://norma.nomoreparties.space/api/password-reset'; // сброс пароля (первый шаг)
 export const PASS_RESET_STEP2_ENDPOINT = 'https://norma.nomoreparties.space/api/password-reset/reset'; // сброс пароля (второй шаг)
+export const USER_INFORMATION_GET_ENDPOINT = 'https://norma.nomoreparties.space/api/auth/user'; // получение данных пользователя в профиль, метод GET
+export const USER_INFORMATION_PATCH_ENDPOINT = 'https://norma.nomoreparties.space/api/auth/user'; // обновление данных пользователя, метод PATCH

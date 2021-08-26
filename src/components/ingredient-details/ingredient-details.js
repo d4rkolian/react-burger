@@ -1,9 +1,32 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import { React, useEffect } from 'react';
+import { getIngredients } from '../../services/actions';
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import IgDStyles from './ingredient-details.module.css';
 
-function IngredientDetails() {
+function IngredientDetails(props) {
 	const product = useSelector( store => store.burger.currentIngredient );
+	const products = useSelector( store => store.burger.ingredients.all );
+
+	const dispatch = useDispatch();
+	const params = useParams();
+
+	useEffect(() => {
+		// TODO может просто передать props mode="fullscreen"?
+		if ( window.location.pathname !== '/' && product.length === 0 && products.length === 0 ) {
+			console.log('мы находимся внутри урла');
+			const API_URL = 'https://norma.nomoreparties.space/api/ingredients';
+			dispatch(getIngredients(API_URL));
+		}
+	},[]);
+
+	if ( product.length === 0 && products.length !== 0 ){
+		dispatch({ type: 'SET_AS_DETAILED', arraykey: params.id });
+	}
+
+	if ( window.location.pathname === '/' ) {
+		window.history.replaceState(null, "Stellar Burgers | Просмотр ингредиента", "/ingredients/"+props.id)
+	}
   return (
   	<div className={IgDStyles.ingredientDetails} >
 			<h2>Детали ингредиента</h2>
@@ -33,4 +56,4 @@ function IngredientDetails() {
   );
 }
 
-export default IngredientDetails;
+export default IngredientDetails
