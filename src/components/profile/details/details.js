@@ -1,19 +1,34 @@
-import { React, useEffect } from 'react';
+import { React, useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getUserInfo } from '../../../services/actions/profile'; 
-import { Input, PasswordInput, Button, EditIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { getUserInfo, setUserInfo, PROFILE_WAS_UPDATED } from '../../../services/actions/profile'; 
+import { Input, PasswordInput, Button, EditIcon, CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { dots } from '../../../utils';
 import Styles from './details.module.css';
 
 export const ProfileDetails = () => {
 
-	const { isLoading, isLoaded, user } = useSelector(store => ({
+	const { isLoading, isLoaded, user, isUpdating, isUpdated } = useSelector(store => ({
 		isLoading: store.profile.isLoading,
 		isLoaded: store.profile.isLoaded,
-		user: store.profile.user
+		user: store.profile.user,
+		isUpdating: store.profile.isUpdating,
+		isUpdated: store.profile.isUpdated,
 	}));
 	const sectionClassName = isLoading ? [Styles.details, Styles.empty].join(" ") : Styles.details;
 	const dispatch = useDispatch();
+	const emailRef = useRef();
+	const nameRef = useRef();
+
+	const [state, setState] = useState({
+		name: {
+			editable: false,
+			value: '',
+		},
+		email: {
+			editable: false,
+			value: '',
+		}
+	});
 
 	useEffect(() => {
 		// получаем данные с сервера после загрузки страницы
@@ -22,9 +37,89 @@ export const ProfileDetails = () => {
 		}	
 	},[]);
 
-	const fieldEnable = (e) => {
-		e.stopPropagation();
+	const fieldEnable = (event) => {
+
+		const inputName = event.currentTarget.getAttribute("for");
+		// получаем поле ввода
+		const input = event.currentTarget.parentNode.querySelectorAll("[name='"+inputName+"']")[0];
 		
+		// если мы уже включали это поле
+		if ( state[inputName].editable ) {
+			input.setAttribute('disabled', true);
+			input.classList.add('input__textfield-disabled');
+			setState({
+				...state,
+				[event.currentTarget.getAttribute("for")]:{
+					...state[event.currentTarget.getAttribute("for")],
+					editable: false,
+					value: '',
+				}
+			});
+			return true;
+		}
+
+		// работаем с полем ввода
+		input.removeAttribute('disabled');
+		input.classList.remove('input__textfield-disabled');
+		input.value = '';
+		
+		setState({
+			...state,
+			[event.currentTarget.getAttribute("for")]:{
+				...state[event.currentTarget.getAttribute("for")],
+				editable: true,
+			}
+		});
+
+		event.preventDefault();
+		event.stopPropagation();
+	}
+
+	const cancelChanges = () => {
+		emailRef.current.setAttribute('disabled', true);
+		emailRef.current.classList.add('input__textfield-disabled');
+		nameRef.current.setAttribute('disabled', true);
+		nameRef.current.classList.add('input__textfield-disabled');
+
+		setState({
+			email: {
+				editable: false,
+				value: '',
+			},
+			name: {
+				editable: false,
+				value: '',
+			}
+		})
+	}
+
+	// хук после успешного обновления данных
+	if ( isUpdated ) {
+		cancelChanges();
+		dispatch({ type: PROFILE_WAS_UPDATED });
+	}
+
+	// TODO объединить попробовать
+  const changeHandle = (event) => {
+		const target = event.target;
+		const name = target.name;
+		const value = target.value;
+		setState({
+    	...state,
+      [name]: {
+      	...state[name],
+      	value: value,
+      }
+     });
+	} 
+
+	const userUpdate = (event) => {
+		const newUser = {
+			name: state.name.value !== '' ? state.name.value : user.name,
+			email: state.email.value !== '' ? state.email.value : user.email,
+		}
+		dispatch(setUserInfo(newUser));
+		event.preventDefault();
 	}
 
 	return (
@@ -32,13 +127,28 @@ export const ProfileDetails = () => {
 			<section className={sectionClassName}>
 				{ isLoaded && (
 						<>
-							<div className={[Styles.fieldcontainer, "mb-6"].join(" ")}><Input type="text" placeholder="Имя" value={user.name} disabled  /><EditIcon type="primary" /></div>
-							<div className={[Styles.fieldcontainer, "mb-6"].join(" ")}><Input type="email" placeholder="Логин" value={user.email} disabled /><EditIcon type="primary" /></div>
-							<div className={[Styles.fieldcontainer, "mb-6"].join(" ")}><PasswordInput value="" disabled  /></div>
-							<div className={Styles.buttons}>
-								Отмена
-								<Button type="primary">Сохранить</Button>
+							<div className={[Styles.fieldcontainer, "mb-6"].join(" ")}>
+								<Input type="text" placeholder="Имя" value={!state.name.editable ? user.name : state.name.value} name="name" ref={nameRef} onChange={changeHandle} disabled />
+								<div className={Styles.iconwrap} onClick={fieldEnable} for="name">
+									{ !state.name.editable ? (<EditIcon type="primary" />) : (<CloseIcon type="primary" />) }
+								</div>
 							</div>
+							<div className={[Styles.fieldcontainer, "mb-6"].join(" ")}>
+								<Input type="email" placeholder="Логин" value={!state.email.editable ? user.email : state.email.value} name="email" ref={emailRef} onChange={changeHandle} disabled  />
+								<div className={Styles.iconwrap} onClick={fieldEnable} for="email">
+									{ !state.email.editable ? (<EditIcon type="primary" />) : (<CloseIcon type="primary" />) }
+								</div>
+							</div>
+							<div className={[Styles.fieldcontainer, "mb-6"].join(" ")}><PasswordInput value="" onChange={changeHandle} disabled  /></div>
+							{ state.name.editable || state.email.editable ? (
+								<div className={Styles.buttons}>
+									<div className={[Styles.cancel, "mr-5"].join(" ")} onClick={cancelChanges}>
+										Отмена
+									</div>
+									<Button type="primary" onClick={userUpdate}>{ !isUpdating ? (<span>Сохранить</span>) : (<span>Обновляем данные</span>) }</Button>
+								</div>
+							) : null}
+							
 						</>
 					)}
 				{ isLoading && ( <span>Ожидаем ответ сервера&nbsp;<span id="wait"></span></span> ) }

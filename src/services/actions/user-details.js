@@ -9,6 +9,7 @@ export const PASS_RESET_ERROR = 'PASS_RESET_ERROR';
 export const PASS_RESET_STEP2_REQUEST = 'PASS_RESET_STEP2_REQUEST';
 export const PASS_RESET_STEP2_SUCCESS = 'PASS_RESET_STEP2_SUCCESS';
 export const PASS_RESET_STEP2_ERROR = 'PASS_RESET_STEP2_ERROR';
+export const PASS_RESET_STEP2_SUCCESS_AFTER = 'PASS_RESET_STEP2_SUCCESS_AFTER';
 
 export function passReset(data, step){
 	return function(dispatch){
@@ -52,7 +53,8 @@ export function passReset(data, step){
 						return Promise.reject(`Ошибка ${res.status}`);
 					})
 					.then( data => {
-						console.log(data);
+						//console.log(data); TODO
+						dispatch({ type: PASS_RESET_STEP2_SUCCESS });
 					})
 					.catch (e => dispatch({ type: PASS_RESET_STEP2_ERROR }));
 				break;

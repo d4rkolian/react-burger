@@ -2,6 +2,7 @@ import { React, useEffect } from 'react';
 import { getIngredients } from '../../services/actions';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import IgDStyles from './ingredient-details.module.css';
 
 function IngredientDetails(props) {
@@ -14,7 +15,6 @@ function IngredientDetails(props) {
 	useEffect(() => {
 		// TODO может просто передать props mode="fullscreen"?
 		if ( window.location.pathname !== '/' && product.length === 0 && products.length === 0 ) {
-			console.log('мы находимся внутри урла');
 			const API_URL = 'https://norma.nomoreparties.space/api/ingredients';
 			dispatch(getIngredients(API_URL));
 		}
@@ -54,6 +54,10 @@ function IngredientDetails(props) {
 			</div>
 		</div>
   );
+}
+
+IngredientDetails.propTypes = {
+	id: PropTypes.string,
 }
 
 export default IngredientDetails

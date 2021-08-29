@@ -8,6 +8,8 @@ import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burg
 
 const PasswordReset = (props) => {
 
+	const dispatch = useDispatch();
+	const history = useHistory();
 	const [state, setState] = useState({
 		notReady: true,
 		noticeShown: false,
@@ -16,19 +18,18 @@ const PasswordReset = (props) => {
 		token: '',
   })
 
-  const dispatch = useDispatch();
-  const { isPasswordRequested, stepTwoAllowed } = useSelector( store => ({
+  
+  const { isPasswordRequested, stepTwoAllowed, isPasswordReset } = useSelector( store => ({
   	isPasswordRequested: {
   		step1: store.userDetails.isPasswordRequested.step1,
   		step2: store.userDetails.isPasswordRequested.step2,
   	},
   	stepTwoAllowed: store.userDetails.stepTwoAllowed,
+  	isPasswordReset: store.userDetails.isPasswordReset,
   }));
 
-  const history = useHistory();
-  if ( stepTwoAllowed ){
-		history.push({ pathname: '/reset-password' });
-	} 
+  if ( stepTwoAllowed ){ history.push({ pathname: '/reset-password' }); } 
+  if ( isPasswordReset ){ history.push({ pathname: '/login' }); }
 
 	// TODO объединить попробовать
   const changeHandle = (event) => {

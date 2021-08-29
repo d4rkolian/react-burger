@@ -1,18 +1,23 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, useHistory } from 'react-router-dom';
 
 const ProtectedRoute = ({children, ...rest}) => {
 
-	const { isAuthorized } = useSelector( store => ({
-		isAuthorized: store.user.isAuthorized,
-	}));
-	const pageGoTo = rest.reqauth ? 'login' : 'profile';
+	const history = useHistory();
+
+	// определили страницу в зависимости от типа protected route
+	let pageGoTo = rest.reqauth ? '/login' : '/profile';
+
+	// если страница задана принудительно в state.from - переопределили
+	if ( history.location.state !== undefined && history.location.state !== null ) {
+		console.log(history.location);
+		pageGoTo = history.location.state.from;
+	}
 
 	return (
 		<Route
       {...rest}
-      	render={() => (isAuthorized === rest.reqauth) ? (children) : (<Redirect to={"/"+pageGoTo} />)
+      	render={() => (rest.isAuthorized === rest.reqauth) ? (children) : (<Redirect to={pageGoTo} />)
       }
     />
 	);

@@ -12,7 +12,9 @@
 	position: relative;
 }
 
-.fieldcontainer svg {
+.iconwrap {
+	width: 24px;
+	height: 24px;
 	position: absolute;
 	z-index: 2;
 	top: 20px;
@@ -23,6 +25,15 @@
 .buttons {
 	display: flex;
 	justify-content: flex-end;
+	line-height: 36px;
+}
+
+.buttons .cancel {
+	height: 56px;
+	line-height: 36px;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
 }
 
 .notice {

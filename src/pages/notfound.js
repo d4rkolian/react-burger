@@ -1,7 +1,8 @@
 import React from 'react';
+import NotFound from '../components/not-found/not-found';
 
 export const Page404 = () => {
 	return (
-		<p>Это страница ошибки 404</p>
+		<NotFound />
 	);
 }

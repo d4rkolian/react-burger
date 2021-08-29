@@ -1,7 +1,8 @@
 import { React, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import { authUser } from '../../services/actions/user';
+import { PASS_RESET_STEP2_SUCCESS_AFTER } from '../../services/actions/user-details';
 
 import PagesStyles from '../../pages/page.module.css';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -9,10 +10,19 @@ import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burg
 const LoginForm = () => {
 
 	const dispatch = useDispatch();
-	const { isAuthorizing, isAuthorized } = useSelector( store => ({
+	const history = useHistory();
+	const { isAuthorizing, isAuthorized, isPasswordReset } = useSelector( store => ({
 		isAuthorizing: store.user.isAuthorizing,
 		isAuthorized: store.user.isAuthorized,
+		isPasswordReset: store.userDetails.isPasswordReset,
 	}));
+
+	if ( isPasswordReset ){
+		// если стоит флаг, что сброшен пароль - значит, юзер пришел с формы /reset-password (второй шаг)
+		// надо его сбросить, чтобы юзер смог второй раз пройти на восстановление пароля
+		// можно сделать это через location.state, но надежней через флаг в Redux
+		dispatch({ type: PASS_RESET_STEP2_SUCCESS_AFTER })
+	}
 
 	const [state, setState] = useState({
 		notReady: true,
@@ -20,13 +30,10 @@ const LoginForm = () => {
     user: {
     	email: '',
     	password: '',
- 		} 
+ 		}, 
+ 		goTo: history.location && history.location.state && history.location.state.goto ? history.location.state.goto : '/profile',
   });
-
-	if (isAuthorized) {
-		return <Redirect to="/profile" />
-	}	
-
+  
 	// TODO объединить попробовать
   const changeHandle = (event) => {
 		const target = event.target;

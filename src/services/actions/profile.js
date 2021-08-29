@@ -1,13 +1,19 @@
 import { USER_INFORMATION_GET_ENDPOINT, USER_INFORMATION_PATCH_ENDPOINT, TOKEN_ENDPOINT } from '../../utils/endpoints';
 import { getCookie, setCookie } from '../../utils'; 
 
-export const PROFILE_UPDATE_REQUEST = 'PROFILE_UPDATE_REQUEST';
-export const PROFILE_UPDATE_SUCCESS = 'PROFILE_UPDATE_SUCCESS';
-export const PROFILE_UPDATE_ERROR = 'PROFILE_UPDATE_ERROR';
+export const PROFILE_GETINFO_REQUEST = 'PROFILE_GETINFO_REQUEST';
+export const PROFILE_GETINFO_SUCCESS = 'PROFILE_GETINFO_SUCCESS';
+export const PROFILE_GETINFO_ERROR = 'PROFILE_GETINFO_ERROR';
+
+export const PROFILE_SETINFO_REQUEST = 'PROFILE_SETINFO_REQUEST';
+export const PROFILE_SETINFO_SUCCESS = 'PROFILE_SETINFO_SUCCESS';
+export const PROFILE_SETINFO_ERROR = 'PROFILE_SETINFO_ERROR';
+
+export const PROFILE_WAS_UPDATED = 'PROFILE_WAS_UPDATED';
 
 export function getUserInfo () {
 	return function(dispatch){
-		dispatch({ type: PROFILE_UPDATE_REQUEST });
+		dispatch({ type: PROFILE_GETINFO_REQUEST });
 		const accessToken = getCookie('token');
 		const reqOptions = {
 			method: 'GET',
@@ -22,7 +28,7 @@ export function getUserInfo () {
 			})
 			.then( data => {
 				if (data.success) {
-					dispatch({ type: PROFILE_UPDATE_SUCCESS, payload: data.user })
+					dispatch({ type: PROFILE_GETINFO_SUCCESS, payload: data.user })
 				} else {
 					if ( data.message === "jwt expired" ){
 						dispatch(refreshAccessToken('1'));
@@ -31,6 +37,34 @@ export function getUserInfo () {
 			})
 			.catch( (error) => {
 				console.log('Ошибка получения данных');
+			});
+	}
+}
+
+export function setUserInfo (user) {
+	return function(dispatch){
+		dispatch({ type: PROFILE_SETINFO_REQUEST });
+		const accessToken = getCookie('token');
+		const reqOptions = {
+			method: 'PATCH',
+			body: JSON.stringify({ email: user.email, name: user.name }),
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer '+accessToken,
+			},
+		};
+		fetch(USER_INFORMATION_PATCH_ENDPOINT, reqOptions)
+			.then( res => {
+				return res.json();
+			})
+			.then( data => {
+				// console.log(data);
+				if ( data.success ) {
+					dispatch({ type: PROFILE_SETINFO_SUCCESS, payload: data.user })
+				}
+			})
+			.catch( (e) => {
+				console.log('Ошибка'); 
 			});
 	}
 }

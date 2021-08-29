@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import * as Pages from '../../pages'; 
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
@@ -12,21 +12,28 @@ import Modal from '../modal/modal';
 import {
 		CLEAN_DETAILED, DELETE_FROM_CONSTRUCTOR,
 		TURN_ON_NOTICE, getOrderNumber } from '../../services/actions';
+import { isAuth } from '../../services/actions/user';
 
 function App() {
 
 	const ORDER_URL = 'https://norma.nomoreparties.space/api/orders';
 	const dispatch = useDispatch();	
-
+	const history = useHistory();
 
 	const ingredientsIDs = []; 
 	useSelector( store => store.burger.ingredients.constructor ).map( (item, index) => {
 		return ingredientsIDs.push(item._id);
 	});
-	const {isLoading, bunChosen} = useSelector( store => ({
+	const { isLoading, bunChosen, isAuthorized } = useSelector( store => ({
 		isLoading: store.burger.loaders.ingredients,
-		bunChosen: store.burger.ingredients.bunChosen
+		bunChosen: store.burger.ingredients.bunChosen,
+		isAuthorized: store.user.isAuthorized,
 	}));
+
+	if ( !isAuthorized ) {
+		// если в хранилище нет флага об авторизации - проверить, возможно стоит кука
+		dispatch(isAuth());
+	}
 
 	const [modalVisible, setVisible] = React.useState(false)
 	const [modalChildren, setModalChildren] = React.useState(null);
@@ -63,8 +70,16 @@ function App() {
 		    case "order":
 		    // оформляем заказ
 				  if ( bunChosen ) {
-				  	dispatch(getOrderNumber(ingredientsIDs,ORDER_URL));
-				  	visible = true;
+				  	// sprint #3 - проверить, что юзер авторизован
+				  	if ( isAuthorized ) {
+				  		dispatch(getOrderNumber(ingredientsIDs,ORDER_URL));
+				  		visible = true;
+				  	} else {
+				  		history.replace({
+				  			pathname: '/login',
+				  			state: { from : '/' }
+				  		});
+				  	}
 				  } else {
 				  	dispatch({type: TURN_ON_NOTICE});
 				  	break;
@@ -96,29 +111,29 @@ function App() {
 	);
 
   return (
-    <Router>
+  	<>
       <AppHeader />
       <main>
       		<Switch>
-	      		<Route path="/" exact={true}>{ /* TODO: перенести на страницу HomePage*/ }
+	      		<Route path="/" exact={true}>
 			      	<Pages.HomePage appStyles={AppStyles} isLoading={isLoading} clickHandle={clickHandle} />
 		        </Route>
-		        <Route path="/login" exact={true}>
+		        <ProtectedRoute path="/login" exact={true} reqauth={false} isAuthorized={isAuthorized}>
 		        	<Pages.LoginPage />
-		        </Route>
-		        <ProtectedRoute path="/register" exact={true} reqauth={false}>
+		        </ProtectedRoute>
+		        <ProtectedRoute path="/register" exact={true} reqauth={false} isAuthorized={isAuthorized}>
 		        	<Pages.RegistrationPage />
 		        </ProtectedRoute>
-		        <ProtectedRoute path="/forgot-password" exact={true} reqauth={false}>
+		        <ProtectedRoute path="/forgot-password" exact={true} reqauth={false} isAuthorized={isAuthorized}>
 		        	<Pages.PasswordForgotPage />
 		        </ProtectedRoute>
-		        <ProtectedRoute path="/reset-password" exact={true} reqauth={false}>
+		        <ProtectedRoute path="/reset-password" exact={true} reqauth={false} isAuthorized={isAuthorized}>
 		        	<Pages.PasswordResetPage />
 		        </ProtectedRoute>
-		        <ProtectedRoute path="/profile" exact={true} reqauth={true}>
+		        <ProtectedRoute path="/profile" exact={true} reqauth={true} isAuthorized={isAuthorized}>
 		        	<Pages.ProfilePage />
 		        </ProtectedRoute>
-		        <ProtectedRoute path="/profile/orders" exact={true} reqauth={true}>
+		        <ProtectedRoute path="/profile/orders" exact={true} reqauth={true} isAuthorized={isAuthorized}>
 		        	<Pages.ProfilePage child="orders" />
 		        </ProtectedRoute>
 		        <Route path="/ingredients/:id" exact={true}  >
@@ -134,7 +149,7 @@ function App() {
         	</Modal>
         )}
       </main>
-    </Router>
+   </>
   );
 }
 

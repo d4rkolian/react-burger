@@ -31,12 +31,11 @@
 
 .topnav li a.text {
 	text-decoration: none;
-	color: #fff;
+	color: #8585ad;
 }
 
-.topnav li a.text.inactive {
-	color: #8585ad;
-	cursor:  default;
+.topnav li a.active {
+	color: #fff !important;
 }
 
 .topnav li a.text:hover {

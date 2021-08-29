@@ -14,6 +14,7 @@ export const USER_AUTH_ERROR = 'USER_AUTH_ERROR';
 export const USER_LOGOUT_START = 'USER_LOGOUT_START';
 export const USER_LOGOUT_SUCCESS = 'USER_LOGOUT_SUCCESS';
 export const USER_LOGOUT_ERROR = 'USER_LOGOUT_ERROR';
+export const AUTH_BY_TOKEN = 'AUTH_BY_TOKEN';
 
 export function createUser (user) {
 	return function(dispatch){
@@ -61,12 +62,21 @@ export function authUser (data) {
       	const accessToken = data.accessToken.split('Bearer ')[1];
       	const refreshToken = data.refreshToken;
    			setCookie('refreshToken', refreshToken);
-   			setCookie('token', accessToken);
+   			setCookie('token', accessToken, { expires: 1200 });
    			if ( data.success ) {
         	dispatch({ type: USER_AUTH_SUCCESS, user: data.user });
         }
       })
-      .catch(e => dispatch({type: USER_AUTH_ERROR}) );
+      .catch(e => dispatch({ type: USER_AUTH_ERROR }) );
+	}
+}
+
+export function isAuth() {
+	return function(dispatch){
+		const accessToken = getCookie('token');
+		if ( accessToken && accessToken !== '' ){
+			dispatch({ type: AUTH_BY_TOKEN});
+		}
 	}
 }
 
@@ -76,6 +86,8 @@ export function logOut() {
 		const data = {
 			token: getCookie('refreshToken'),
 		}
+		setCookie('token', '', { expires: -1 });
+	  setCookie('refreshToken', '', { expires: -1 });
 		const reqOptions = {
 	      method: 'POST',
 	      headers: { 'Content-Type': 'application/json' },
@@ -89,11 +101,9 @@ export function logOut() {
 	        return Promise.reject(`Ошибка ${res.status}`);
 	      })
 	      .then(data => {
-	      	// const accessToken = data.accessToken.split('Bearer ')[1];
-	      	// const refreshToken = data.refreshToken;
-	   			// setCookie('refreshToken', refreshToken);
-	   			console.log(data);
-	        dispatch({type: USER_LOGOUT_SUCCESS});
+	      	if ( data.success ){
+	        	dispatch({type: USER_LOGOUT_SUCCESS});	
+	      	}
 	      })
 	      .catch(e => dispatch({type: USER_LOGOUT_ERROR}) );
 	}
