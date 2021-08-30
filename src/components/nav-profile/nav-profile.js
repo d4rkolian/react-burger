@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom'; 
 import PNavStyles from './nav-profile.module.css';
 
@@ -21,4 +22,9 @@ export const ProfileNavigation = (props) => {
 			</ul>
 		</nav>
 	);
+}
+
+ProfileNavigation.propTypes = {
+	isLoggingOut: PropTypes.bool,
+	logOutHandle: PropTypes.func.isRequired,
 }

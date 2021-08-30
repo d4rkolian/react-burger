@@ -31,7 +31,8 @@ export function getUserInfo () {
 					dispatch({ type: PROFILE_GETINFO_SUCCESS, payload: data.user })
 				} else {
 					if ( data.message === "jwt expired" ){
-						dispatch(refreshAccessToken('1'));
+						// dispatch(refreshAccessToken('1'));
+						// не обрабатываем этот сценарий, потому что ставим куку accessToken на своей стороне на 20 минут
 					}
 				}
 			})

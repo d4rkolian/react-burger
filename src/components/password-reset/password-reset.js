@@ -1,4 +1,5 @@
 import { React, useState } from 'react';
+import PropTypes from 'prop-types';
 import { Link, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { passReset } from '../../services/actions/user-details';
@@ -95,4 +96,8 @@ const PasswordReset = (props) => {
 		);
 }
 
+PasswordReset.propTypes = {
+	step: PropTypes.string.isRequired,
+}
 export default PasswordReset
+

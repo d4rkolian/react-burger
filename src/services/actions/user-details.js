@@ -38,7 +38,6 @@ export function passReset(data, step){
 				break;
 			}
 			case 'second': {
-				console.log(data);
 				dispatch({ type: PASS_RESET_STEP2_REQUEST });
 				let requestOptions = {
 					method: 'POST',
@@ -53,7 +52,6 @@ export function passReset(data, step){
 						return Promise.reject(`Ошибка ${res.status}`);
 					})
 					.then( data => {
-						//console.log(data); TODO
 						dispatch({ type: PASS_RESET_STEP2_SUCCESS });
 					})
 					.catch (e => dispatch({ type: PASS_RESET_STEP2_ERROR }));
