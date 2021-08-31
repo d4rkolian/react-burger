@@ -2,7 +2,6 @@ import React from 'react';
 import { Route, Redirect, useHistory } from 'react-router-dom';
 
 const ProtectedRoute = ({children, ...rest}) => {
-
 	const history = useHistory();
 
 	// определили страницу в зависимости от типа protected route
@@ -10,7 +9,6 @@ const ProtectedRoute = ({children, ...rest}) => {
 
 	// если страница задана принудительно в state.from - переопределили
 	if ( history.location.state !== undefined && history.location.state !== null ) {
-		console.log(history.location);
 		pageGoTo = history.location.state.from;
 	}
 

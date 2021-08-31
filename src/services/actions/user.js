@@ -76,18 +76,13 @@ export function isAuth() {
 	return function(dispatch){
 		const accessToken = getCookie('token');
 		const refreshToken = getCookie('refreshToken');
-
 		
 		if ( accessToken && accessToken !== '' ){
-
-			// хороший расклад - у нас есть accessToken
+			// есть accessToken
 			dispatch({ type: AUTH_BY_TOKEN});
-
 		} else if ( refreshToken && refreshToken !== '' ){
-			console.log('есть refreshToken');
-			// менее хороший расклад - accessToken нет, но есть refreshToken, чтобы получить новый
+			// accessToken нет, но есть refreshToken, чтобы получить новый
 			refreshAccessToken(refreshToken, isAuth);
-
 		}
 		
 	}
@@ -126,7 +121,6 @@ export function refreshAccessToken(refreshToken, afterRefresh){
 	const data = {
 		token: refreshToken,
 	}
-	console.log('ff');
 	const reqOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -141,7 +135,6 @@ export function refreshAccessToken(refreshToken, afterRefresh){
       	const refreshToken = data.refreshToken;
    			setCookie('refreshToken', refreshToken);
    			setCookie('token', accessToken, { expires: 1200 });
-   			// dispatch({ type: AUTH_BY_TOKEN});
    			afterRefresh();
   		} 
   	})

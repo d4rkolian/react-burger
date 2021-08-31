@@ -1,40 +1,57 @@
 import React from 'react';
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom'; 
 import PropTypes from 'prop-types'
+import { CLEAN_DETAILED } from '../../services/actions';
 
 import modalStyles from './modal.module.css';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 
 function Modal(props) {
 	const modalRoot = document.getElementById("modals");
+  let history = useHistory();
+  const dispatch = useDispatch();
+
+  let back = e => {
+    e.stopPropagation();
+    history.goBack();
+  }
+
+  if ( props.isVisible ) {
+    back = props.clickHandle;
+  } 
+
+  function handleUserKeyPress(event) { 
+    if (event.keyCode === 27) {
+      !props.isVisible ? back(event) : props.clickHandle(event);
+      dispatch({type: CLEAN_DETAILED});
+    }
+  }
+
+  React.useEffect(
+    () => {
+      window.addEventListener('keydown', handleUserKeyPress);
+      return () => {
+        window.removeEventListener('keydown', handleUserKeyPress);
+      };
+    }
+  ,[]
+  );
+
   return ReactDOM.createPortal((
     <>
   		<div className={modalStyles.modal} >
-  			<span className={modalStyles.close} onClick={props.clickHandle}>&times;</span>
+  			<span className={modalStyles.close} onClick={back}>&times;</span>
   			{props.children}
   		</div>
-      <ModalOverlay clickHandle={props.clickHandle} />
+      <ModalOverlay clickHandle={back} />
     </>
   ), modalRoot);
 }
 
 Modal.propTypes = {
   modaltype: PropTypes.string,
-  clickHandle: PropTypes.func.isRequired,
-  product: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    proteins: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    carbohydrates: PropTypes.number.isRequired,
-    calories: PropTypes.number.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-    image_mobile: PropTypes.string.isRequired,
-    image_large: PropTypes.string.isRequired,
-    __v: PropTypes.number.isRequired,
-  }),
 }
 
 export default Modal;

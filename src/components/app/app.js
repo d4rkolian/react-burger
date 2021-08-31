@@ -1,24 +1,23 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Route, Switch, useHistory } from 'react-router-dom';
+import { Route, Switch, useHistory, useLocation, useParams } from 'react-router-dom';
 import * as Pages from '../../pages'; 
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
 import ProtectedRoute from '../protected-route/protected-route';
-
 import AppHeader from '../app-header/app-header';
-import AppStyles from './app.module.css';
 import Modal from '../modal/modal';
-import {
-		CLEAN_DETAILED, DELETE_FROM_CONSTRUCTOR,
-		TURN_ON_NOTICE, getOrderNumber } from '../../services/actions';
+import { CLEAN_DETAILED, DELETE_FROM_CONSTRUCTOR, TURN_ON_NOTICE, getOrderNumber } from '../../services/actions';
 import { isAuth } from '../../services/actions/user';
+import AppStyles from './app.module.css';
 
 function App() {
 
 	const ORDER_URL = 'https://norma.nomoreparties.space/api/orders';
 	const dispatch = useDispatch();	
 	const history = useHistory();
+	let location = useLocation();
+	let background = location.state && location.state.background;
 
 	const ingredientsIDs = []; 
 	useSelector( store => store.burger.ingredients.constructor ).map( (item, index) => {
@@ -35,15 +34,8 @@ function App() {
 		dispatch(isAuth());
 	}
 
-	const [modalVisible, setVisible] = React.useState(false)
+	const [modalVisible, setVisible] = React.useState(false);
 	const [modalChildren, setModalChildren] = React.useState(null);
-
-	function handleUserKeyPress(event) { 
-	  if (event.keyCode === 27) {
-	  	setVisible(false);
-	  	dispatch({type: CLEAN_DETAILED});
-	  }
-	}
 
 	function clickHandle(event) {
 
@@ -65,15 +57,15 @@ function App() {
 		      	type: 'SET_AS_DETAILED',
 	      		arraykey: event.currentTarget.getAttribute('arraykey'),
 		      });
-		      visible = true;
 		      break;
 		    case "order":
-		    // оформляем заказ
+		    	// оформляем заказ
 				  if ( bunChosen ) {
 				  	// sprint #3 - проверить, что юзер авторизован
 				  	if ( isAuthorized ) {
 				  		dispatch(getOrderNumber(ingredientsIDs,ORDER_URL));
 				  		visible = true;
+				  		setVisible(visible);
 				  	} else {
 				  		history.replace({
 				  			pathname: '/login',
@@ -93,61 +85,48 @@ function App() {
 		} else {
 			setModalChildren(null);
 			dispatch({type: CLEAN_DETAILED});
-			if ( window.location.pathname !== '/' ) {
-				window.history.replaceState(null, "Stellar Burgers", "/");
-			} 
 		}
 		setVisible(visible);
-		event.preventDefault();
-	}
-	React.useEffect(
-		() => {
-			window.addEventListener('keydown', handleUserKeyPress);
-	    return () => {
-	      window.removeEventListener('keydown', handleUserKeyPress);
-	    };
+		if ( event.currentTarget.tagName !== 'A' ){
+			event.preventDefault();
 		}
-	,[]
-	);
+	}
 
   return (
   	<>
       <AppHeader />
       <main>
-      		<Switch>
-	      		<Route path="/" exact={true}>
-			      	<Pages.HomePage appStyles={AppStyles} isLoading={isLoading} clickHandle={clickHandle} />
-		        </Route>
-		        <ProtectedRoute path="/login" exact={true} reqauth={false} isAuthorized={isAuthorized}>
-		        	<Pages.LoginPage />
-		        </ProtectedRoute>
-		        <ProtectedRoute path="/register" exact={true} reqauth={false} isAuthorized={isAuthorized}>
-		        	<Pages.RegistrationPage />
-		        </ProtectedRoute>
-		        <ProtectedRoute path="/forgot-password" exact={true} reqauth={false} isAuthorized={isAuthorized}>
-		        	<Pages.PasswordForgotPage />
-		        </ProtectedRoute>
-		        <ProtectedRoute path="/reset-password" exact={true} reqauth={false} isAuthorized={isAuthorized}>
-		        	<Pages.PasswordResetPage />
-		        </ProtectedRoute>
-		        <ProtectedRoute path="/profile" exact={true} reqauth={true} isAuthorized={isAuthorized}>
-		        	<Pages.ProfilePage />
-		        </ProtectedRoute>
-		        <ProtectedRoute path="/profile/orders" exact={true} reqauth={true} isAuthorized={isAuthorized}>
-		        	<Pages.ProfilePage child="orders" />
-		        </ProtectedRoute>
-		        <Route path="/ingredients/:id" exact={true}  >
-		        	<Pages.IngredientPage />
-		        </Route>
-		        <Route>
-		        	<Pages.Page404 />
-		        </Route>
-	        </Switch>
-        { modalVisible && (
-        	<Modal clickHandle={clickHandle}  >
-        		{modalChildren}
-        	</Modal>
-        )}
+    		<Switch location={background || location} >
+      		<Route path="/" exact={true}>
+		      	<Pages.HomePage appStyles={AppStyles} isLoading={isLoading} clickHandle={clickHandle} />
+	        </Route>
+	        <Route path="/ingredients/:id" exact >
+	        	<Pages.IngredientPage />
+	        </Route>
+	       	<ProtectedRoute path="/login" exact={true} reqauth={false} isAuthorized={isAuthorized}>
+	        	<Pages.LoginPage />
+	        </ProtectedRoute>
+	        <ProtectedRoute path="/register" exact={true} reqauth={false} isAuthorized={isAuthorized}>
+	        	<Pages.RegistrationPage />
+	        </ProtectedRoute>
+	        <ProtectedRoute path="/forgot-password" exact={true} reqauth={false} isAuthorized={isAuthorized}>
+	        	<Pages.PasswordForgotPage />
+	        </ProtectedRoute>
+	        <ProtectedRoute path="/reset-password" exact={true} reqauth={false} isAuthorized={isAuthorized}>
+	        	<Pages.PasswordResetPage />
+	        </ProtectedRoute>
+	        <ProtectedRoute path="/profile" exact={true} reqauth={true} isAuthorized={isAuthorized}>
+	        	<Pages.ProfilePage />
+	        </ProtectedRoute>
+	        <ProtectedRoute path="/profile/orders" exact={true} reqauth={true} isAuthorized={isAuthorized}>
+	        	<Pages.ProfilePage child="orders" />
+	        </ProtectedRoute>
+	        <Route>
+	        	<Pages.Page404 />
+	        </Route>
+        </Switch>
+        { modalVisible && <Modal isVisible={modalVisible} clickHandle={clickHandle}>{modalChildren}</Modal> }
+        { background && !modalVisible && <Route path="/ingredients/:id" children={<Modal ><IngredientDetails /></Modal>} /> }
       </main>
    </>
   );

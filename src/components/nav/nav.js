@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, matchPath } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 import { BurgerIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ListIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -20,7 +20,7 @@ function Nav() {
 					<a href="/feed" onClick={ (e) => {e.preventDefault();} } className={[navStyles.text, "ml-2", navStyles.inactive].join(" ")}  >Лента заказов</a>
 				</li>
 			</ul>     
-			<Logo />
+			<Link to="/" className={navStyles.logo}><Logo /></Link>
 			<ul className={[navStyles.notlogged, navStyles.topnav].join(" ")}>
 			  	<li className="mt-4 mb-4 pl-5 pt-4">
 					<span className={navStyles.icon}><ProfileIcon type="primary" /></span>

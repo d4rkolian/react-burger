@@ -1,4 +1,5 @@
 import React, { useState } from 'react'; 
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getIngredients } from '../../services/actions';
 import PropTypes from 'prop-types';
@@ -10,6 +11,8 @@ function BurgerIngredients(props) {
 	const API_URL = 'https://norma.nomoreparties.space/api/ingredients';	
 	const dispatch = useDispatch();
 	const [activeTab, setActiveTab] = useState('buns');
+	let location = useLocation();
+	// console.log(location);
 
 	const { ingLoading, ingredients, apiError } = useSelector( store => ({
 		ingLoading: store.burger.loaders.ingredients,
@@ -65,7 +68,23 @@ function BurgerIngredients(props) {
 					<div className="pl-4">
 						{
 		      		ingredients.map((product,index)=>{
-		      			return product.type === 'bun' ? <Card key={product._id} clickHandle={props.clickHandle} details={{product}} arraykey={index} /> : null
+		      			if ( product.type === 'bun' ){
+		      				return (
+		      					<Link
+		      						key={product._id}
+		      						className={BIStyles.cardwrap}
+		      						onClick={props.clickHandle}
+		      						modaltype="ingredients"
+		      						to={{
+		      							pathname: "/ingredients/"+index,
+		      							state: { background: location }
+		      						}}>
+		      						<Card details={{product}} arraykey={index} />
+		      					</Link>
+		      				);
+		      			} else {
+		      				return null;
+		      			}
 		      		})
 		      	}	
 					</div>
@@ -74,7 +93,23 @@ function BurgerIngredients(props) {
 					<div className="pl-4">
 						{
 		      		ingredients.map((product,index)=>{
-		      			return product.type === 'sauce' ? <Card key={product._id} clickHandle={props.clickHandle} details={{product}} arraykey={index}  /> : null
+		      			if ( product.type === 'sauce' ){
+		      				return (
+		      					<Link
+		      						key={product._id}
+		      						className={BIStyles.cardwrap}
+		      						onClick={props.clickHandle}
+		      						modaltype="ingredients"
+		      						to={{
+		      							pathname: "/ingredients/"+index,
+		      							state: {background: location}
+		      						}}>
+		      						<Card details={{product}} arraykey={index} />
+		      					</Link>
+		      				);
+		      			} else {
+		      				return null;
+		      			}
 		      		})
 		      	}	
 	      	</div>
@@ -83,7 +118,23 @@ function BurgerIngredients(props) {
 					<div className="pl-4">
 						{
 		      		ingredients.map((product,index)=>{
-		      			return product.type === 'main' ? <Card key={product._id} clickHandle={props.clickHandle} details={{product}} arraykey={index}  /> : null
+		      			if ( product.type === 'main' ){
+		      				return (
+		      					<Link
+		      						key={product._id}
+		      						className={BIStyles.cardwrap}
+		      						onClick={props.clickHandle}
+		      						modaltype="ingredients"
+		      						to={{
+		      							pathname: "/ingredients/"+index,
+		      							state: {background: location}
+		      						}}>
+		      						<Card details={{product}} arraykey={index} />
+		      					</Link>
+		      				);
+		      			} else {
+		      				return null;
+		      			}
 		      		})
 		      	}	
 	      	</div>

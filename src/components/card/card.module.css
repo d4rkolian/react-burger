@@ -1,12 +1,7 @@
 .card {
-	overflow: auto;
-	display: inline-block;
+	
 	text-align: center;
 	position: relative;
-}
-
-.card:nth-child(odd){
-	margin-right: 24px;
 }
 
 .badge {

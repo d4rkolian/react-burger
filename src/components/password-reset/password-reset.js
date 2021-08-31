@@ -1,6 +1,6 @@
 import { React, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { passReset } from '../../services/actions/user-details';
 import PagesStyles from '../../pages/page.module.css';
@@ -87,7 +87,7 @@ const PasswordReset = (props) => {
 								)} 
 							</>
 						) : (
-							<p>Нет такого шага восстановления пароля</p>
+							<Redirect to="/" />
 						) }
 					</form>
 					<p className="text text_type_main-default text_color_inactive">Вспомнили пароль? <Link to="/login">Войти</Link></p>
