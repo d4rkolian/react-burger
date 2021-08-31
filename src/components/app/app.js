@@ -125,6 +125,7 @@ function App() {
 	        	<Pages.Page404 />
 	        </Route>
         </Switch>
+        {/* ниже первая строчка - это временная заглушка из "обычной" модалки для номера заказа, перед доработками спринта №4 */}
         { modalVisible && <Modal isVisible={modalVisible} clickHandle={clickHandle}>{modalChildren}</Modal> }
         { background && !modalVisible && <Route path="/ingredients/:id" children={<Modal ><IngredientDetails /></Modal>} /> }
       </main>

@@ -32,7 +32,6 @@ export function passReset(data, step){
 		      	if ( data.success ){
 		      		dispatch({type: PASS_RESET_SUCCESS});
 		      	}
-		      	console.log(data);
 		      })
 		      .catch(e => dispatch({type: PASS_RESET_ERROR}) );
 				break;

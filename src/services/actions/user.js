@@ -129,7 +129,6 @@ export function refreshAccessToken(refreshToken, afterRefresh){
   fetch(TOKEN_ENDPOINT, reqOptions)
   	.then( res => { return res.json() })
   	.then( data => { 
-  		console.log(data);
   		if ( data.success ){
   			const accessToken = data.accessToken.split('Bearer ')[1];
       	const refreshToken = data.refreshToken;

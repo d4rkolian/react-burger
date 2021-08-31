@@ -75,7 +75,6 @@ export function refreshAccessToken(afterrefresh){
 	const data = {
 		token: getCookie('refreshToken'),
 	}
-	console.log(data);
 	const reqOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
