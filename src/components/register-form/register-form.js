@@ -23,7 +23,7 @@ const RegistrationForm = () => {
  		} 
   });
 
-	const userClickHandle = (event) => {
+	const submitHandle = (event) => {
 		event.preventDefault();
 		if ( state.notReady ) {
 			setState({
@@ -57,12 +57,12 @@ const RegistrationForm = () => {
 	return (
 		<div className={PagesStyles.emptypagewrapper}>
 			<div className={PagesStyles.formcontainer}>
-				<form id="registrationform">
+				<form id="registrationform" onSubmit={submitHandle}>
 					<h1 className="text text_type_main-medium mb-6">Регистрация</h1>
 					<div className={[PagesStyles.inputcontainer, "mb-6"].join(" ")}><Input placeholder="Имя" name="name" value={state.user.name} onChange={changeHandle} /></div>
 					<div className={[PagesStyles.inputcontainer, "mb-6"].join(" ")}><Input type="email" name="email" placeholder="Email" value={state.user.email} onChange={changeHandle} /></div>
 					<div className={[PagesStyles.inputcontainer, "mb-6"].join(" ")}><PasswordInput name="password" value={state.user.password} onChange={changeHandle} /></div>
-					<Button type="primary" size="large" onClick={userClickHandle}>{ !isCreating ? (<span>Зарегистрироваться</span>) : (<span>Подождите, выполняем запрос</span>) }</Button>
+					<Button type="primary" size="large" >{ !isCreating ? (<span>Зарегистрироваться</span>) : (<span>Подождите, выполняем запрос</span>) }</Button>
 					{ state.noticeShown && (
 						<p className="text text_type_main-small text_type_main-default text_color_inactive mt-2">Все поля формы обязательны для заполнения</p>
 					)} 

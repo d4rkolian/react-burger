@@ -104,22 +104,22 @@ function App() {
 	        <Route path="/ingredients/:id" exact >
 	        	<Pages.IngredientPage />
 	        </Route>
-	       	<ProtectedRoute path="/login" exact={true} reqauth={false} isAuthorized={isAuthorized}>
+	       	<ProtectedRoute path="/login" exact reqauth={false} isAuthorized={isAuthorized}>
 	        	<Pages.LoginPage />
 	        </ProtectedRoute>
-	        <ProtectedRoute path="/register" exact={true} reqauth={false} isAuthorized={isAuthorized}>
+	        <ProtectedRoute path="/register" exact reqauth={false} isAuthorized={isAuthorized}>
 	        	<Pages.RegistrationPage />
 	        </ProtectedRoute>
-	        <ProtectedRoute path="/forgot-password" exact={true} reqauth={false} isAuthorized={isAuthorized}>
+	        <ProtectedRoute path="/forgot-password" exact reqauth={false} isAuthorized={isAuthorized}>
 	        	<Pages.PasswordForgotPage />
 	        </ProtectedRoute>
-	        <ProtectedRoute path="/reset-password" exact={true} reqauth={false} isAuthorized={isAuthorized}>
+	        <ProtectedRoute path="/reset-password" exact reqauth={false} isAuthorized={isAuthorized}>
 	        	<Pages.PasswordResetPage />
 	        </ProtectedRoute>
-	        <ProtectedRoute path="/profile" exact={true} reqauth={true} isAuthorized={isAuthorized}>
+	        <ProtectedRoute path="/profile" exact reqauth={true} isAuthorized={isAuthorized}>
 	        	<Pages.ProfilePage />
 	        </ProtectedRoute>
-	        <ProtectedRoute path="/profile/orders" exact={true} reqauth={true} isAuthorized={isAuthorized}>
+	        <ProtectedRoute path="/profile/orders" exact reqauth={true} isAuthorized={isAuthorized}>
 	        	<Pages.ProfilePage child="orders" />
 	        </ProtectedRoute>
 	        <Route>

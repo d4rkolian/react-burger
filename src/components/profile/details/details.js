@@ -126,7 +126,7 @@ export const ProfileDetails = () => {
 		<>
 			<section className={sectionClassName}>
 				{ isLoaded && (
-						<>
+						<form onSubmit={userUpdate}>
 							<div className={[Styles.fieldcontainer, "mb-6"].join(" ")}>
 								<Input type="text" placeholder="Имя" value={!state.name.editable ? user.name : state.name.value} name="name" ref={nameRef} onChange={changeHandle} disabled />
 								<div className={Styles.iconwrap} onClick={fieldEnable} for="name">
@@ -145,11 +145,11 @@ export const ProfileDetails = () => {
 									<div className={[Styles.cancel, "mr-5"].join(" ")} onClick={cancelChanges}>
 										Отмена
 									</div>
-									<Button type="primary" onClick={userUpdate}>{ !isUpdating ? (<span>Сохранить</span>) : (<span>Обновляем данные</span>) }</Button>
+									<Button type="primary">{ !isUpdating ? (<span>Сохранить</span>) : (<span>Обновляем данные</span>) }</Button>
 								</div>
 							) : null}
 							
-						</>
+						</form>
 					)}
 				{ isLoading && ( <span>Ожидаем ответ сервера&nbsp;<span id="wait"></span></span> ) }
 				

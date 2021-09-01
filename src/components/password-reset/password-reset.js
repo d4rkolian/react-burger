@@ -18,7 +18,6 @@ const PasswordReset = (props) => {
 		password: '',
 		token: '',
   })
-
   
   const { isPasswordRequested, stepTwoAllowed, isPasswordReset } = useSelector( store => ({
   	isPasswordRequested: {
@@ -29,8 +28,13 @@ const PasswordReset = (props) => {
   	isPasswordReset: store.userDetails.isPasswordReset,
   }));
 
-  if ( stepTwoAllowed ){ history.push({ pathname: '/reset-password' }); } 
-  if ( isPasswordReset ){ history.push({ pathname: '/login' }); }
+  if ( stepTwoAllowed && props.step !== 'second' ) {
+  	return <Redirect to="/reset-password" />;
+  }
+  if ( isPasswordReset ){
+  	return <Redirect to="/login" />;
+  	//history.push({ pathname: '/login' }); return true;
+  }
 
 	// TODO объединить попробовать
   const changeHandle = (event) => {
@@ -48,7 +52,7 @@ const PasswordReset = (props) => {
 	} 
 
 	// TODO тоже попробовать объединить
-	const userClickHandle = (event) => {
+	const submitHandle = (event) => {
 		event.preventDefault();
 		if ( state.notReady ) {
 			setState({
@@ -67,12 +71,12 @@ const PasswordReset = (props) => {
 	return (
 			<div className={PagesStyles.emptypagewrapper}>
 				<div className={PagesStyles.formcontainer}>
-					<form>
+					<form onSubmit={submitHandle}>
 						<h1 className="text text_type_main-medium mb-6">Восстановление пароля</h1>
 						{ props.step && props.step === 'first' ? (
 							<>
 								<div className={[PagesStyles.inputcontainer, "mb-6"].join(" ")}><Input type="email" value={state.email} onChange={changeHandle} name="email" placeholder="Укажите email" /></div>
-								<Link to="/reset-password"><Button type="primary" onClick={userClickHandle} >{ !isPasswordRequested.step1 ? (<span>Восстановить</span>) : (<span>Ждем ответ сервера</span>) }</Button></Link>
+								<Button type="primary" >{ !isPasswordRequested.step1 ? (<span>Восстановить</span>) : (<span>Ждем ответ сервера</span>) }</Button>
 								{ state.noticeShown && (
 									<p className="text text_type_main-small text_type_main-default text_color_inactive mt-2">Введите email</p>
 								)} 
@@ -81,7 +85,7 @@ const PasswordReset = (props) => {
 							<>
 								<div className={[PagesStyles.inputcontainer, "mb-6"].join(" ")}><PasswordInput type="password" name="password" onChange={changeHandle} value={state.password} placeholder="Введите новый пароль" /></div>
 								<div className={[PagesStyles.inputcontainer, "mb-6"].join(" ")}><Input type="text" placeholder="Введите код из письма" name="token" onChange={changeHandle} value={state.token} /></div>
-								<Link to="/"><Button type="primary" onClick={userClickHandle} >{ !isPasswordRequested.step2 ? (<span>Сохранить</span>) : (<span>Ждем ответ сервера</span>) }</Button></Link>
+								<Button type="primary" >{ !isPasswordRequested.step2 ? (<span>Сохранить</span>) : (<span>Ждем ответ сервера</span>) }</Button>
 								{ state.noticeShown && (
 									<p className="text text_type_main-small text_type_main-default text_color_inactive mt-2">Введите новый пароль</p>
 								)} 

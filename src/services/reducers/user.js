@@ -32,6 +32,7 @@ export const userReducer = (state = initialState, action) => {
 			return {
 				...state,
 				isCreating: false,
+				isAuthorized: true,
 			}
 		}
 		case USER_REGISTRATION_ERROR: {

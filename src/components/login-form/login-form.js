@@ -50,7 +50,7 @@ const LoginForm = () => {
 	} 
 
 	// TODO тоже попробовать объединить
-	const userClickHandle = (event) => {
+	const submitHandle = (event) => {
 		event.preventDefault();
 		if ( state.notReady ) {
 			setState({
@@ -70,11 +70,11 @@ const LoginForm = () => {
 	return (
 		<div className={PagesStyles.emptypagewrapper}>
 			<div className={PagesStyles.formcontainer}>
-				<form>
+				<form onSubmit={submitHandle}>
 					<h1 className="text text_type_main-medium mb-6">Вход</h1>
 					<div className={[PagesStyles.inputcontainer, "mb-6"].join(" ")}><Input type="email" placeholder="Email" name="email" onChange={changeHandle} value={state.user.email} /></div>
 					<div className={[PagesStyles.inputcontainer, "mb-6"].join(" ")}><PasswordInput name="password" onChange={changeHandle} value={state.user.password} /></div>
-					<Button type="primary" size="large" onClick={userClickHandle} >{ !isAuthorizing ? (<span>Войти</span>) : (<span>Ожидаем ответ сервера</span>) }</Button>
+					<Button type="primary" size="large" >{ !isAuthorizing ? (<span>Войти</span>) : (<span>Ожидаем ответ сервера</span>) }</Button>
 					{ state.noticeShown && (
 						<p className="text text_type_main-small text_type_main-default text_color_inactive mt-2">Введите email и пароль</p>
 					)}
