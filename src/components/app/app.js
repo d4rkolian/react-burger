@@ -17,7 +17,8 @@ function App() {
 	const dispatch = useDispatch();	
 	const history = useHistory();
 	let location = useLocation();
-	let background = location.state && location.state.background;
+	// let background = location.state && location.state.background;
+	const background = (history.action === 'PUSH' || history.action === 'REPLACE') && location.state && location.state.background;
 
 	const ingredientsIDs = []; 
 	useSelector( store => store.burger.ingredients.constructor ).map( (item, index) => {
