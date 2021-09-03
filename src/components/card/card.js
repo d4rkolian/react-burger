@@ -27,9 +27,9 @@ function Card(props) {
 	return(
 			<div
 				className={[CardStyles.card, "mb-10"].join(" ")}
-				onClick={props.clickHandle}
+				
 				product={product}
-				modaltype="ingredients"
+				
 				ingtype={props.details.product.type}
 				ref={dragRef}
 				draggable
@@ -60,7 +60,7 @@ Card.propTypes = {
     __v: PropTypes.number.isRequired,
 	  })
   }).isRequired,
-	clickHandle: PropTypes.func.isRequired,
+	clickHandle: PropTypes.func,
 	arraykey: PropTypes.number.isRequired,
 }
 

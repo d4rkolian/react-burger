@@ -13,6 +13,17 @@ h2 { font-size: 24px; }
 	overflow-x: hidden;
 }
 
+.cardwrap {
+	color: #fff !important;
+	text-decoration: none;
+	overflow: auto;
+	display: inline-block;
+}
+
+.cardwrap:nth-child(odd){
+	margin-right: 24px;
+}
+
 .ingList::-webkit-scrollbar {
   width: 8px;
 }

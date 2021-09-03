@@ -1,0 +1,10 @@
+/* styles specific for profile */
+
+.profilecontainer {
+	margin-top:  208px;
+	min-height: 320px;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	position: relative;
+}

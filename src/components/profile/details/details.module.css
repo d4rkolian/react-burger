@@ -1,0 +1,43 @@
+/* profile details styles */
+
+.details {
+	width:  320px;
+}
+
+.details.empty {
+	line-height: 320px;
+}
+
+.fieldcontainer {
+	position: relative;
+}
+
+.iconwrap {
+	width: 24px;
+	height: 24px;
+	position: absolute;
+	z-index: 2;
+	top: 20px;
+	right:  25px;
+	cursor: pointer;
+}
+
+.buttons {
+	display: flex;
+	justify-content: flex-end;
+	line-height: 36px;
+}
+
+.buttons .cancel {
+	height: 56px;
+	line-height: 36px;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+}
+
+.notice {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+}

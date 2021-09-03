@@ -1,44 +1,41 @@
 import React from 'react';
-
-// импортируем все, что связано с App
-import AppHeader from '../app-header/app-header';
-import AppStyles from './app.module.css';
-
-// импортируем все, что связано с drag and drop
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-
-// импортируем другие компоненты
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
+import { useSelector, useDispatch } from 'react-redux';
+import { Route, Switch, useHistory, useLocation, useParams } from 'react-router-dom';
+import * as Pages from '../../pages'; 
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
+import ProtectedRoute from '../protected-route/protected-route';
+import AppHeader from '../app-header/app-header';
 import Modal from '../modal/modal';
-
-import { useSelector, useDispatch } from 'react-redux';
-import {
-		GET_ORDER_NUMBER_REQUEST,
-		GET_ORDER_NUMBER_SUCCESS,
-		GET_ORDER_NUMBER_ERROR,
-		CLEAN_DETAILED,
-		DELETE_FROM_CONSTRUCTOR,
-		TURN_ON_NOTICE, getOrderNumber } from '../../services/actions';
+import { CLEAN_DETAILED, DELETE_FROM_CONSTRUCTOR, TURN_ON_NOTICE, getOrderNumber } from '../../services/actions';
+import { isAuth } from '../../services/actions/user';
+import AppStyles from './app.module.css';
 
 function App() {
 
 	const ORDER_URL = 'https://norma.nomoreparties.space/api/orders';
-	const dispatch = useDispatch();
+	const dispatch = useDispatch();	
+	const history = useHistory();
+	let location = useLocation();
+	// let background = location.state && location.state.background;
+	const background = (history.action === 'PUSH' || history.action === 'REPLACE') && location.state && location.state.background;
+
 	const ingredientsIDs = []; 
 	useSelector( store => store.burger.ingredients.constructor ).map( (item, index) => {
 		return ingredientsIDs.push(item._id);
 	});
-
-	const {isLoading, bunChosen} = useSelector( store => ({
+	const { isLoading, bunChosen, isAuthorized } = useSelector( store => ({
 		isLoading: store.burger.loaders.ingredients,
-		bunChosen: store.burger.ingredients.bunChosen
+		bunChosen: store.burger.ingredients.bunChosen,
+		isAuthorized: store.user.isAuthorized,
 	}));
 
-	const [modalVisible, setVisible] = React.useState(false)
+	if ( !isAuthorized ) {
+		// если в хранилище нет флага об авторизации - проверить, возможно стоит кука
+		dispatch(isAuth());
+	}
+
+	const [modalVisible, setVisible] = React.useState(false);
 	const [modalChildren, setModalChildren] = React.useState(null);
 
 	function clickHandle(event) {
@@ -56,18 +53,26 @@ function App() {
 			let component = null;
 		  switch( event.currentTarget.getAttribute('modaltype') ) {
 		    case "ingredients":		      
-		      component = <IngredientDetails />;
+		      component = <IngredientDetails id={event.currentTarget.getAttribute('arraykey')} />;
 		      dispatch({
 		      	type: 'SET_AS_DETAILED',
 	      		arraykey: event.currentTarget.getAttribute('arraykey'),
 		      });
-		      visible = true;
 		      break;
 		    case "order":
-		    // получаем номер заказа
+		    	// оформляем заказ
 				  if ( bunChosen ) {
-				  	dispatch(getOrderNumber(ingredientsIDs,ORDER_URL));
-				  	visible = true;
+				  	// sprint #3 - проверить, что юзер авторизован
+				  	if ( isAuthorized ) {
+				  		dispatch(getOrderNumber(ingredientsIDs,ORDER_URL));
+				  		visible = true;
+				  		setVisible(visible);
+				  	} else {
+				  		history.replace({
+				  			pathname: '/login',
+				  			state: { from : '/' }
+				  		});
+				  	}
 				  } else {
 				  	dispatch({type: TURN_ON_NOTICE});
 				  	break;
@@ -83,42 +88,49 @@ function App() {
 			dispatch({type: CLEAN_DETAILED});
 		}
 		setVisible(visible);
-		event.preventDefault();
-	}
-
-	function handleUserKeyPress(event) { 
-	  if (event.keyCode === 27) {
-	  	setVisible(false);
-	  	dispatch({type: CLEAN_DETAILED});
-	  }
-	}
-
-	React.useEffect(
-		() => {
-			window.addEventListener('keydown', handleUserKeyPress);
-	    return () => {
-	      window.removeEventListener('keydown', handleUserKeyPress);
-	    };
+		if ( event.currentTarget.tagName !== 'A' ){
+			event.preventDefault();
 		}
-	,[]
-	);
+	}
 
   return (
-    <>
+  	<>
       <AppHeader />
       <main>
-      	<DndProvider backend={HTML5Backend}>
-        	<BurgerIngredients appStyles={AppStyles} isLoading={isLoading} clickHandle={clickHandle} />
-        	<BurgerConstructor appStyles={AppStyles} clickHandle={clickHandle}  />
-        </DndProvider>
-
-        { modalVisible && (
-        	<Modal clickHandle={clickHandle}  >
-        		{modalChildren}
-        	</Modal>
-        )}
+    		<Switch location={background || location} >
+      		<Route path="/" exact={true}>
+		      	<Pages.HomePage appStyles={AppStyles} isLoading={isLoading} clickHandle={clickHandle} />
+	        </Route>
+	        <Route path="/ingredients/:id" exact >
+	        	<Pages.IngredientPage />
+	        </Route>
+	       	<ProtectedRoute path="/login" exact reqauth={false} isAuthorized={isAuthorized}>
+	        	<Pages.LoginPage />
+	        </ProtectedRoute>
+	        <ProtectedRoute path="/register" exact reqauth={false} isAuthorized={isAuthorized}>
+	        	<Pages.RegistrationPage />
+	        </ProtectedRoute>
+	        <ProtectedRoute path="/forgot-password" exact reqauth={false} isAuthorized={isAuthorized}>
+	        	<Pages.PasswordForgotPage />
+	        </ProtectedRoute>
+	        <ProtectedRoute path="/reset-password" exact reqauth={false} isAuthorized={isAuthorized}>
+	        	<Pages.PasswordResetPage />
+	        </ProtectedRoute>
+	        <ProtectedRoute path="/profile" exact reqauth={true} isAuthorized={isAuthorized}>
+	        	<Pages.ProfilePage />
+	        </ProtectedRoute>
+	        <ProtectedRoute path="/profile/orders" exact reqauth={true} isAuthorized={isAuthorized}>
+	        	<Pages.ProfilePage child="orders" />
+	        </ProtectedRoute>
+	        <Route>
+	        	<Pages.Page404 />
+	        </Route>
+        </Switch>
+        {/* ниже первая строчка - это временная заглушка из "обычной" модалки для номера заказа, перед доработками спринта №4 */}
+        { modalVisible && <Modal isVisible={modalVisible} clickHandle={clickHandle}>{modalChildren}</Modal> }
+        { background && !modalVisible && <Route path="/ingredients/:id" children={<Modal ><IngredientDetails /></Modal>} /> }
       </main>
-    </>
+   </>
   );
 }
 
