@@ -1,7 +1,8 @@
 import React from 'react';
+import { OrderCard } from '../../order-card/order-card';
 
 export const OrdersList = () => {
 	return (
-		<p>Заглушка для списка заказов</p>
+		<OrderCard mode="profile" />
 	);
 }

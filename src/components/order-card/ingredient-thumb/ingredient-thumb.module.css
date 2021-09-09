@@ -1,0 +1,34 @@
+/* css for thumb */
+.overwrap {
+	position: relative;
+}
+
+.restcount {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+}
+
+.thumbwrap {
+	background: linear-gradient(to right, #801AB2, #4C4CFF);
+	padding: 2px;
+	width: 64px;
+	height: 64px;
+	border-radius: 32px;
+	box-sizing: border-box;
+}
+.thumb {
+	background-color: #131316;
+	width: 60px;
+	height: 60px;
+	border-radius: 30px;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 80%;
+}
+
+.rest {
+	opacity: 30%;
+}
+

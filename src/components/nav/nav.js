@@ -16,8 +16,8 @@ function Nav() {
 					<NavLink to="/" className={[navStyles.text, "ml-2"].join(" ")} activeClassName={navStyles.active} exact={true} >Конструктор</NavLink>
 				</li>
 				<li className="mt-4 mb-4 pl-5 pr-5 pt-4">
-					<span className={navStyles.icon}><ListIcon type="secondary" /></span>
-					<a href="/feed" onClick={ (e) => {e.preventDefault();} } className={[navStyles.text, "ml-2", navStyles.inactive].join(" ")}  >Лента заказов</a>
+					<span className={navStyles.icon}><ListIcon type="primary" /></span>
+					<NavLink to="/feed" className={[navStyles.text, "ml-2"].join(" ")} activeClassName={navStyles.active} exact={true} >Лента заказов</NavLink>
 				</li>
 			</ul>     
 			<Link to="/" className={navStyles.logo}><Logo /></Link>

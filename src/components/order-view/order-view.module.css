@@ -1,0 +1,57 @@
+/* css */
+.order {
+	width: 640px;
+	height: 620px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+}
+
+.innerwrap {
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+
+.number {
+	font-size: 28px;
+	font-family: Iceland;
+	text-align: center;
+}
+
+.name, .subheader {
+	font-size: 24px;
+}
+
+.ready {
+	color: #00CCCC;
+}
+
+.listwrap {
+	max-height: 312px;
+	overflow-x:  hidden;
+	overflow-y:  scroll;
+}
+
+.list {
+	display: flex;
+	flex-direction: column;
+	gap:  16px;
+}
+
+.details {
+	height: 24px;
+	width: 100%;
+	line-height: 24px;
+	display: flex;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	justify-content: space-between;
+}
+
+.ttl {
+	display: flex;
+	align-items: center;
+}

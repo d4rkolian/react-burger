@@ -122,6 +122,12 @@ function App() {
 	        <ProtectedRoute path="/profile/orders" exact reqauth={true} isAuthorized={isAuthorized}>
 	        	<Pages.ProfilePage child="orders" />
 	        </ProtectedRoute>
+	        <Route path="/feed" exact >
+	        	<Pages.FeedPage />
+	        </Route>
+	        <Route path="/feed/:id" exact >
+	        	<Pages.OrderPage appStyles={AppStyles} />
+	        </Route>
 	        <Route>
 	        	<Pages.Page404 />
 	        </Route>
