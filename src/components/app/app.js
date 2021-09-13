@@ -141,6 +141,7 @@ function App() {
         { modalVisible && <Modal isVisible={modalVisible} clickHandle={clickHandle}>{modalChildren}</Modal> }
         { background && !modalVisible && <Route path="/ingredients/:id" children={<Modal ><IngredientDetails /></Modal>} /> }
         { background && !modalVisible && <Route path="/feed/:id" exact children={<Modal ><OrderView appStyles={AppStyles} /></Modal>} /> }
+        { background && !modalVisible && <Route path="/profile/orders/:id" exact children={<Modal ><OrderView appStyles={AppStyles} /></Modal>} /> }
       </main>
    </>
   );

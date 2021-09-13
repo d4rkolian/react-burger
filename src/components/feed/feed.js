@@ -17,7 +17,7 @@ export const Feed = () => {
 		total: store.socket.count.total,
 		totalToday: store.socket.count.totalToday,
 		orders: store.socket.orders,
-		ingredients: store.burger.ingredients.all
+		ingredients: store.burger.ingredients.all,
 	}));
 
 	const ready = [];
@@ -30,6 +30,9 @@ export const Feed = () => {
       // получаем ингредиенты, если обновили страницу и redux сбросился
       if ( ingredients.length === 0 ){
 				dispatch( getIngredients() );
+			}
+			return () => {
+				dispatch({ type: 'WS_CONNECTION_CLOSE' });
 			}
     },
     []

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { getIngredients } from '../../services/actions';
+import React from 'react';
+import moment from 'moment';
 import Styles from './order-card.module.css';
 import { IngredientThumb } from './ingredient-thumb/ingredient-thumb';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';

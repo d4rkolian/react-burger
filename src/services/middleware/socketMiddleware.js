@@ -10,7 +10,6 @@ export const socketMiddleware = (wsUrl) => {
       const { type, payload } = action;
 
       if (type === 'WS_CONNECTION_START') {
-        // объект класса WebSocket
         const endpointQuery = ( payload && payload.type && payload.type === 'user' ) ? '?token='+payload.token : '/all';
         socket = new WebSocket(wsUrl+endpointQuery);
       }

@@ -10,7 +10,6 @@ import {
 const initialState = {
 	isConnecting: false,
 	connected: false,
-	connectedWithToken: false,
 	orders: [],
 	count: {
 		total: 0,
@@ -29,11 +28,10 @@ export const socketReducer = (state = initialState, action) => {
 			}
 		}
 		case WS_CONNECTION_SUCCESS: {
-			const stateField = action.payload.type && action.payload.type === 'user' ? 'connectedWithToken' : 'connected';
 			return {
 				...state,
 				isConnecting: initialState.isConnecting,
-				[stateField]: true,
+				connected: true,
 				error: initialState.error,
 			};
 		}

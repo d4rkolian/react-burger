@@ -3,6 +3,7 @@
 	width: 640px;
 	height: 620px;
 	margin: auto;
+	padding: 24px;
 }
 
 .absolute {
@@ -21,6 +22,10 @@
 .number {
 	font-size: 28px;
 	font-family: Iceland;
+	text-align: left;
+}
+
+.absolute .number {
 	text-align: center;
 }
 
@@ -37,7 +42,6 @@
 .listwrap {
 	max-height: 312px;
 	overflow-x:  hidden;
-	overflow-y:  scroll;
 }
 
 .list {

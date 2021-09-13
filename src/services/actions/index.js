@@ -23,11 +23,11 @@ export function getOrderNumber(ingredientsIDs) {
     const accessToken = getCookie('token');
     const reqOptions = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        'ingredients': ingredientsIDs,
+      headers: {
+        'Content-Type': 'application/json',
         Authorization: 'Bearer '+accessToken,
-      })
+      },
+      body: JSON.stringify({ 'ingredients': ingredientsIDs })
     };
     fetch(ORDER_URL, reqOptions)
       .then(res => {

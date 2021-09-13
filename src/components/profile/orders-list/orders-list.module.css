@@ -1,0 +1,11 @@
+/* css */
+
+.wrapper {
+	display: flex;
+	flex-direction: column;
+}
+
+.link {
+	color: #fff;
+	text-decoration: none;
+}
