@@ -19,7 +19,6 @@ export const OrdersList = () => {
 		() => {
 			if ( !connected ){ dispatch({ type: 'WS_CONNECTION_START', payload: { type: 'user', token: getCookie('token') } }); }
 			return () => {
-				console.log('отмонтировались');
 				dispatch({ type: 'WS_CONNECTION_CLOSE' });
 			}
 		},[]
@@ -28,7 +27,7 @@ export const OrdersList = () => {
 	return (
 		<div className={Styles.wrapper}>
 		{ 
-			orders.length > 0 && orders.map( (order,index) => {
+			orders.length > 0 && orders.slice(0).reverse().map( (order,index) => {
 				return (<Link to={{ pathname: '/profile/orders/'+order.number, state: {background: location} }} className={Styles.link}><OrderCard key={index} order={order} ingredients={ingredients} mode="profile" /></Link>);
 			})
 		}

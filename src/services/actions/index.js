@@ -19,6 +19,7 @@ export const MOVE_CONSTRUCTOR = 'MOVE_CONSTRUCTOR';
 
 export function getOrderNumber(ingredientsIDs) {
   return function(dispatch) {
+    console.log(ingredientsIDs);
     dispatch({type: GET_ORDER_NUMBER_REQUEST});
     const accessToken = getCookie('token');
     const reqOptions = {

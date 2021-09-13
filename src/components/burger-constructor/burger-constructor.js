@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch }  from 'react-redux';
 import { MOVE_TO_CONSTRUCTOR } from '../../services/actions';
 import { useDrop } from "react-dnd";
+import { numberWithSpaces } from '../../utils'; 
 
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -76,7 +77,7 @@ const BurgerConstructor = (props) => {
 
 		    <div className={[BGStyles.total, "mt-10"].join(" ")}>
 		    	<p className={[BGStyles.summ,"mr-10"].join(" ")}>
-		    		<span className={BGStyles.text}>{summ}</span>
+		    		<span className={BGStyles.text}>{numberWithSpaces(summ)}</span>
 		    		<span className={BGStyles.icon}><CurrencyIcon /></span>
 		    	</p>
 		    	<Button type="primary" onClick={ (e) => formRef.current.requestSubmit() } size="large" modaltype="order">

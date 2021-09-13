@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Route, Switch, useHistory, useLocation, useParams } from 'react-router-dom';
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import * as Pages from '../../pages'; 
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { OrderView } from '../order-view/order-view';
@@ -22,6 +22,7 @@ function App() {
 
 	const ingredientsIDs = []; 
 	useSelector( store => store.burger.ingredients.constructor ).map( (item, index) => {
+		if ( item.type === 'bun' ) { ingredientsIDs.push(item._id); } // дополнительная булочка
 		return ingredientsIDs.push(item._id);
 	});
 	const { isLoading, bunChosen, isAuthorized } = useSelector( store => ({
@@ -133,6 +134,9 @@ function App() {
 	        <Route path="/feed/:id" exact >
 	        	<Pages.OrderPage appStyles={AppStyles} />
 	        </Route>
+	        <ProtectedRoute path="/profile/orders/:id" exact reqauth={true} isAuthorized={isAuthorized}>
+	        	<Pages.OrderPage appStyles={AppStyles} />
+	        </ProtectedRoute>
 	        <Route>
 	        	<Pages.Page404 />
 	        </Route>

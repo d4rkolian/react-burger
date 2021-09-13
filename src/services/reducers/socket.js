@@ -43,7 +43,7 @@ export const socketReducer = (state = initialState, action) => {
 			}
 		}
 		case WS_GET_MESSAGE: {
-			console.log('пришла инфа по сокету');
+			console.log('new socket message');
 			return {
 				...state,
 				orders: action.payload.orders.slice(0,12),

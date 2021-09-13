@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom'; 
+import moment from 'moment';
+import 'moment/locale/ru';
 import { getOrderByNumber, getIngredients } from '../../services/actions';
 import { numberWithSpaces } from '../../utils'; 
 import { IngredientInline } from './ingredient-inline/ingredient-inline';
@@ -9,6 +11,7 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 
 export const OrderView = (props) => {
 
+	moment.locale('ru');
 	const { order, ingredients, loading } = useSelector( store => ({
 		order: store.burger.currentOrder,
 		ingredients: store.burger.ingredients.all,
@@ -35,8 +38,6 @@ export const OrderView = (props) => {
 	);
 
 	const statusText = order.status === 'done' ? 'Выполнен' : 'В процессе';
-	const createdAt = new Date(order.createdAt);
-	const datetime = createdAt.toDateString();
 
 	const ingredientsList = {};
 	let ingredientsHashes = [];
@@ -86,7 +87,7 @@ export const OrderView = (props) => {
 								</ul>
 							</div>
 							<div className={Styles.details}>
-								<div>{datetime}</div>
+								<div>{moment(order.createdAt).calendar()}</div>
 								<div className={Styles.ttl}>{numberWithSpaces(sum)}&nbsp;<CurrencyIcon /></div>
 							</div>
 						</>

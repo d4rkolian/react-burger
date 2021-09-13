@@ -12,12 +12,11 @@ export const Feed = () => {
 
 	const dispatch = useDispatch();
 	let location = useLocation();
-	const { connected, total, totalToday, orders, ingredients } = useSelector( store => ({
+	const { connected, total, totalToday, orders } = useSelector( store => ({
 		connected: store.socket.connected,
 		total: store.socket.count.total,
 		totalToday: store.socket.count.totalToday,
 		orders: store.socket.orders,
-		ingredients: store.burger.ingredients.all,
 	}));
 
 	const ready = [];
@@ -27,10 +26,6 @@ export const Feed = () => {
     () => {
     	// закрываем старое соединение
       if (!connected) { dispatch({ type: WS_CONNECTION_START }); }
-      // получаем ингредиенты, если обновили страницу и redux сбросился
-      if ( ingredients.length === 0 ){
-				dispatch( getIngredients() );
-			}
 			return () => {
 				dispatch({ type: 'WS_CONNECTION_CLOSE' });
 			}
@@ -59,7 +54,7 @@ export const Feed = () => {
 		      							state: {background: location}
 		      						}}
 											className={Styles.cardlink} >
-											<OrderCard order={order} ingredients={ingredients} />
+											<OrderCard order={order} />
 										</Link>
 									</li>);
 								})
