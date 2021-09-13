@@ -79,7 +79,7 @@ export function isAuth() {
 		
 		if ( accessToken && accessToken !== '' ){
 			// есть accessToken
-			dispatch({ type: AUTH_BY_TOKEN});
+			dispatch({ type: AUTH_BY_TOKEN });
 		} else if ( refreshToken && refreshToken !== '' ){
 			// accessToken нет, но есть refreshToken, чтобы получить новый
 			refreshAccessToken(refreshToken, isAuth);

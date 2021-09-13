@@ -15,8 +15,7 @@ function IngredientDetails(props) {
 
 	useEffect(() => {
 		if ( products.length === 0 ){
-			const API_URL = 'https://norma.nomoreparties.space/api/ingredients';
-			dispatch(getIngredients(API_URL));
+			dispatch(getIngredients());
 		}
 	},[]);
 

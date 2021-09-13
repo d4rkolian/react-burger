@@ -4,6 +4,8 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import { compose, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import { socketMiddleware } from './services/middleware/socketMiddleware.js';
+import { WS_URL } from './utils/endpoints';
 
 import { Provider } from 'react-redux';
 import { rootReducer } from './services/reducers';
@@ -13,7 +15,7 @@ import App from './components/app/app';
 import reportWebVitals from './reportWebVitals';
 
 const composeEnhancers = typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({}) : compose; 
-const enhancer = composeEnhancers(applyMiddleware(thunk));
+const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(WS_URL)));
 const store = createStore(rootReducer, enhancer);
 
 ReactDOM.render(

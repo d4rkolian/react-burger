@@ -7,12 +7,10 @@ import Card from '../card/card';
 import BIStyles from './burger-ingredients.module.css';
 
 function BurgerIngredients(props) {
-
-	const API_URL = 'https://norma.nomoreparties.space/api/ingredients';	
+	
 	const dispatch = useDispatch();
 	const [activeTab, setActiveTab] = useState('buns');
 	let location = useLocation();
-	// console.log(location);
 
 	const { ingLoading, ingredients, apiError } = useSelector( store => ({
 		ingLoading: store.burger.loaders.ingredients,
@@ -22,7 +20,7 @@ function BurgerIngredients(props) {
 
 	// получаем данные по ингредиентам от API
 	React.useEffect(() => {
- 		dispatch(getIngredients(API_URL));
+ 		dispatch(getIngredients());
 	},[]);
 
 	// работаем со скроллом и табами внутри контейнера ингредиентов

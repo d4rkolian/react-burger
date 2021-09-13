@@ -1,3 +1,6 @@
+import { API_URL, ORDER_URL } from '../../utils/endpoints';
+import { getCookie } from '../../utils'; 
+
 export const MOVE_TO_CONSTRUCTOR = 'MOVE_TO_CONSTRUCTOR';
 export const LOAD_INGREDIENTS_REQUEST = 'LOAD_INGREDIENTS_REQUEST';
 export const LOAD_INGREDIENTS_SUCCESS = 'LOAD_INGREDIENTS_SUCCESS';
@@ -7,18 +10,23 @@ export const CLEAN_DETAILED = 'CLEAN_DETAILED';
 export const GET_ORDER_NUMBER_REQUEST = 'GET_ORDER_NUMBER_REQUEST';
 export const GET_ORDER_NUMBER_SUCCESS = 'GET_ORDER_NUMBER_SUCCESS';
 export const GET_ORDER_NUMBER_ERROR = 'GET_ORDER_NUMBER_ERROR';
+export const GET_ORDER_BY_NUMBER_REQUEST = 'GET_ORDER_BY_NUMBER_REQUEST';
+export const GET_ORDER_BY_NUMBER_SUCCESS = 'GET_ORDER_BY_NUMBER_SUCCESS';
+export const GET_ORDER_BY_NUMBER_ERROR = 'GET_ORDER_BY_NUMBER_ERROR';
 export const TURN_ON_NOTICE = 'TURN_ON_NOTICE';
 export const DELETE_FROM_CONSTRUCTOR = 'DELETE_FROM_CONSTRUCTOR';
 export const MOVE_CONSTRUCTOR = 'MOVE_CONSTRUCTOR';
 
-export function getOrderNumber(ingredientsIDs, ORDER_URL) {
+export function getOrderNumber(ingredientsIDs) {
   return function(dispatch) {
     dispatch({type: GET_ORDER_NUMBER_REQUEST});
+    const accessToken = getCookie('token');
     const reqOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        'ingredients': ingredientsIDs
+        'ingredients': ingredientsIDs,
+        Authorization: 'Bearer '+accessToken,
       })
     };
     fetch(ORDER_URL, reqOptions)
@@ -35,7 +43,32 @@ export function getOrderNumber(ingredientsIDs, ORDER_URL) {
   }
 }
 
-export function getIngredients(API_URL) {
+export function getOrderByNumber(orderNumber) {
+  return function (dispatch){
+    dispatch({ type: GET_ORDER_BY_NUMBER_REQUEST });
+    const reqOptions = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    fetch(ORDER_URL+'/'+orderNumber, reqOptions)
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject('Ошибка запроса заказа по номеру');
+      })
+      .then(data => {
+        if ( data.success ) {
+          dispatch({ type: GET_ORDER_BY_NUMBER_SUCCESS, order: data.orders[0] });
+        }
+      })
+      .catch(e => dispatch({type: GET_ORDER_BY_NUMBER_ERROR}) );
+  }
+}
+
+export function getIngredients() {
 	return function(dispatch) {
 
 		dispatch({type: LOAD_INGREDIENTS_REQUEST});

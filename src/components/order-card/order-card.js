@@ -1,33 +1,57 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { getIngredients } from '../../services/actions';
 import Styles from './order-card.module.css';
 import { IngredientThumb } from './ingredient-thumb/ingredient-thumb';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { numberWithSpaces } from '../../utils';
 
 export const OrderCard = (props) => {
+
+	const showTiser = props.order.ingredients.length > 5 ? true : false;
+	const tiserCount = showTiser ? props.order.ingredients.length-5 : 0;
+	let tiserDetails = [];
+	const ingredients = props.ingredients;
+	let sum = 0;
+
+	const createdAt = new Date(props.order.createdAt);
+	const datetime = createdAt.toDateString();
+
 	return (
 
 		<div className={[Styles.ordercard, "mt-5"].join(" ")}>
 			<div className={[Styles.details, "mb-6"].join(" ")}>
-				<span className={Styles.ordernum}>#034535</span>
-				<span className={[Styles.date, "text_color_inactive"].join(" ")}>Сегодня, 16:20 i-GMT+3</span>
+				<span className={Styles.ordernum}>#{props.order.number}</span>
+				<span className={[Styles.date, "text_color_inactive"].join(" ")}>{datetime}</span>
 			</div>
 			<h2>
-				Death Star Starship Main бургер
+				{props.order.name}
 			</h2>
 			{ props.mode && props.mode === 'profile' ? (
-				<p className="mt-2">Создан</p>
+				<p className="mt-2">{props.order.status === 'done' ? 'Выполнен' : 'Создан'}</p>
 			) : null }
 			<div className={[Styles.ingredients,"mt-6"].join(" ")}>
 				<ul className={Styles.list}>
-					<li className={Styles.thumb} style={{'z-index':'6'}}><IngredientThumb /></li>
-					<li className={Styles.thumb} style={{'z-index':'5'}}><IngredientThumb /></li>
-					<li className={Styles.thumb} style={{'z-index':'4'}}><IngredientThumb /></li>
-					<li className={Styles.thumb} style={{'z-index':'3'}}><IngredientThumb /></li>
-					<li className={Styles.thumb} style={{'z-index':'2'}}><IngredientThumb /></li>
-					<li className={Styles.thumb} style={{'z-index':'1'}}><IngredientThumb mode="rest" /></li>
+					{
+						props.order.ingredients.map((ingredient, index) => {
+							let details = ingredients.filter((item) => {
+								if ( item._id === ingredient ) {
+									return item;
+								}
+							});
+							sum += details[0].price;
+							if ( index === tiserCount+1 && showTiser ){ tiserDetails = details; }
+							if ( index < 5 ) {
+								return (<li className={Styles.thumb} key={index} style={{'zIndex': props.order.ingredients.length - index}}><IngredientThumb details={details[0]} /></li>);
+							}
+							
+						})
+					}
+					
+					{ showTiser && (<li className={Styles.thumb} style={{'zIndex':'0'}}><IngredientThumb mode="rest" count={tiserCount} details={tiserDetails[0]} /></li>) }
+					
 				</ul>
 				<div className={Styles.total}>
-					<span className={[Styles.sum, "mr-2"].join(" ")}>480</span> <CurrencyIcon type="primary" />
+					<span className={[Styles.sum, "mr-2"].join(" ")}>{numberWithSpaces(sum)}</span> <CurrencyIcon type="primary" />
 				</div>
 			</div>
 		</div>

@@ -3,15 +3,16 @@ import { IngredientThumb } from '../../order-card/ingredient-thumb/ingredient-th
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import Styles from './ingredient-inline.module.css';
 
-export const IngredientInline = () => {
+export const IngredientInline = (props) => {
 	return (
-		<div className={Styles.wrap}>
-			
-			<p className={Styles.name}>
-				<IngredientThumb />
-				<p className="ml-4">Филе Люминесцентного тетраодонтимформа</p>
-			</p>
-			<p className={[Styles.count, "ml-4"].join(" ")}>2 x 20&nbsp;<CurrencyIcon /></p>
-		</div>
+		<li key={props.index}>
+			<div className={Styles.wrap}>	
+				<p className={Styles.name}>
+					<IngredientThumb details={props.details[0]}/>
+					<p className="ml-4">{props.details[0].name}</p>
+				</p>
+				<p className={[Styles.count, "ml-4"].join(" ")}>{props.count} x {props.details[0].price}&nbsp;<CurrencyIcon /></p>
+			</div>
+		</li>
 	);
 }

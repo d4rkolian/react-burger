@@ -1,3 +1,4 @@
+export const API_URL = 'https://norma.nomoreparties.space/api/ingredients'; // ингредиенты
 export const AUTH_ENDPOINT = 'https://norma.nomoreparties.space/api/auth/login'; // эндпоинт для авторизации.
 export const REGISTER_ENDPOINT = 'https://norma.nomoreparties.space/api/auth/register'; // эндпоинт для регистрации пользователя.
 export const LOGOUT_ENDPOINT = 'https://norma.nomoreparties.space/api/auth/logout'; // эндпоинт для выхода из системы.
@@ -6,3 +7,5 @@ export const PASS_RESET_ENDPOINT = 'https://norma.nomoreparties.space/api/passwo
 export const PASS_RESET_STEP2_ENDPOINT = 'https://norma.nomoreparties.space/api/password-reset/reset'; // сброс пароля (второй шаг)
 export const USER_INFORMATION_GET_ENDPOINT = 'https://norma.nomoreparties.space/api/auth/user'; // получение данных пользователя в профиль, метод GET
 export const USER_INFORMATION_PATCH_ENDPOINT = 'https://norma.nomoreparties.space/api/auth/user'; // обновление данных пользователя, метод PATCH
+export const WS_URL = 'wss://norma.nomoreparties.space/orders'; // эндпоинт для заказов, /all - для всех
+export const ORDER_URL = 'https://norma.nomoreparties.space/api/orders'; // получение заказа и номера заказа

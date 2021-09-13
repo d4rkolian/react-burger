@@ -49,3 +49,8 @@ export const dots = window.setInterval(
           wait.innerHTML += ".";
     }
   }, 300);
+
+// форматирование числительных 
+export function numberWithSpaces(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Route, Switch, useHistory, useLocation, useParams } from 'react-router-dom';
 import * as Pages from '../../pages'; 
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import { OrderView } from '../order-view/order-view';
 import OrderDetails from '../order-details/order-details';
 import ProtectedRoute from '../protected-route/protected-route';
 import AppHeader from '../app-header/app-header';
@@ -13,7 +14,6 @@ import AppStyles from './app.module.css';
 
 function App() {
 
-	const ORDER_URL = 'https://norma.nomoreparties.space/api/orders';
 	const dispatch = useDispatch();	
 	const history = useHistory();
 	let location = useLocation();
@@ -30,10 +30,15 @@ function App() {
 		isAuthorized: store.user.isAuthorized,
 	}));
 
-	if ( !isAuthorized ) {
-		// если в хранилище нет флага об авторизации - проверить, возможно стоит кука
-		dispatch(isAuth());
-	}
+	useEffect(
+		() => {
+			if ( !isAuthorized ) {
+				// если в хранилище нет флага об авторизации - проверить, возможно стоит кука
+				dispatch(isAuth());
+			}
+		},
+		[]
+	);
 
 	const [modalVisible, setVisible] = React.useState(false);
 	const [modalChildren, setModalChildren] = React.useState(null);
@@ -64,7 +69,7 @@ function App() {
 				  if ( bunChosen ) {
 				  	// sprint #3 - проверить, что юзер авторизован
 				  	if ( isAuthorized ) {
-				  		dispatch(getOrderNumber(ingredientsIDs,ORDER_URL));
+				  		dispatch(getOrderNumber(ingredientsIDs));
 				  		visible = true;
 				  		setVisible(visible);
 				  	} else {
@@ -135,6 +140,7 @@ function App() {
         {/* ниже первая строчка - это временная заглушка из "обычной" модалки для номера заказа, перед доработками спринта №4 */}
         { modalVisible && <Modal isVisible={modalVisible} clickHandle={clickHandle}>{modalChildren}</Modal> }
         { background && !modalVisible && <Route path="/ingredients/:id" children={<Modal ><IngredientDetails /></Modal>} /> }
+        { background && !modalVisible && <Route path="/feed/:id" exact children={<Modal ><OrderView appStyles={AppStyles} /></Modal>} /> }
       </main>
    </>
   );
