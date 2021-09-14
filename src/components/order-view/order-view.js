@@ -22,8 +22,7 @@ export const OrderView = (props) => {
 	const dispatch = useDispatch();
 	const history = useHistory();
 
-	console.log(history.action);
-	const wrapClassName = (history.action === 'PUSH' || history.action === 'REPLACE') ? Styles.order : [Styles.order, Styles.absolute].join(" ");
+	const wrapClassName = (history.action === 'PUSH') ? Styles.order : [Styles.order, Styles.absolute].join(" ");
 	const readyMargin = (history.action === 'PUSH' || history.action === 'REPLACE') ? 'mb-5' : 'mb-15';
 
 	useEffect(

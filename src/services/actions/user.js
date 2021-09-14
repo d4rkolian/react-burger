@@ -16,6 +16,7 @@ export const USER_LOGOUT_START = 'USER_LOGOUT_START';
 export const USER_LOGOUT_SUCCESS = 'USER_LOGOUT_SUCCESS';
 export const USER_LOGOUT_ERROR = 'USER_LOGOUT_ERROR';
 export const AUTH_BY_TOKEN = 'AUTH_BY_TOKEN';
+export const AUTH_FAILED = 'AUTH_FAILED';
 
 export function createUser (user) {
 	return function(dispatch){
@@ -83,6 +84,8 @@ export function isAuth() {
 		} else if ( refreshToken && refreshToken !== '' ){
 			// accessToken нет, но есть refreshToken, чтобы получить новый
 			refreshAccessToken(refreshToken, isAuth);
+		} else {
+			dispatch({ type: AUTH_FAILED });
 		}
 		
 	}
@@ -113,7 +116,7 @@ export function logOut() {
 	        	dispatch({type: USER_LOGOUT_SUCCESS});	
 	      	}
 	      })
-	      .catch(e => dispatch({type: USER_LOGOUT_ERROR}) );
+	      .catch(e => { dispatch({type: USER_LOGOUT_ERROR}); console.log(e); } );
 	}
 }
 

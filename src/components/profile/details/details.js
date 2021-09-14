@@ -39,7 +39,7 @@ export const ProfileDetails = () => {
 
 	const fieldEnable = (event) => {
 
-		const inputName = event.currentTarget.getAttribute("for");
+		const inputName = event.currentTarget.getAttribute("makeeditable");
 		// получаем поле ввода
 		const input = event.currentTarget.parentNode.querySelectorAll("[name='"+inputName+"']")[0];
 		
@@ -49,8 +49,8 @@ export const ProfileDetails = () => {
 			input.classList.add('input__textfield-disabled');
 			setState({
 				...state,
-				[event.currentTarget.getAttribute("for")]:{
-					...state[event.currentTarget.getAttribute("for")],
+				[event.currentTarget.getAttribute("makeeditable")]:{
+					...state[event.currentTarget.getAttribute("makeeditable")],
 					editable: false,
 					value: '',
 				}
@@ -65,8 +65,8 @@ export const ProfileDetails = () => {
 		
 		setState({
 			...state,
-			[event.currentTarget.getAttribute("for")]:{
-				...state[event.currentTarget.getAttribute("for")],
+			[event.currentTarget.getAttribute("makeeditable")]:{
+				...state[event.currentTarget.getAttribute("makeeditable")],
 				editable: true,
 			}
 		});
@@ -129,13 +129,13 @@ export const ProfileDetails = () => {
 						<form onSubmit={userUpdate}>
 							<div className={[Styles.fieldcontainer, "mb-6"].join(" ")}>
 								<Input type="text" placeholder="Имя" value={!state.name.editable ? user.name : state.name.value} name="name" ref={nameRef} onChange={changeHandle} disabled />
-								<div className={Styles.iconwrap} onClick={fieldEnable} for="name">
+								<div className={Styles.iconwrap} onClick={fieldEnable} makeeditable="name">
 									{ !state.name.editable ? (<EditIcon type="primary" />) : (<CloseIcon type="primary" />) }
 								</div>
 							</div>
 							<div className={[Styles.fieldcontainer, "mb-6"].join(" ")}>
 								<Input type="email" placeholder="Логин" value={!state.email.editable ? user.email : state.email.value} name="email" ref={emailRef} onChange={changeHandle} disabled  />
-								<div className={Styles.iconwrap} onClick={fieldEnable} for="email">
+								<div className={Styles.iconwrap} onClick={fieldEnable} makeeditable="email">
 									{ !state.email.editable ? (<EditIcon type="primary" />) : (<CloseIcon type="primary" />) }
 								</div>
 							</div>

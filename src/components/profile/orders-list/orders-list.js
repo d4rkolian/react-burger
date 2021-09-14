@@ -28,7 +28,7 @@ export const OrdersList = () => {
 		<div className={Styles.wrapper}>
 		{ 
 			orders.length > 0 && orders.slice(0).reverse().map( (order,index) => {
-				return (<Link to={{ pathname: '/profile/orders/'+order.number, state: {background: location} }} className={Styles.link}><OrderCard key={index} order={order} ingredients={ingredients} mode="profile" /></Link>);
+				return (<Link key={index} to={{ pathname: '/profile/orders/'+order.number, state: {background: location} }} className={Styles.link}><OrderCard order={order} ingredients={ingredients} mode="profile" /></Link>);
 			})
 		}
 		</div>

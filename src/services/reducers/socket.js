@@ -46,7 +46,7 @@ export const socketReducer = (state = initialState, action) => {
 			console.log('new socket message');
 			return {
 				...state,
-				orders: action.payload.orders.slice(0,12),
+				orders: action.payload.orders.slice(0,20),
 				count: {
 					total: action.payload.total,
 					totalToday: action.payload.totalToday,

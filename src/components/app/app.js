@@ -16,8 +16,7 @@ function App() {
 
 	const dispatch = useDispatch();	
 	const history = useHistory();
-	let location = useLocation();
-	// let background = location.state && location.state.background;
+	const location = useLocation();
 	const background = (history.action === 'PUSH' || history.action === 'REPLACE') && location.state && location.state.background;
 
 	const ingredientsIDs = []; 
@@ -143,9 +142,10 @@ function App() {
         </Switch>
         {/* ниже первая строчка - это временная заглушка из "обычной" модалки для номера заказа, перед доработками спринта №4 */}
         { modalVisible && <Modal isVisible={modalVisible} clickHandle={clickHandle}>{modalChildren}</Modal> }
+
         { background && !modalVisible && <Route path="/ingredients/:id" children={<Modal ><IngredientDetails /></Modal>} /> }
         { background && !modalVisible && <Route path="/feed/:id" exact children={<Modal ><OrderView appStyles={AppStyles} /></Modal>} /> }
-        { background && !modalVisible && <Route path="/profile/orders/:id" exact children={<Modal ><OrderView appStyles={AppStyles} /></Modal>} /> }
+        { background && !modalVisible && <Route path="/profile/orders/:id" exact reqauth={true} isAuthorized={isAuthorized} children={<Modal ><OrderView appStyles={AppStyles} /></Modal>} /> }
       </main>
    </>
   );

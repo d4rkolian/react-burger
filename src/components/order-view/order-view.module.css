@@ -1,13 +1,14 @@
 /* css */
 .order {
 	width: 640px;
-	height: 620px;
+/*	height: 620px;*/
 	margin: auto;
 	padding: 24px;
 }
 
 .absolute {
 	position: absolute;
+	height: auto;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%,-50%);
@@ -42,6 +43,7 @@
 .listwrap {
 	max-height: 312px;
 	overflow-x:  hidden;
+	margin-bottom: 40px;
 }
 
 .list {
@@ -57,8 +59,9 @@
 	display: flex;
 	position: absolute;
 	left: 0;
-	bottom: 0;
+	bottom: -40px;
 	justify-content: space-between;
+
 }
 
 .ttl {
