@@ -1,0 +1,24 @@
+/* css */
+.wrap {
+	display: flex;
+	height: 64px;
+	justify-content: space-between;
+}
+
+.name {
+	display: flex;
+	flex-direction: row;
+	justify-content: start;
+	align-items: center;
+	max-width: 414px;
+	text-align: left;
+}
+
+.count {
+	line-height: 64px;
+}
+
+.count {
+	display: flex;
+	align-items: center;
+}

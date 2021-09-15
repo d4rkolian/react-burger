@@ -5,7 +5,7 @@ import { useParams, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import IgDStyles from './ingredient-details.module.css';
 
-function IngredientDetails(props) {
+function IngredientDetails() {
 	let product = useSelector( store => store.burger.currentIngredient );
 	const products = useSelector( store => store.burger.ingredients.all );
 	
@@ -15,8 +15,7 @@ function IngredientDetails(props) {
 
 	useEffect(() => {
 		if ( products.length === 0 ){
-			const API_URL = 'https://norma.nomoreparties.space/api/ingredients';
-			dispatch(getIngredients(API_URL));
+			dispatch(getIngredients());
 		}
 	},[]);
 
@@ -55,10 +54,6 @@ function IngredientDetails(props) {
 			)}
 		</div>
   );
-}
-
-IngredientDetails.propTypes = {
-	id: PropTypes.string,
 }
 
 export default IngredientDetails

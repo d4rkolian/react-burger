@@ -1,0 +1,49 @@
+/* feed css */
+.wrap {
+	display: flex;
+}
+
+.cardlink {
+	text-decoration: none;
+	color: #fff;
+}
+
+.panel {
+	width: 600px;
+	max-height: 800px;
+	overflow-x: hidden;
+	box-sizing: border-box;
+	padding-right: 8px;
+}
+
+.lists {
+	display: flex;
+}
+
+.lists h2 {
+	width:  282px;
+	font-size:  24px;
+}
+
+.list {
+	display: flex;
+	  flex-direction: column;
+	  flex-wrap: wrap;
+	  height: 22em;
+}
+
+.list li {
+	font-family: Iceland;
+	font-size:  28px;
+}
+
+.list.ready li {
+	color: #00CCCC;
+}
+
+.count {
+	font-family: Iceland;
+	color: ##F2F2F3;
+	font-size: 144px;
+	text-shadow: 0px 0px 16px rgba(51, 51, 255, 0.25), 0px 0px 8px rgba(51, 51, 255, 0.25), 0px 4px 32px rgba(51, 51, 255, 0.5);
+}

@@ -1,0 +1,48 @@
+/* css order card */
+
+.ordercard {
+	width: 100%;
+	/* max-height: 280px; */
+	background: #1C1C21;
+	border-radius: 40px;
+	padding: 24px;
+	box-sizing: border-box;
+}
+
+.details {
+	display: flex;
+	flex-direction: row;
+	align-items:  center;
+	justify-content: space-between;
+	font-size: 28px;
+}
+
+.ordernum {
+	font-family: Iceland;
+}
+.date {
+	font-size: 16px;
+}
+
+.ingredients {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.list {
+	display: flex;
+}
+
+.thumb {
+	margin-right: -10px;
+}
+
+.total {
+	font-size: 28px;
+	display: flex;
+	align-items: center;
+}
+.sum {
+	font-family: Iceland;
+}

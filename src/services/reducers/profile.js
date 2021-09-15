@@ -23,6 +23,7 @@ export const profileReducer = ( state = initialState, action ) => {
 				...state,
 				isLoading: true,
 				isLoaded: initialState.isLoaded,
+				user: initialState.user,
 			}
 		}
 		case PROFILE_GETINFO_SUCCESS: {
@@ -34,7 +35,12 @@ export const profileReducer = ( state = initialState, action ) => {
 			}
 		}
 		case PROFILE_GETINFO_ERROR: {
-			return state;
+			return {
+				...state,
+				isLoading: initialState.isLoading,
+				isLoaded: initialState.isLoaded,
+				user: initialState.user,
+			}
 		}
 		case PROFILE_SETINFO_REQUEST: {
 			return {

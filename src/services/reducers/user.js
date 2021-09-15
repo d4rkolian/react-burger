@@ -9,6 +9,7 @@ import {
 	USER_LOGOUT_SUCCESS,
 	USER_LOGOUT_ERROR,
 	AUTH_BY_TOKEN,
+	AUTH_FAILED,
 } from '../actions/user';
 
 const initialState = {
@@ -17,6 +18,7 @@ const initialState = {
 	isAuthorized: false,
 	details: {},
 	isLoggingOut: false,
+	authFailed: false,
 }
 
 export const userReducer = (state = initialState, action) => {
@@ -45,6 +47,7 @@ export const userReducer = (state = initialState, action) => {
 			return {
 				...state,
 				isAuthorizing: true,
+				authFailed: initialState.authFailed,
 			}
 		}
 		case USER_AUTH_SUCCESS: {
@@ -88,6 +91,13 @@ export const userReducer = (state = initialState, action) => {
 			return {
 				...state,
 				isAuthorized: true,
+				authFailed: initialState.authFailed,
+			}
+		}
+		case AUTH_FAILED: {
+			return {
+				...state,
+				authFailed: true,
 			}
 		}
 		default: {

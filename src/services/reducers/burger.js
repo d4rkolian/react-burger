@@ -8,6 +8,9 @@ import {
 		GET_ORDER_NUMBER_REQUEST,
 		GET_ORDER_NUMBER_SUCCESS,
 		GET_ORDER_NUMBER_ERROR,
+		GET_ORDER_BY_NUMBER_REQUEST,
+		GET_ORDER_BY_NUMBER_SUCCESS,
+		GET_ORDER_BY_NUMBER_ERROR,
 		TURN_ON_NOTICE,
 		DELETE_FROM_CONSTRUCTOR,
 		MOVE_CONSTRUCTOR ,
@@ -22,6 +25,7 @@ const initialState = {
 		error: false,
 	},
 	currentIngredient: [],
+	currentOrder: [],
 	order: {
 		number: 0,
 		notice: false,
@@ -30,6 +34,7 @@ const initialState = {
 	loaders: {
 		ingredients: true,
 		order: false,
+		orderDetails: false,
 	}
 };
 
@@ -202,6 +207,27 @@ export const burgerReducer = (state = initialState, action) => {
 					error: true,
 				}
 			}
+		}
+		// получаем данные по одному заказу
+		case GET_ORDER_BY_NUMBER_REQUEST: {
+			return {
+				...state,
+				currentOrder: initialState.currentOrder,
+				loaders: {
+					...state.loaders,
+					orderDetails: true,
+				}
+			}
+		}
+		case GET_ORDER_BY_NUMBER_SUCCESS: {
+			return {
+				...state,
+				loaders: initialState.loaders,
+				currentOrder: action.order,
+			}
+		}
+		case GET_ORDER_BY_NUMBER_ERROR: {
+			return state;
 		}
 		// включаем уведомление о том, что нельзя отправить заказ
 		case TURN_ON_NOTICE: {
