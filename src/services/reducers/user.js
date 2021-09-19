@@ -87,6 +87,7 @@ export const userReducer = (state = initialState, action) => {
 				isLoggingOut: initialState.isLoggingOut,
 			}
 		}
+		// TODO: проверить тут detailed 
 		case AUTH_BY_TOKEN: {
 			return {
 				...state,
