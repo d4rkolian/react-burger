@@ -12,3 +12,5 @@ export const rootReducer = combineReducers({
     profile: profileReducer,
     socket: socketReducer,
 }) 
+
+export type TRootState = ReturnType<typeof rootReducer>;

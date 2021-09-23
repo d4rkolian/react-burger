@@ -15,8 +15,18 @@ import {
 		DELETE_FROM_CONSTRUCTOR,
 		MOVE_CONSTRUCTOR ,
 	} from '../actions';
+import type { TIngredient, TOrder } from '../../types/data';
+import type { TBurgerActions } from '../actions/burger';
 
-const initialState = {
+export type TBurgerState = {
+	ingredients: { all: TIngredient[]; constructor: TIngredient[]; bunChosen: boolean; bunIndex: number; error: boolean };
+	currentIngredient: any; // TIngredient
+	currentOrder: any; // TOrder
+	order: { number: number; notice: boolean; error: boolean };
+	loaders: { ingredients: boolean; order: boolean; orderDetails: boolean; };
+};
+
+const initialState: TBurgerState = {
 	ingredients: {
 		all: [],
 		constructor: [],
@@ -38,7 +48,7 @@ const initialState = {
 	}
 };
 
-export const burgerReducer = (state = initialState, action) => {
+export const burgerReducer = (state = initialState, action: TBurgerActions): TBurgerState => {
 	switch (action.type){
 		// инициируем запрос к серверу: ставим лоадер, приводим массив в изначальное состояние (там могли оказаться битые данные)
 		case LOAD_INGREDIENTS_REQUEST: {

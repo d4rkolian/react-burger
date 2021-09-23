@@ -8,7 +8,18 @@ import {
 	PASS_RESET_STEP2_SUCCESS_AFTER,
 } from '../actions/user-details';
 
-const initialState = {
+import type { TUserDetailsActions } from '../actions/user-details';
+export type TUserDetailsState = {
+	isPasswordRequested: {
+		step1: boolean;
+		step2: boolean;
+	};
+	stepTwoAllowed: boolean;
+	isPasswordReset: boolean;
+	passwordResetErr: boolean;
+}
+
+const initialState: TUserDetailsState = {
 	isPasswordRequested: {
 		step1: false,
 		step2: false,
@@ -18,7 +29,7 @@ const initialState = {
 	passwordResetErr: false,
 }
 
-export const userDetailsReducer = (state = initialState, action) => {
+export const userDetailsReducer = (state = initialState, action:TUserDetailsActions) => {
 	switch (action.type){
 		case PASS_RESET_REQUEST: {
 			return {

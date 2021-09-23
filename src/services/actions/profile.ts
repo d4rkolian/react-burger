@@ -1,18 +1,60 @@
 import { USER_INFORMATION_GET_ENDPOINT, USER_INFORMATION_PATCH_ENDPOINT, TOKEN_ENDPOINT } from '../../utils/endpoints';
 import { getCookie, setCookie } from '../../utils'; 
+import { Dispatch } from 'redux';
+import type { TUser } from '../../types/data';
 
-export const PROFILE_GETINFO_REQUEST = 'PROFILE_GETINFO_REQUEST';
-export const PROFILE_GETINFO_SUCCESS = 'PROFILE_GETINFO_SUCCESS';
-export const PROFILE_GETINFO_ERROR = 'PROFILE_GETINFO_ERROR';
+export const PROFILE_GETINFO_REQUEST:'PROFILE_GETINFO_REQUEST' = 'PROFILE_GETINFO_REQUEST';
+export const PROFILE_GETINFO_SUCCESS:'PROFILE_GETINFO_SUCCESS' = 'PROFILE_GETINFO_SUCCESS';
+export const PROFILE_GETINFO_ERROR:'PROFILE_GETINFO_ERROR' = 'PROFILE_GETINFO_ERROR';
 
-export const PROFILE_SETINFO_REQUEST = 'PROFILE_SETINFO_REQUEST';
-export const PROFILE_SETINFO_SUCCESS = 'PROFILE_SETINFO_SUCCESS';
-export const PROFILE_SETINFO_ERROR = 'PROFILE_SETINFO_ERROR';
+export const PROFILE_SETINFO_REQUEST:'PROFILE_SETINFO_REQUEST' = 'PROFILE_SETINFO_REQUEST';
+export const PROFILE_SETINFO_SUCCESS:'PROFILE_SETINFO_SUCCESS' = 'PROFILE_SETINFO_SUCCESS';
+export const PROFILE_SETINFO_ERROR:'PROFILE_SETINFO_ERROR' = 'PROFILE_SETINFO_ERROR';
 
-export const PROFILE_WAS_UPDATED = 'PROFILE_WAS_UPDATED';
+export const PROFILE_WAS_UPDATED:'PROFILE_WAS_UPDATED' = 'PROFILE_WAS_UPDATED';
+
+export interface IProfileGetRequestAction {
+	readonly type: typeof PROFILE_GETINFO_REQUEST;
+	readonly payload: TUser;
+}
+export interface IProfileGetSuccessAction {
+	readonly type: typeof PROFILE_GETINFO_SUCCESS;
+	readonly payload: TUser;
+}
+export interface IProfileGetErrorAction {
+	readonly type: typeof PROFILE_GETINFO_ERROR;
+	readonly payload: TUser;
+}
+
+export interface IProfileSetRequestAction {
+	readonly type: typeof PROFILE_SETINFO_REQUEST;
+	readonly payload: TUser;
+}
+export interface IProfileSetSuccessAction {
+	readonly type: typeof PROFILE_SETINFO_SUCCESS;
+	readonly payload: TUser;
+}
+export interface IProfileSetErrorAction {
+	readonly type: typeof PROFILE_SETINFO_ERROR;
+	readonly payload: TUser;
+}
+
+export interface IProfileWasUpdatedAction {
+	readonly type: typeof PROFILE_WAS_UPDATED;
+	readonly payload: TUser;
+}
+
+export type TProfileActions = 
+	| IProfileGetRequestAction
+ 	| IProfileGetSuccessAction
+ 	| IProfileGetErrorAction
+ 	| IProfileSetRequestAction
+ 	| IProfileSetSuccessAction
+ 	| IProfileSetErrorAction
+ 	| IProfileWasUpdatedAction;
 
 export function getUserInfo () {
-	return function(dispatch){
+	return function(dispatch: Dispatch){
 		dispatch({ type: PROFILE_GETINFO_REQUEST });
 		const accessToken = getCookie('token');
 		const reqOptions = {
@@ -42,8 +84,8 @@ export function getUserInfo () {
 	}
 }
 
-export function setUserInfo (user) {
-	return function(dispatch){
+export function setUserInfo (user:TUser) {
+	return function(dispatch: Dispatch){
 		dispatch({ type: PROFILE_SETINFO_REQUEST });
 		const accessToken = getCookie('token');
 		const reqOptions = {
@@ -70,7 +112,7 @@ export function setUserInfo (user) {
 	}
 }
 
-export function refreshAccessToken(afterrefresh){
+export function refreshAccessToken(afterrefresh:any){
 	console.log('мы отправили запрос на перевыпуск токена');
 	const data = {
 		token: getCookie('refreshToken'),
@@ -82,7 +124,7 @@ export function refreshAccessToken(afterrefresh){
   };
   fetch(TOKEN_ENDPOINT, reqOptions)
   	.then( res => { return res.json })
-  	.then( data => { console.log(data); setCookie('token', data.refreshToken); } )
+  	.then( (data:any) => { console.log(data); setCookie('token', data.refreshToken); } )
   	.catch( (err) => { console.log('Ошибка запроса на перевыпуск токена'); } );
   
 }

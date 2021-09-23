@@ -8,15 +8,31 @@ import { socketMiddleware } from './services/middleware/socketMiddleware.js';
 import { WS_URL } from './utils/endpoints';
 
 import { Provider } from 'react-redux';
-import { rootReducer } from './services/reducers';
+import { rootReducer } from './services/reducers/index';
+import type { TRootState } from './services/reducers/index';
 
 import './index.css';
 import App from './components/app/app';
 import reportWebVitals from './reportWebVitals';
 
-const composeEnhancers = typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({}) : compose; 
+// declare global {
+//     interface Window {
+//       __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+//     }
+// }
+// const composeEnhancers = typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({}) : compose; 
+
+// according to https://stackoverflow.com/a/68212175 
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+  }
+}
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(WS_URL)));
-const store = createStore(rootReducer, enhancer);
+const store:TRootState = createStore(rootReducer, enhancer);
+// export type RootState = ReturnType<typeof store.getState>;
 
 ReactDOM.render(
   <React.StrictMode>

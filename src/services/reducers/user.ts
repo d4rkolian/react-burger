@@ -12,7 +12,21 @@ import {
 	AUTH_FAILED,
 } from '../actions/user';
 
-const initialState = {
+import type { TUserActions } from '../actions/user';
+
+export type TUserState = {
+	isCreating: boolean;
+	isAuthorizing: boolean;
+	isAuthorized: boolean;
+	details: {
+		name?: string;
+		email?: string;
+	};
+	isLoggingOut: boolean;
+	authFailed: boolean;
+};
+
+const initialState: TUserState = {
 	isCreating: false,
 	isAuthorizing: false,
 	isAuthorized: false,
@@ -21,7 +35,7 @@ const initialState = {
 	authFailed: false,
 }
 
-export const userReducer = (state = initialState, action) => {
+export const userReducer = (state = initialState, action: TUserActions): TUserState => {
 
 	switch (action.type) {
 		case USER_REGISTRATION_START: {

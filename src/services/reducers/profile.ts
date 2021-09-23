@@ -6,9 +6,22 @@ import {
 	PROFILE_SETINFO_SUCCESS,
 	PROFILE_SETINFO_ERROR,
 	PROFILE_WAS_UPDATED,
-} from '../actions/profile.js';
+} from '../actions/profile';
 
-const initialState = {
+import type { TProfileActions } from '../actions/profile';
+
+export type TProfileState = {
+	isLoading: boolean;
+	isLoaded: boolean;
+	user: {
+		name?: string;
+		email?: string;
+	};
+	isUpdating: boolean;
+	isUpdated: boolean;
+};
+
+const initialState: TProfileState = {
 	isLoading: false,
 	isLoaded: false,
 	user: {},
@@ -16,7 +29,7 @@ const initialState = {
 	isUpdated: false,
 };
 
-export const profileReducer = ( state = initialState, action ) => {
+export const profileReducer = ( state = initialState, action: TProfileActions ): TProfileState => {
 	switch (action.type) {
 		case PROFILE_GETINFO_REQUEST: {
 			return {

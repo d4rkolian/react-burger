@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, FC } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import * as Pages from '../../pages'; 
@@ -8,19 +8,20 @@ import OrderDetails from '../order-details/order-details';
 import ProtectedRoute from '../protected-route/protected-route';
 import AppHeader from '../app-header/app-header';
 import Modal from '../modal/modal';
-import { CLEAN_DETAILED, DELETE_FROM_CONSTRUCTOR, TURN_ON_NOTICE, getOrderNumber } from '../../services/actions';
+import { CLEAN_DETAILED, DELETE_FROM_CONSTRUCTOR, TURN_ON_NOTICE, getOrderNumber } from '../../services/actions/index';
 import { isAuth } from '../../services/actions/user';
 import AppStyles from './app.module.css';
 
-function App() {
+function App(props:any) {
 
 	const dispatch = useDispatch();	
 	const history = useHistory();
-	const location = useLocation();
+	const location:any = useLocation(); // TODO
 	const background = (history.action === 'PUSH' || history.action === 'REPLACE') && location.state && location.state.background;
 
-	const ingredientsIDs = []; 
-	useSelector( store => store.burger.ingredients.constructor ).map( (item, index) => {
+	const ingredientsIDs:any[] = []; 	// TODO
+
+	useSelector( store => store.burger.ingredients.constructor ).map( (item:any, index:number) => {
 		if ( item.type === 'bun' ) { ingredientsIDs.push(item._id); } // дополнительная булочка
 		return ingredientsIDs.push(item._id);
 	});
@@ -43,7 +44,7 @@ function App() {
 	const [modalVisible, setVisible] = React.useState(false);
 	const [modalChildren, setModalChildren] = React.useState(null);
 
-	function clickHandle(event) {
+	function clickHandle(event:any) {
 
 		if ( event.currentTarget.tagName === 'svg' ){
 			// получить индекс элемента, которого надо удалить

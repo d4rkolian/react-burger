@@ -4,22 +4,73 @@ import {
   LOGOUT_ENDPOINT,
   TOKEN_ENDPOINT,
 } from '../../utils/endpoints';
+import { Dispatch } from 'redux';
+import type { TUser } from '../../types/data';
 import { setCookie, getCookie } from '../../utils/';
 
-export const USER_REGISTRATION_START = 'USER_REGISTRATION_START';
-export const USER_REGISTRATION_SUCCESS = 'USER_REGISTRATION_SUCCESS';
-export const USER_REGISTRATION_ERROR = 'USER_REGISTRATION_ERROR';
-export const USER_AUTH_START = 'USER_AUTH_START';
-export const USER_AUTH_SUCCESS = 'USER_AUTH_SUCCESS';
-export const USER_AUTH_ERROR = 'USER_AUTH_ERROR';
-export const USER_LOGOUT_START = 'USER_LOGOUT_START';
-export const USER_LOGOUT_SUCCESS = 'USER_LOGOUT_SUCCESS';
-export const USER_LOGOUT_ERROR = 'USER_LOGOUT_ERROR';
-export const AUTH_BY_TOKEN = 'AUTH_BY_TOKEN';
-export const AUTH_FAILED = 'AUTH_FAILED';
+export const USER_REGISTRATION_START:'USER_REGISTRATION_START' = 'USER_REGISTRATION_START';
+export const USER_REGISTRATION_SUCCESS:'USER_REGISTRATION_SUCCESS' = 'USER_REGISTRATION_SUCCESS';
+export const USER_REGISTRATION_ERROR:'USER_REGISTRATION_ERROR' = 'USER_REGISTRATION_ERROR';
+export const USER_AUTH_START:'USER_AUTH_START' = 'USER_AUTH_START';
+export const USER_AUTH_SUCCESS:'USER_AUTH_SUCCESS' = 'USER_AUTH_SUCCESS';
+export const USER_AUTH_ERROR:'USER_AUTH_ERROR' = 'USER_AUTH_ERROR';
+export const USER_LOGOUT_START:'USER_LOGOUT_START' = 'USER_LOGOUT_START';
+export const USER_LOGOUT_SUCCESS:'USER_LOGOUT_SUCCESS' = 'USER_LOGOUT_SUCCESS';
+export const USER_LOGOUT_ERROR:'USER_LOGOUT_ERROR' = 'USER_LOGOUT_ERROR';
+export const AUTH_BY_TOKEN:'AUTH_BY_TOKEN' = 'AUTH_BY_TOKEN';
+export const AUTH_FAILED:'AUTH_FAILED' = 'AUTH_FAILED';
 
-export function createUser (user) {
-	return function(dispatch){
+export interface IUserRegStartAction {
+	readonly type: typeof USER_REGISTRATION_START;
+}
+export interface IUserRegSuccessAction {
+	readonly type: typeof USER_REGISTRATION_SUCCESS;
+
+}
+export interface IUserRegErrorAction {
+	readonly type: typeof USER_REGISTRATION_ERROR;
+}
+export interface IUserAuthStartAction {
+	readonly type: typeof USER_AUTH_START;
+}
+export interface IUserAuthSuccessAction {
+	readonly type: typeof USER_AUTH_SUCCESS;
+	readonly user: TUser;
+}
+export interface IUserAuthErrorAction {
+	readonly type: typeof USER_AUTH_ERROR;
+}
+export interface IUserLogoutStartAction {
+	readonly type: typeof USER_LOGOUT_START;
+}
+export interface IUserLogoutSuccessAction {
+	readonly type: typeof USER_LOGOUT_SUCCESS;
+}
+export interface IUserLogoutErrorAction {
+	readonly type: typeof USER_LOGOUT_ERROR;
+}
+export interface IUserAuthByTokenAction {
+	readonly type: typeof AUTH_BY_TOKEN;
+}
+export interface IUserAuthFailedAction {
+	readonly type: typeof AUTH_FAILED;
+}
+
+export type TUserActions = 
+	IUserRegStartAction
+	| IUserRegSuccessAction
+	| IUserRegErrorAction
+	| IUserAuthStartAction
+	| IUserAuthSuccessAction
+	| IUserAuthErrorAction
+	| IUserAuthByTokenAction
+	| IUserAuthFailedAction
+	| IUserLogoutStartAction
+	| IUserLogoutSuccessAction
+	| IUserLogoutErrorAction;
+
+export function createUser (user: { email: string; name: string; password: string; }) {
+	return function(dispatch:Dispatch){
 		// вызвать dispatch о начале запроса
 		dispatch({type: USER_REGISTRATION_START});
 		const reqOptions = {
@@ -44,8 +95,8 @@ export function createUser (user) {
 	}
 }
 
-export function authUser (data) {
-	return function (dispatch){
+export function authUser (data:{ email:string; password: string;}) {
+	return function (dispatch:Dispatch){
 		// авторизовываем
 		dispatch({type: USER_AUTH_START});
 		const reqOptions = {
@@ -74,7 +125,7 @@ export function authUser (data) {
 }
 
 export function isAuth() {
-	return function(dispatch){
+	return function(dispatch:Dispatch){
 		const accessToken = getCookie('token');
 		const refreshToken = getCookie('refreshToken');
 		
@@ -92,7 +143,7 @@ export function isAuth() {
 }
 
 export function logOut() {
-	return function (dispatch){
+	return function (dispatch:Dispatch){
 		dispatch({type: USER_LOGOUT_START});
 		const data = {
 			token: getCookie('refreshToken'),
@@ -120,7 +171,7 @@ export function logOut() {
 	}
 }
 
-export function refreshAccessToken(refreshToken, afterRefresh){
+export function refreshAccessToken(refreshToken: string, afterRefresh: any){
 	const data = {
 		token: refreshToken,
 	}

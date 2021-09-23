@@ -2,6 +2,7 @@ import {
   PASS_RESET_ENDPOINT,
   PASS_RESET_STEP2_ENDPOINT,
 } from '../../utils/endpoints';
+import { Dispatch } from 'redux';
 
 export const PASS_RESET_REQUEST = 'PASS_RESET_REQUEST';
 export const PASS_RESET_SUCCESS = 'PASS_RESET_SUCCESS';
@@ -11,8 +12,39 @@ export const PASS_RESET_STEP2_SUCCESS = 'PASS_RESET_STEP2_SUCCESS';
 export const PASS_RESET_STEP2_ERROR = 'PASS_RESET_STEP2_ERROR';
 export const PASS_RESET_STEP2_SUCCESS_AFTER = 'PASS_RESET_STEP2_SUCCESS_AFTER';
 
-export function passReset(data, step){
-	return function(dispatch){
+export interface IPassResetRequestAction {
+	readonly type: typeof PASS_RESET_REQUEST;
+}
+export interface IPassResetSuccessAction {
+	readonly type: typeof PASS_RESET_SUCCESS;
+}
+export interface IPassResetErrorAction {
+	readonly type: typeof PASS_RESET_ERROR;
+}
+export interface IPassStep2RequestAction {
+	readonly type: typeof PASS_RESET_STEP2_REQUEST;
+}
+export interface IPassStep2SuccessAction {
+	readonly type: typeof PASS_RESET_STEP2_SUCCESS;
+}
+export interface IPassStep2ErrorAction {
+	readonly type: typeof PASS_RESET_STEP2_ERROR;
+}
+export interface IPassStep2SuccessAfterAction {
+	readonly type: typeof PASS_RESET_STEP2_SUCCESS_AFTER;
+}
+
+export type TUserDetailsActions = 
+	IPassResetRequestAction
+	| IPassResetSuccessAction
+	| IPassResetErrorAction
+	| IPassStep2RequestAction
+	| IPassStep2SuccessAction
+	| IPassStep2ErrorAction
+	| IPassStep2SuccessAfterAction;
+
+export function passReset(data:{email?: string; token?:string; password?:string; }, step:string){
+	return function(dispatch:Dispatch){
 		switch (step) {
 			case 'first': {
 				dispatch({ type: PASS_RESET_REQUEST });
