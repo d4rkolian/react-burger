@@ -6,12 +6,13 @@ import { PASS_RESET_STEP2_SUCCESS_AFTER } from '../../services/actions/user-deta
 
 import PagesStyles from '../../pages/page.module.css';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import type { TRootState } from '../../index';
 
 const LoginForm = () => {
 
 	const dispatch = useDispatch();
 	const history = useHistory();
-	const { isAuthorizing, isAuthorized, isPasswordReset } = useSelector( store => ({
+	const { isAuthorizing, isAuthorized, isPasswordReset } = useSelector( (store:TRootState) => ({
 		isAuthorizing: store.user.isAuthorizing,
 		isAuthorized: store.user.isAuthorized,
 		isPasswordReset: store.userDetails.isPasswordReset,

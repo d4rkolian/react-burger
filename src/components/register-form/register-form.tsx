@@ -5,11 +5,12 @@ import { createUser } from '../../services/actions/user';
 
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import PagesStyles from '../../pages/page.module.css';
+import type { TRootState } from '../../index';
 
 const RegistrationForm = () => {
 
 	const dispatch = useDispatch();
-	const { isCreating } = useSelector( store => ({
+	const { isCreating } = useSelector( (store:TRootState) => ({
 		isCreating: store.user.isCreating,
 	}));
 

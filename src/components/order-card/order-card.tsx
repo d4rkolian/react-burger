@@ -8,7 +8,18 @@ import { IngredientThumb } from './ingredient-thumb/ingredient-thumb';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { numberWithSpaces } from '../../utils';
 
-export const OrderCard = (props) => {
+interface IOrderCardProps {
+	createdAt: string;
+	ingredients: string[];
+	length: number;
+	name: string;
+	number: number;
+	status: string;
+	updatedAt: string;
+	_id: string;
+}
+
+export const OrderCard = (props:IOrderCardProps) => {
 
 	const dispatch = useDispatch();
 	const { ingredients } = useSelector( store => ({

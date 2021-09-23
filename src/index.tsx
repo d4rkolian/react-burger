@@ -9,7 +9,6 @@ import { WS_URL } from './utils/endpoints';
 
 import { Provider } from 'react-redux';
 import { rootReducer } from './services/reducers/index';
-import type { TRootState } from './services/reducers/index';
 
 import './index.css';
 import App from './components/app/app';

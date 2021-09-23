@@ -2,13 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom'; 
-import PropTypes from 'prop-types'
 import { CLEAN_DETAILED } from '../../services/actions';
 
 import modalStyles from './modal.module.css';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 
-function Modal(props) {
+function Modal(props:{ modaltype:string }) {
 	const modalRoot = document.getElementById("modals");
   let history = useHistory();
   const dispatch = useDispatch();
@@ -48,10 +47,6 @@ function Modal(props) {
       <ModalOverlay clickHandle={back} />
     </>
   ), modalRoot);
-}
-
-Modal.propTypes = {
-  modaltype: PropTypes.string,
 }
 
 export default Modal;

@@ -14,7 +14,7 @@ import AppStyles from './app.module.css';
 
 import type { TRootState } from '../../index';
 
-function App(props:any) {
+function App() {
 
 	const dispatch = useDispatch();	
 	const history = useHistory();
@@ -44,7 +44,7 @@ function App(props:any) {
 	);
 
 	const [modalVisible, setVisible] = React.useState(false);
-	const [modalChildren, setModalChildren] = React.useState(null);
+	const [modalChildren, setModalChildren] = React.useState<any>(null);
 
 	function clickHandle(event:any) {
 
@@ -61,7 +61,6 @@ function App(props:any) {
 			let component = null;
 		  switch( event.currentTarget.getAttribute('modaltype') ) {
 		    case "ingredients":		      
-		      component = <IngredientDetails id={event.currentTarget.getAttribute('arraykey')} />;
 		      dispatch({
 		      	type: 'SET_AS_DETAILED',
 	      		arraykey: event.currentTarget.getAttribute('arraykey'),
@@ -143,12 +142,13 @@ function App(props:any) {
 	        	<Pages.Page404 />
 	        </Route>
         </Switch>
-        {/* ниже первая строчка - это временная заглушка из "обычной" модалки для номера заказа, перед доработками спринта №4 */}
-        { modalVisible && <Modal isVisible={modalVisible} clickHandle={clickHandle}>{modalChildren}</Modal> }
+        {/* ниже первая строчка - это временная заглушка из "обычной" модалки для номера заказа, перед доработками спринта №4 
+        { modalVisible && <Modal isVisible={modalVisible} clickHandle={clickHandle}>{modalChildren}</Modal>  */ }
 
         { background && !modalVisible && <Route path="/ingredients/:id" children={<Modal ><IngredientDetails /></Modal>} /> }
         { background && !modalVisible && <Route path="/feed/:id" exact children={<Modal ><OrderView appStyles={AppStyles} /></Modal>} /> }
         { background && !modalVisible && <Route path="/profile/orders/:id" exact reqauth={true} isAuthorized={isAuthorized} children={<Modal ><OrderView appStyles={AppStyles} /></Modal>} /> }
+     
       </main>
    </>
   );

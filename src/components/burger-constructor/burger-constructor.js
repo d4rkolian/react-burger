@@ -1,4 +1,4 @@
-import { React, useRef } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch }  from 'react-redux';
 import { MOVE_TO_CONSTRUCTOR } from '../../services/actions';
@@ -10,10 +10,20 @@ import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Ingredient from '../ingredient/ingredient';
 import BGStyles from './burger-constructor.module.css';
 
+//import type { TRootState } from '../../index';
+
+// interface IBurgerConstructorProps {
+// 	appStyles: any;
+// 	clickHandle: (event:any) => void;
+// 	isLoading?: boolean; 
+// }
+
 const BurgerConstructor = (props) => {
+//const BurgerConstructor = (props:IBurgerConstructorProps) => {
 
 	let summ = 0; 
 	const formRef = useRef();
+	//const formRef = useRef<HTMLInputElement>();
 
 	// получаем из хранилища данные по ингредиентам, добавленным в конструктор
 	const { ingredientsConstructor, notice } = useSelector( store => ({
@@ -26,7 +36,7 @@ const BurgerConstructor = (props) => {
 	const dispatch = useDispatch();
 	const [, dropRef] = useDrop({
 		accept: 'ingredient',
-		drop (itemId) {
+		drop (itemId:any) {
 			// вызвать апдейт store
 			dispatch({
 				type: MOVE_TO_CONSTRUCTOR,

@@ -9,7 +9,16 @@ import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-comp
 
 import IngStyles from './ingredient.module.css';
 
-const Ingredient = (props) => {
+import type { TIngredient } from '../../types/data';
+
+interface IIngredientProps {
+	details: ( (string|number)[] | TIngredient );
+	clickHandle: () => void;
+	isLocked: boolean;
+	type: string;
+}
+
+const Ingredient = (props:IIngredientProps) => {
 	var type = (props.type) ? props.type : "";
 	var name = props.details.product.name;
 	if (props.type && props.type === "top") name = props.details.product.name+' (верх)';
@@ -20,7 +29,7 @@ const Ingredient = (props) => {
 	const index = props.listkey;
 	const dispatch = useDispatch();
 
-	const ref = useRef(null);
+	const ref = useRef<HTMLInputElement>(null);
 
 	const [{ handlerId }, drop] = useDrop({
     accept: 'movedingredient',
@@ -106,16 +115,6 @@ const Ingredient = (props) => {
 	      />
 	  </li>
 	);
-}
-
-Ingredient.propTypes = {
-	details: PropTypes.oneOfType([
-		PropTypes.array,
-		PropTypes.object
-	]),
-	clickHandle: PropTypes.func.isRequired,
-	isLocked: PropTypes.bool.isRequired,
-	type: PropTypes.string,
 }
 
 export default Ingredient;

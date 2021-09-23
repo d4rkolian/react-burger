@@ -4,10 +4,11 @@ import { getUserInfo, setUserInfo, PROFILE_WAS_UPDATED } from '../../../services
 import { Input, PasswordInput, Button, EditIcon, CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { dots } from '../../../utils';
 import Styles from './details.module.css';
+import type { TRootState } from '../../index';
 
 export const ProfileDetails = () => {
 
-	const { isLoading, isLoaded, user, isUpdating, isUpdated } = useSelector(store => ({
+	const { isLoading, isLoaded, user, isUpdating, isUpdated } = useSelector( (store:TRootState) => ({
 		isLoading: store.profile.isLoading,
 		isLoaded: store.profile.isLoaded,
 		user: store.profile.user,

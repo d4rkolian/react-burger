@@ -1,8 +1,25 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import Styles from './ingredient-thumb.module.css';
 
-export const IngredientThumb = (props) => {
+interface IThumb {
+	count: number;
+	details: {
+		calories: number;
+		carbohydrates: number;
+		fat: number;
+		image: string;
+		image_large: string;
+		image_mobile: string;
+		name: string;
+		price: number;
+		proteins: number;
+		type: string;
+		__v: number
+	};
+	mode: string;
+}
+
+export const IngredientThumb = (props:IThumb) => {
 
 	const className = props.mode === 'rest' ? [Styles.thumbwrap, Styles.rest].join(" ") : Styles.thumbwrap;
 	return (

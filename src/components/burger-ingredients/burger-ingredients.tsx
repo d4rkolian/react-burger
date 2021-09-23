@@ -2,11 +2,18 @@ import React, { useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getIngredients } from '../../services/actions';
-import PropTypes from 'prop-types';
 import Card from '../card/card';
 import BIStyles from './burger-ingredients.module.css';
 
-function BurgerIngredients(props) {
+interface IBurgerIngredientsProps {
+	appStyles: {
+		[key: string]: string;
+		isLoading: boolean;
+		clickHandle: () => void;
+	}
+}
+
+function BurgerIngredients(props:IBurgerIngredientsProps) {
 	
 	const dispatch = useDispatch();
 	const [activeTab, setActiveTab] = useState('buns');
@@ -143,12 +150,6 @@ function BurgerIngredients(props) {
 	</section>
   );
 
-}
-
-BurgerIngredients.propTypes = {
-	isLoading: PropTypes.bool.isRequired,
-	clickHandle: PropTypes.func.isRequired,
-	appStyles: PropTypes.object.isRequired,
 }
 
 export default BurgerIngredients;

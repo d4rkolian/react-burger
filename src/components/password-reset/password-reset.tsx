@@ -5,9 +5,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { passReset } from '../../services/actions/user-details';
 import PagesStyles from '../../pages/page.module.css';
 import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
+import type { TRootState } from '../../index';
 
-
-const PasswordReset = (props) => {
+const PasswordReset = (props:{step:string}) => {
 
 	const dispatch = useDispatch();
 	const history = useHistory();
@@ -19,7 +19,7 @@ const PasswordReset = (props) => {
 		token: '',
   })
   
-  const { isPasswordRequested, stepTwoAllowed, isPasswordReset } = useSelector( store => ({
+  const { isPasswordRequested, stepTwoAllowed, isPasswordReset } = useSelector( (store:TRootState) => ({
   	isPasswordRequested: {
   		step1: store.userDetails.isPasswordRequested.step1,
   		step2: store.userDetails.isPasswordRequested.step2,

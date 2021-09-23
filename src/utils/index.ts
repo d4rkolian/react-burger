@@ -1,4 +1,4 @@
-export const countInArray = ( array, item ) => {
+export const countInArray = ( array:any[], item:any ) => {
 	let count = 0;
 	for(let i = 0; i < array.length; ++i){
 	    if(array[i] === item)
@@ -8,7 +8,7 @@ export const countInArray = ( array, item ) => {
 }
 
 // из теоретической части
-export function setCookie(name, value, props) {
+export function setCookie(name:string, value:string, props:{ [key:string]:(string|number) }) {
   props = props || {};
   let exp = props.expires;
   if (typeof exp == 'number' && exp) {
@@ -31,7 +31,7 @@ export function setCookie(name, value, props) {
   document.cookie = updatedCookie;
 }
 
-export function getCookie(name) {
+export function getCookie(name:string) {
   const matches = document.cookie.match(
     new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
   );

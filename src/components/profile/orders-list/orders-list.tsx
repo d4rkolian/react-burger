@@ -3,13 +3,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, Link } from 'react-router-dom'; 
 import { getCookie } from '../../../utils'; 
 import { OrderCard } from '../../order-card/order-card';
-import Styles from './orders-list.module.css'
+import Styles from './orders-list.module.css';
+import type { TRootState } from '../../index';
 
 export const OrdersList = () => {
 
 	const dispatch = useDispatch();
 	let location = useLocation();
-	const { connected, orders, ingredients } = useSelector( store => ({
+	const { connected, orders, ingredients } = useSelector( (store:TRootState) => ({
 		connected: store.socket.connected,
 		orders: store.socket.orders,
 		ingredients: store.burger.ingredients.all,

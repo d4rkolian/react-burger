@@ -9,10 +9,17 @@ import { IngredientInline } from './ingredient-inline/ingredient-inline';
 import Styles from './order-view.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'; 
 
-export const OrderView = (props) => {
+import type { TRootState } from '../../index';
+interface IOrderViewProps {
+	appStyles: {
+		[key: string]: string;
+	}
+}
+
+export const OrderView = (props:IOrderViewProps) => {
 
 	moment.locale('ru');
-	const { order, ingredients, loading } = useSelector( store => ({
+	const { order, ingredients, loading } = useSelector( (store:TRootState) => ({
 		order: store.burger.currentOrder,
 		ingredients: store.burger.ingredients.all,
 		loading: store.burger.loaders.orderDetails,

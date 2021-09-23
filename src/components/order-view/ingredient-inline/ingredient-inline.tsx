@@ -3,7 +3,14 @@ import { IngredientThumb } from '../../order-card/ingredient-thumb/ingredient-th
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import Styles from './ingredient-inline.module.css';
 
-export const IngredientInline = (props) => {
+import type { TIngredient } from '../../types/data';
+
+interface IIngredientInlineProps {
+	count: number;
+	details: TIngredient[];
+}
+
+export const IngredientInline = (props:IIngredientInlineProps) => {
 	return (
 		<li key={props.index}>
 			<div className={Styles.wrap}>	
