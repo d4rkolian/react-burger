@@ -12,6 +12,8 @@ import { CLEAN_DETAILED, DELETE_FROM_CONSTRUCTOR, TURN_ON_NOTICE, getOrderNumber
 import { isAuth } from '../../services/actions/user';
 import AppStyles from './app.module.css';
 
+import type { TRootState } from '../../index';
+
 function App(props:any) {
 
 	const dispatch = useDispatch();	
@@ -21,11 +23,11 @@ function App(props:any) {
 
 	const ingredientsIDs:any[] = []; 	// TODO
 
-	useSelector( store => store.burger.ingredients.constructor ).map( (item:any, index:number) => {
+	useSelector( (store:TRootState) => store.burger.ingredients.constructor ).map( (item:any, index:number) => {
 		if ( item.type === 'bun' ) { ingredientsIDs.push(item._id); } // дополнительная булочка
 		return ingredientsIDs.push(item._id);
 	});
-	const { isLoading, bunChosen, isAuthorized } = useSelector( store => ({
+	const { isLoading, bunChosen, isAuthorized } = useSelector( (store:TRootState) => ({
 		isLoading: store.burger.loaders.ingredients,
 		bunChosen: store.burger.ingredients.bunChosen,
 		isAuthorized: store.user.isAuthorized,

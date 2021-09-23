@@ -31,8 +31,8 @@ declare global {
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(WS_URL)));
-const store:TRootState = createStore(rootReducer, enhancer);
-// export type RootState = ReturnType<typeof store.getState>;
+const store = createStore(rootReducer, enhancer);
+export type TRootState = ReturnType<typeof store.getState>;
 
 ReactDOM.render(
   <React.StrictMode>
