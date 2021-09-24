@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { FC} from 'react';
 import Profile from '../components/profile/profile';
 
-export const ProfilePage = (props) => {
+export const ProfilePage = (props:any) => {
 	return (
 		<Profile {...props} />
 	);

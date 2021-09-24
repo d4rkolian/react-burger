@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
-import PropTypes from 'prop-types';
-import { useSelector, useDispatch }  from 'react-redux';
+// import { useSelector, useDispatch }  from 'react-redux';
+import { useSelector, useDispatch } from '../../utils/hooks';
 import { MOVE_TO_CONSTRUCTOR } from '../../services/actions';
 import { useDrop } from "react-dnd";
 import { numberWithSpaces } from '../../utils'; 
@@ -10,19 +10,19 @@ import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Ingredient from '../ingredient/ingredient';
 import BGStyles from './burger-constructor.module.css';
 
-//import type { TRootState } from '../../index';
+import type { TIngredient } from '../../types/data';
 
-// interface IBurgerConstructorProps {
-// 	appStyles: any;
-// 	clickHandle: (event:any) => void;
-// 	isLoading?: boolean; 
-// }
+interface IBurgerConstructorProps {
+	appStyles: any;
+	clickHandle: (event:any) => void;
+	isLoading?: boolean; 
+}
 
-const BurgerConstructor = (props) => {
-//const BurgerConstructor = (props:IBurgerConstructorProps) => {
+//const BurgerConstructor = (props) => {
+const BurgerConstructor = (props:IBurgerConstructorProps) => {
 
 	let summ = 0; 
-	const formRef = useRef();
+	const formRef = useRef<any>();
 	//const formRef = useRef<HTMLInputElement>();
 
 	// получаем из хранилища данные по ингредиентам, добавленным в конструктор
@@ -48,11 +48,11 @@ const BurgerConstructor = (props) => {
 
   return (
 		<section className={[props.appStyles.leftright, "ml-10", "pt-25"].join(" ")} id="burgerconstructor" ref={dropRef} >
-			<form ref={formRef} onSubmit={props.clickHandle} modaltype="order" >
+			<form ref={formRef} onSubmit={props.clickHandle} data-modaltype="order" >
 				{ ingredientsConstructor.length > 0 ? (
 						<ul className={[BGStyles.inglist, "ml-4"].join(" ")} >
 							{
-			      		ingredientsConstructor.map((product,index) => {
+			      		ingredientsConstructor.map((product:TIngredient,index:number) => {
 			      			if ( product.type === 'bun' ){
 			      				summ += product.price
 			      				return <Ingredient key={index} details={{product}} clickHandle={props.clickHandle} isLocked={true} type="top"  />
@@ -62,7 +62,7 @@ const BurgerConstructor = (props) => {
 							<li>
 								<ul className={[BGStyles.ajustable, props.appStyles.customscroll, props.isLoading ? props.appStyles.loading : ""].join(" ")}>
 								{
-				      		ingredientsConstructor.map((product,index) => {
+				      		ingredientsConstructor.map((product:TIngredient,index:number) => {
 				      			if ( product.type !== 'bun' ){
 				      				summ += product.price
 				      				return <Ingredient key={index} details={{product}} clickHandle={props.clickHandle} listkey={index} isLocked={false} />
@@ -72,7 +72,7 @@ const BurgerConstructor = (props) => {
 								</ul>
 							</li>
 							{
-			      		ingredientsConstructor.map((product,index) => {
+			      		ingredientsConstructor.map((product:TIngredient,index:number) => {
 			      			if ( product.type === 'bun' ){
 			      				summ += product.price
 			      				return <Ingredient key={index} details={{product}} clickHandle={props.clickHandle} isLocked={true} type="bottom"  />
@@ -88,9 +88,9 @@ const BurgerConstructor = (props) => {
 		    <div className={[BGStyles.total, "mt-10"].join(" ")}>
 		    	<p className={[BGStyles.summ,"mr-10"].join(" ")}>
 		    		<span className={BGStyles.text}>{numberWithSpaces(summ)}</span>
-		    		<span className={BGStyles.icon}><CurrencyIcon /></span>
+		    		<span className={BGStyles.icon}><CurrencyIcon type="primary" /></span>
 		    	</p>
-		    	<Button type="primary" onClick={ (e) => formRef.current.requestSubmit() } size="large" modaltype="order">
+		    	<Button type="primary" onClick={ (e) => formRef.current.requestSubmit() } size="large" data-modaltype="order">
 					  Оформить заказ
 					</Button>
 		    </div>
@@ -101,11 +101,6 @@ const BurgerConstructor = (props) => {
 		</section>
   );
 
-}
-
-BurgerConstructor.propTypes = {
-	clickHandle: PropTypes.func.isRequired,
-	appStyles: PropTypes.object.isRequired,
 }
 
 export default BurgerConstructor;

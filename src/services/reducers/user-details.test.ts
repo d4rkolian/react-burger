@@ -1,7 +1,8 @@
 import { userDetailsReducer } from './user-details';
 import * as actions from '../actions/user-details';
+import type { TUserDetailsState } from './user-details'; 
 
-const originState = {
+const originState:TUserDetailsState = {
 	isPasswordRequested: {
 		step1: false,
 		step2: false,

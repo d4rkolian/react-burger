@@ -1,6 +1,6 @@
 import { API_URL, ORDER_URL } from '../../utils/endpoints';
 import { getCookie } from '../../utils'; 
-import { Dispatch } from 'redux';
+import type { AppThunk, AppDispatch } from '../../types/data';
 
 export const MOVE_TO_CONSTRUCTOR:'MOVE_TO_CONSTRUCTOR' = 'MOVE_TO_CONSTRUCTOR';
 export const LOAD_INGREDIENTS_REQUEST:'LOAD_INGREDIENTS_REQUEST' = 'LOAD_INGREDIENTS_REQUEST';
@@ -18,8 +18,8 @@ export const TURN_ON_NOTICE:'TURN_ON_NOTICE' = 'TURN_ON_NOTICE';
 export const DELETE_FROM_CONSTRUCTOR:'DELETE_FROM_CONSTRUCTOR' = 'DELETE_FROM_CONSTRUCTOR';
 export const MOVE_CONSTRUCTOR:'MOVE_CONSTRUCTOR' = 'MOVE_CONSTRUCTOR';
 
-export function getOrderNumber(ingredientsIDs:string[]) {
-  return function(dispatch: Dispatch) {
+export const getOrderNumber:AppThunk = (ingredientsIDs:string[]) => {
+  return function(dispatch: AppDispatch) {
     dispatch({type: GET_ORDER_NUMBER_REQUEST});
     const accessToken = getCookie('token');
     const reqOptions = {
@@ -44,8 +44,8 @@ export function getOrderNumber(ingredientsIDs:string[]) {
   }
 }
 
-export function getOrderByNumber(orderNumber:number) {
-  return function (dispatch: Dispatch){
+export const getOrderByNumber:AppThunk = (orderNumber:number) => {
+  return function (dispatch: AppDispatch){
     dispatch({ type: GET_ORDER_BY_NUMBER_REQUEST });
     const reqOptions = {
       method: 'GET',
@@ -69,8 +69,8 @@ export function getOrderByNumber(orderNumber:number) {
   }
 }
 
-export function getIngredients() {
-	return function(dispatch: Dispatch) {
+export const getIngredients:AppThunk = () => {
+	return function(dispatch: AppDispatch) {
 
 		dispatch({type: LOAD_INGREDIENTS_REQUEST});
     fetch(API_URL)

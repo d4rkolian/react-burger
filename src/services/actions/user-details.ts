@@ -2,7 +2,7 @@ import {
   PASS_RESET_ENDPOINT,
   PASS_RESET_STEP2_ENDPOINT,
 } from '../../utils/endpoints';
-import { Dispatch } from 'redux';
+import type { AppThunk, AppDispatch } from '../../types/data';
 
 export const PASS_RESET_REQUEST = 'PASS_RESET_REQUEST';
 export const PASS_RESET_SUCCESS = 'PASS_RESET_SUCCESS';
@@ -43,8 +43,8 @@ export type TUserDetailsActions =
 	| IPassStep2ErrorAction
 	| IPassStep2SuccessAfterAction;
 
-export function passReset(data:{email?: string; token?:string; password?:string; }, step:string){
-	return function(dispatch:Dispatch){
+export const passReset:AppThunk = (data:{email?: string; token?:string; password?:string; }, step:string) => {
+	return function(dispatch:AppDispatch){
 		switch (step) {
 			case 'first': {
 				dispatch({ type: PASS_RESET_REQUEST });

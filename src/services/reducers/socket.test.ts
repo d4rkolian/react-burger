@@ -1,7 +1,8 @@
 import { socketReducer} from './socket';
 import * as actions from '../actions/socket';
+import { ISocketState } from './socket'; 
 
-const originState = {
+const originState:ISocketState = {
 	isConnecting: false,
 	connected: false,
 	orders: [],

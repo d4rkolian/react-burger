@@ -1,7 +1,7 @@
-import { React, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import { Link, useHistory, Redirect } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+// import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../../utils/hooks';
 import { passReset } from '../../services/actions/user-details';
 import PagesStyles from '../../pages/page.module.css';
 import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -19,7 +19,7 @@ const PasswordReset = (props:{step:string}) => {
 		token: '',
   })
   
-  const { isPasswordRequested, stepTwoAllowed, isPasswordReset } = useSelector( (store:TRootState) => ({
+  const { isPasswordRequested, stepTwoAllowed, isPasswordReset } = useSelector( store => ({
   	isPasswordRequested: {
   		step1: store.userDetails.isPasswordRequested.step1,
   		step2: store.userDetails.isPasswordRequested.step2,
@@ -37,7 +37,7 @@ const PasswordReset = (props:{step:string}) => {
   }
 
 	// TODO объединить попробовать
-  const changeHandle = (event) => {
+  const changeHandle = (event:React.ChangeEvent<HTMLInputElement>) => {
 		const target = event.target;
 		const name = target.name;
 		const value = target.value;
@@ -52,7 +52,7 @@ const PasswordReset = (props:{step:string}) => {
 	} 
 
 	// TODO тоже попробовать объединить
-	const submitHandle = (event) => {
+	const submitHandle = (event:React.SyntheticEvent) => {
 		event.preventDefault();
 		if ( state.notReady ) {
 			setState({
@@ -83,8 +83,8 @@ const PasswordReset = (props:{step:string}) => {
 							</>
 						) : props.step === 'second' && stepTwoAllowed ? (
 							<>
-								<div className={[PagesStyles.inputcontainer, "mb-6"].join(" ")}><PasswordInput type="password" name="password" onChange={changeHandle} value={state.password} placeholder="Введите новый пароль" /></div>
-								<div className={[PagesStyles.inputcontainer, "mb-6"].join(" ")}><Input type="text" placeholder="Введите код из письма" name="token" onChange={changeHandle} value={state.token} /></div>
+								<div className={[PagesStyles.inputcontainer, "mb-6"].join(" ")}><PasswordInput name="password" onChange={changeHandle} value={state.password} /></div>
+								<div className={[PagesStyles.inputcontainer, "mb-6"].join(" ")}><Input type="text" name="token" onChange={changeHandle} value={state.token} /></div>
 								<Button type="primary" >{ !isPasswordRequested.step2 ? (<span>Сохранить</span>) : (<span>Ждем ответ сервера</span>) }</Button>
 								{ state.noticeShown && (
 									<p className="text text_type_main-small text_type_main-default text_color_inactive mt-2">Введите новый пароль</p>
@@ -100,8 +100,5 @@ const PasswordReset = (props:{step:string}) => {
 		);
 }
 
-PasswordReset.propTypes = {
-	step: PropTypes.string.isRequired,
-}
 export default PasswordReset
 

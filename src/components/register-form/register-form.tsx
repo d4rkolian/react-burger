@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'; 
 import { createUser } from '../../services/actions/user';
@@ -24,7 +24,7 @@ const RegistrationForm = () => {
  		} 
   });
 
-	const submitHandle = (event) => {
+	const submitHandle = (event:React.SyntheticEvent) => {
 		event.preventDefault();
 		if ( state.notReady ) {
 			setState({
@@ -41,18 +41,19 @@ const RegistrationForm = () => {
 		}
 	}
 
-	const changeHandle = (event) => {
-		const target = event.target;
+	const changeHandle = (event:React.ChangeEvent<HTMLInputElement>) => {
+		const target = event.target as HTMLInputElement;
 		const name = target.name;
 		const value = target.value;
 		setState({
-    	...state,
-    	user: {
-    		...state.user,
-       [name]: value
-    	},
-    	notReady: state.user.name !== '' && state.user.email !== '' && state.user.password !== '' ? false : true,
-     });
+	    	...state,
+	    	user: {
+	    		...state.user,
+	       [name]: value
+	    	},
+	    	notReady: state.user.name !== '' && state.user.email !== '' && state.user.password !== '' ? false : true,
+	     });
+		event.stopPropagation();
 	} 
 
 	return (

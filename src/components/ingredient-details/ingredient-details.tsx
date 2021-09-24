@@ -1,18 +1,18 @@
-import { React, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { getIngredients } from '../../services/actions';
-import { useSelector, useDispatch } from 'react-redux';
+// import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../../utils/hooks';
 import { useParams, useLocation } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import IgDStyles from './ingredient-details.module.css';
 import type { TRootState } from '../../index';
 
 function IngredientDetails() {
-	let product = useSelector( (store:TRootState) => store.burger.currentIngredient );
-	const products = useSelector( (store:TRootState) => store.burger.ingredients.all );
+	let product = useSelector( store => store.burger.currentIngredient );
+	const products = useSelector( store => store.burger.ingredients.all );
 	
 	const location = useLocation();
 	const dispatch = useDispatch();
-	const params = useParams();
+	const params:any = useParams();
 
 	useEffect(() => {
 		if ( products.length === 0 ){

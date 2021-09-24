@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+// import { useDispatch, useSelector } from 'react-redux';
+import { useSelector, useDispatch } from '../../utils/hooks';
 import { getIngredients } from '../../services/actions';
 import { Link, useLocation } from 'react-router-dom';
 import { OrderCard } from '../order-card/order-card';
@@ -7,6 +8,7 @@ import AppStyles from '../app/app.module.css';
 import Styles from './feed.module.css';
 import { WS_CONNECTION_START } from '../../services/actions/socket';
 import { numberWithSpaces } from '../../utils';
+import type { TOrder } from '../../types/data';
 
 export const Feed = () => {
 
@@ -19,8 +21,8 @@ export const Feed = () => {
 		orders: store.socket.orders,
 	}));
 
-	const ready = [];
-	const inprogress = [];
+	const ready:Array<number> = [];
+	const inprogress:Array<number> = [];
 
 	useEffect(
     () => {
@@ -41,7 +43,7 @@ export const Feed = () => {
 				{ orders.length > 0 && (
 						<ul>
 							{
-								orders.map((order,index) => {
+								orders.map((order:TOrder,index:number) => {
 									if ( order.status === 'done' ) {
 										ready.push(order.number);
 									} else {

@@ -1,7 +1,8 @@
 import { profileReducer } from './profile';
 import * as actions from '../actions/profile';
+import type { TProfileState } from './profile'; 
 
-const originState = {
+const originState:TProfileState = {
 	isLoading: false,
 	isLoaded: false,
 	user: {},

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+// import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../../utils/hooks';
 import { useParams, useHistory } from 'react-router-dom'; 
 import moment from 'moment';
 import 'moment/locale/ru';
@@ -19,13 +20,13 @@ interface IOrderViewProps {
 export const OrderView = (props:IOrderViewProps) => {
 
 	moment.locale('ru');
-	const { order, ingredients, loading } = useSelector( (store:TRootState) => ({
+	const { order, ingredients, loading } = useSelector( store => ({
 		order: store.burger.currentOrder,
 		ingredients: store.burger.ingredients.all,
 		loading: store.burger.loaders.orderDetails,
 	}));
 
-	const params = useParams();
+	const params:{ [key:string]: (string|number|undefined) } = useParams();
 	const dispatch = useDispatch();
 	const history = useHistory();
 
@@ -45,13 +46,13 @@ export const OrderView = (props:IOrderViewProps) => {
 
 	const statusText = order.status === 'done' ? 'Выполнен' : 'В процессе';
 
-	const ingredientsList = {};
-	let ingredientsHashes = [];
+	const ingredientsList:{ [key:string]: { details:any; count: number; } } = {};
+	let ingredientsHashes:Array<string> = [];
 	let sum = 0;
 
 	if ( !loading && order.ingredients && ingredients.length > 0 ){
-		order.ingredients.map((hash) => {
-			let details = ingredients.filter((item) => {
+		order.ingredients.map((hash:any) => {
+			let details = ingredients.filter((item:any) => {
 				if ( item._id === hash ) {
 					return item;
 				} else {
@@ -94,7 +95,7 @@ export const OrderView = (props:IOrderViewProps) => {
 							</div>
 							<div className={Styles.details}>
 								<div>{moment(order.createdAt).calendar()}</div>
-								<div className={Styles.ttl}>{numberWithSpaces(sum)}&nbsp;<CurrencyIcon /></div>
+								<div className={Styles.ttl}>{numberWithSpaces(sum)}&nbsp;<CurrencyIcon type="primary" /></div>
 							</div>
 						</>
 					) : (

@@ -2,7 +2,7 @@ import React from 'react';
 import Styles from './ingredient-thumb.module.css';
 
 interface IThumb {
-	count: number;
+	count?: number;
 	details: {
 		calories: number;
 		carbohydrates: number;
@@ -16,7 +16,7 @@ interface IThumb {
 		type: string;
 		__v: number
 	};
-	mode: string;
+	mode?: string;
 }
 
 export const IngredientThumb = (props:IThumb) => {

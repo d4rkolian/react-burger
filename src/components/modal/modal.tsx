@@ -7,12 +7,12 @@ import { CLEAN_DETAILED } from '../../services/actions';
 import modalStyles from './modal.module.css';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 
-function Modal(props:{ modaltype:string }) {
-	const modalRoot = document.getElementById("modals");
+function Modal(props:{ modaltype?:string; clickHandle?: (event:React.SyntheticEvent) => void; isVisible?: boolean; children?: any; }) {
+	const modalRoot:any = document.getElementById("modals");
   let history = useHistory();
   const dispatch = useDispatch();
 
-  let back = e => {
+  let back:any = (e:React.SyntheticEvent) => {
     e.stopPropagation();
     history.goBack();
   }
@@ -21,9 +21,9 @@ function Modal(props:{ modaltype:string }) {
     back = props.clickHandle;
   } 
 
-  function handleUserKeyPress(event) { 
+  function handleUserKeyPress(event:any) { 
     if (event.keyCode === 27) {
-      !props.isVisible ? back(event) : props.clickHandle(event);
+      !props.isVisible ? back(event) : props.clickHandle!(event);
       dispatch({type: CLEAN_DETAILED});
     }
   }

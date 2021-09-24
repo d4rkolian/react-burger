@@ -1,3 +1,5 @@
+import { Middleware } from 'redux';
+import type { TRootState } from '../../index';
 import {
   WS_CONNECTION_START,
   WS_CONNECTION_SUCCESS,
@@ -6,12 +8,14 @@ import {
   WS_GET_MESSAGE,
 } from '../actions/socket';
 
-export const socketMiddleware = (wsUrl) => {
+import { Actions } from  '../../types/data';
+
+export const socketMiddleware = (wsUrl:string): Middleware<{}, TRootState> => {
 	return store => {
 
-		let socket = null;
+		let socket: WebSocket | null = null;
 
-		return next => action => {
+		return next => (action: any) => {   // TODO тут поменять any на Actions 
 
 			const { dispatch, getState } = store;
       const { type, payload } = action;

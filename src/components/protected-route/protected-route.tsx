@@ -1,11 +1,32 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { FC, useEffect } from 'react';
+import { History } from 'history';
+// import { useDispatch, useSelector } from 'react-redux';
+import { useSelector, useDispatch } from '../../utils/hooks';
 import { Route, Redirect, useHistory } from 'react-router-dom';
 import { isAuth } from '../../services/actions/user';
 
-const ProtectedRoute = ({children, ...rest}) => {
+type TProps = {
+	path: string;
+	exact: boolean;
+	reqauth?: boolean;
+	isAuthorized?: boolean;
+	appStyles?: {
+		[x: string]:string;
+	}
+};
 
-	const history = useHistory();
+interface IHistory extends History {
+	location: {
+		pathname: string;
+		search: string;
+		hash: string;
+		state: any;
+	};
+}
+
+const ProtectedRoute: FC<TProps> = ({children, reqauth, ...rest}) => {
+
+	const history:IHistory = useHistory();
 	const dispatch = useDispatch();
 	const { authFailed } = useSelector( store => ({ authFailed: store.user.authFailed }) );
 	let pageGoTo = '';
@@ -20,7 +41,7 @@ const ProtectedRoute = ({children, ...rest}) => {
 
 	// определили страницу в зависимости от типа protected route - если после попытки входа по токену не получилось
 	if ( authFailed ){
-		pageGoTo = rest.reqauth ? '/login' : '/profile';
+		pageGoTo = reqauth ? '/login' : '/profile';
 	}
 
 	useEffect(
@@ -36,7 +57,7 @@ const ProtectedRoute = ({children, ...rest}) => {
 	return (
 		<Route
       {...rest}
-      	render={() => (rest.isAuthorized === rest.reqauth) ? (children) : (<Redirect to={pageGoTo} />)
+      	render={() => (rest.isAuthorized === reqauth) ? (children) : (<Redirect to={pageGoTo} />)
       }
     />
 	);

@@ -8,7 +8,7 @@ export const countInArray = ( array:any[], item:any ) => {
 }
 
 // из теоретической части
-export function setCookie(name:string, value:string, props:{ [key:string]:(string|number) }) {
+export function setCookie(name:string, value:string, props?:{ [key:string]:any }) {
   props = props || {};
   let exp = props.expires;
   if (typeof exp == 'number' && exp) {
@@ -51,6 +51,6 @@ export const dots = window.setInterval(
   }, 300);
 
 // форматирование числительных 
-export function numberWithSpaces(x) {
+export function numberWithSpaces(x:(string|number)) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 }

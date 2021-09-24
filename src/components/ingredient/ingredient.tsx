@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
-import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux'; 
+// import { useSelector, useDispatch } from 'react-redux'; 
+import { useSelector, useDispatch } from '../../utils/hooks';
 import { MOVE_CONSTRUCTOR } from '../../services/actions';
 import { useDrag,  useDrop } from 'react-dnd';
 
@@ -12,14 +12,19 @@ import IngStyles from './ingredient.module.css';
 import type { TIngredient } from '../../types/data';
 
 interface IIngredientProps {
-	details: ( (string|number)[] | TIngredient );
-	clickHandle: () => void;
+	details: any;
+	clickHandle: (event:any) => void;
 	isLocked: boolean;
-	type: string;
+	type?: 'top' | 'bottom' | undefined;
+	listkey?: number;
 }
 
+type TConstructor = ReturnType<typeof ConstructorElement>;
+// const ConstructorElementOmit:Omit<TConstructor, 'handleClose'> = ConstructorElement;
+
+
 const Ingredient = (props:IIngredientProps) => {
-	var type = (props.type) ? props.type : "";
+	var type = (props.type) ? props.type : undefined;
 	var name = props.details.product.name;
 	if (props.type && props.type === "top") name = props.details.product.name+' (верх)';
 	if (props.type && props.type === "bottom") name = props.details.product.name+' (низ)';
@@ -29,7 +34,7 @@ const Ingredient = (props:IIngredientProps) => {
 	const index = props.listkey;
 	const dispatch = useDispatch();
 
-	const ref = useRef<HTMLInputElement>(null);
+	const ref = useRef<HTMLLIElement>(null);
 
 	const [{ handlerId }, drop] = useDrop({
     accept: 'movedingredient',
@@ -38,7 +43,7 @@ const Ingredient = (props:IIngredientProps) => {
             handlerId: monitor.getHandlerId(),
         };
     },
-    hover(item, monitor) {
+    hover(item:any, monitor) {
         if (!ref.current) {
             return;
         }
@@ -55,16 +60,16 @@ const Ingredient = (props:IIngredientProps) => {
         // Determine mouse position
         const clientOffset = monitor.getClientOffset();
         // Get pixels to the top
-        const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+        const hoverClientY = clientOffset!.y - hoverBoundingRect.top;
         // Only perform the move when the mouse has crossed half of the items height
         // When dragging downwards, only move when the cursor is below 50%
         // When dragging upwards, only move when the cursor is above 50%
         // Dragging downwards
-        if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+        if (dragIndex < hoverIndex! && hoverClientY < hoverMiddleY) {
             return;
         }
         // Dragging upwards
-        if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+        if (dragIndex > hoverIndex! && hoverClientY > hoverMiddleY) {
             return;
         }
         // Вызываем с двумя полученными индексами наше действие
@@ -95,7 +100,7 @@ const Ingredient = (props:IIngredientProps) => {
 	  	onClick={props.clickHandle}
 	  	arraykey={arraykey}
 	  	listkey={props.listkey}
-	  	modaltype="ingredients"
+	  	data-modaltype="ingredients"
 	  	draggable
 	  	ref={ref}
 	  	index={props.listkey}
@@ -111,7 +116,7 @@ const Ingredient = (props:IIngredientProps) => {
 	        isLocked={props.isLocked}
 	        price={props.details.product.price}
 	        thumbnail={props.details.product.image}
-	        handleClose={props.clickHandle}
+	        // handleClose={props.clickHandle} TODO
 	      />
 	  </li>
 	);

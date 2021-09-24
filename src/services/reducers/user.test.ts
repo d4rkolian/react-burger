@@ -1,7 +1,8 @@
 import { userReducer } from './user';
 import * as actions from '../actions/user';
+import type { TUserState } from './user'; 
 
-const originState = {
+const originState:TUserState = {
 	isCreating: false,
 	isAuthorizing: false,
 	isAuthorized: false,

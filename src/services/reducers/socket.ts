@@ -6,8 +6,21 @@ import {
 	WS_GET_MESSAGE,
 	WS_SEND_MESSAGE,
 } from '../actions/socket';
+import type { TwsActions } from '../actions/socket';
+import type { TOrder } from '../../types/data';
 
-const initialState = {
+export interface ISocketState {
+	isConnecting: boolean;
+	connected: boolean;
+	orders: TOrder[];
+	count: {
+		total: number;
+		totalToday: number;
+	};
+	error: boolean;
+}
+
+const initialState:ISocketState = {
 	isConnecting: false,
 	connected: false,
 	orders: [],
@@ -18,7 +31,7 @@ const initialState = {
 	error: false,
 }
 
-export const socketReducer = (state = initialState, action) => {
+export const socketReducer = (state = initialState, action:TwsActions): ISocketState => {
 	switch (action.type){
 		case WS_CONNECTION_START: {
 			return {

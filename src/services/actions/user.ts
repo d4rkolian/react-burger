@@ -4,8 +4,7 @@ import {
   LOGOUT_ENDPOINT,
   TOKEN_ENDPOINT,
 } from '../../utils/endpoints';
-import { Dispatch } from 'redux';
-import type { TUser } from '../../types/data';
+import type { TUser, AppThunk, AppDispatch } from '../../types/data';
 import { setCookie, getCookie } from '../../utils/';
 
 export const USER_REGISTRATION_START:'USER_REGISTRATION_START' = 'USER_REGISTRATION_START';
@@ -69,8 +68,8 @@ export type TUserActions =
 	| IUserLogoutSuccessAction
 	| IUserLogoutErrorAction;
 
-export function createUser (user: { email: string; name: string; password: string; }) {
-	return function(dispatch:Dispatch){
+export const createUser:AppThunk = (user: { email: string; name: string; password: string; }) => {
+	return function(dispatch:AppDispatch){
 		// вызвать dispatch о начале запроса
 		dispatch({type: USER_REGISTRATION_START});
 		const reqOptions = {
@@ -95,8 +94,8 @@ export function createUser (user: { email: string; name: string; password: strin
 	}
 }
 
-export function authUser (data:{ email:string; password: string;}) {
-	return function (dispatch:Dispatch){
+export const authUser:AppThunk = (data:{ email:string; password: string;}) => {
+	return function (dispatch:AppDispatch){
 		// авторизовываем
 		dispatch({type: USER_AUTH_START});
 		const reqOptions = {
@@ -124,8 +123,8 @@ export function authUser (data:{ email:string; password: string;}) {
 	}
 }
 
-export function isAuth() {
-	return function(dispatch:Dispatch){
+export const isAuth:AppThunk = () => {
+	return function(dispatch:AppDispatch){
 		const accessToken = getCookie('token');
 		const refreshToken = getCookie('refreshToken');
 		
@@ -142,8 +141,8 @@ export function isAuth() {
 	}
 }
 
-export function logOut() {
-	return function (dispatch:Dispatch){
+export const logOut:AppThunk = () => {
+	return function (dispatch:AppDispatch){
 		dispatch({type: USER_LOGOUT_START});
 		const data = {
 			token: getCookie('refreshToken'),

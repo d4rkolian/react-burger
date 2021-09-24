@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDrag } from 'react-dnd';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
+import { useSelector } from '../../utils/hooks';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import CardStyles from './card.module.css';
 import { countInArray } from '../../utils';
@@ -42,15 +43,13 @@ function Card(props:ICardProps) {
 
 	// плохо, что тут будет ререндер всех карточек. 
 	// TODO-LATER Возможно, в третьем спринте или после сдачи подумать, как перерисовать только одну по key
-	let count = countInArray(useSelector( (store:TRootState) => store.burger.ingredients.constructor ), product );
+	let count = countInArray(useSelector( store => store.burger.ingredients.constructor ), product );
 	count = product.type === 'bun' ? count*2 : count;
 
 	return(
 			<div
 				className={[CardStyles.card, "mb-10"].join(" ")}
-				
 				product={product}
-				
 				ingtype={props.details.product.type}
 				ref={dragRef}
 				draggable

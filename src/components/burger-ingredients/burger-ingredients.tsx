@@ -1,16 +1,18 @@
 import React, { useState } from 'react'; 
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+// import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../../utils/hooks';
 import { getIngredients } from '../../services/actions';
 import Card from '../card/card';
 import BIStyles from './burger-ingredients.module.css';
 
+import type { TIngredient } from '../../types/data';
 interface IBurgerIngredientsProps {
 	appStyles: {
 		[key: string]: string;
-		isLoading: boolean;
-		clickHandle: () => void;
 	}
+	isLoading: boolean;
+	clickHandle: (event:any) => void;
 }
 
 function BurgerIngredients(props:IBurgerIngredientsProps) {
@@ -32,23 +34,23 @@ function BurgerIngredients(props:IBurgerIngredientsProps) {
 
 	// работаем со скроллом и табами внутри контейнера ингредиентов
 	const handleScroll = () => {
-		const parentElPos = document.getElementById('inglist').getBoundingClientRect();		
+		const parentElPos = document.getElementById('inglist')!.getBoundingClientRect();		
 		const headers = [
 			'buns',
 			'sauces',
 			'toppings',
 		];
-		const positions = []
+		const positions:Array<number> = [];
 		headers.map( (header, index) => {
-				const elPos = document.getElementById(header).getBoundingClientRect();
+				const elPos = document.getElementById(header)!.getBoundingClientRect();
 				positions.push(Math.abs(elPos.top - parentElPos.top));
 		});
 		setActiveTab(headers[positions.indexOf(Math.min.apply(null, positions))]);
 	}
-	const scrollableRef = React.createRef();
+	const scrollableRef = React.createRef<HTMLInputElement>();
 	React.useEffect(
 		() => {
-			scrollableRef.current.addEventListener('scroll', handleScroll);
+			scrollableRef.current!.addEventListener('scroll', handleScroll);
 	    return () => {
 	      window.removeEventListener('scroll', handleScroll);
 	    };
@@ -72,19 +74,19 @@ function BurgerIngredients(props:IBurgerIngredientsProps) {
 					<h2 className="mt-10 mb-6" id="buns">Булки</h2>
 					<div className="pl-4">
 						{
-		      		ingredients.map((product,index)=>{
+		      		ingredients.map((product:TIngredient,index:number)=>{
 		      			if ( product.type === 'bun' ){
 		      				return (
 		      					<Link
 		      						key={product._id}
 		      						className={BIStyles.cardwrap}
 		      						onClick={props.clickHandle}
-		      						modaltype="ingredients"
+		      						data-modaltype="ingredients"
 		      						to={{
 		      							pathname: "/ingredients/"+index,
 		      							state: { background: location }
 		      						}}>
-		      						<Card details={{product}} arraykey={index} />
+		      						<Card details={{product}} arraykey={index} clickHandle={()=>{}} />
 		      					</Link>
 		      				);
 		      			} else {
@@ -97,19 +99,19 @@ function BurgerIngredients(props:IBurgerIngredientsProps) {
 					<h2 className="mt-10 text_color_inactive" id="sauces">Соусы</h2>
 					<div className="pl-4">
 						{
-		      		ingredients.map((product,index)=>{
+		      		ingredients.map((product:TIngredient,index:number)=>{
 		      			if ( product.type === 'sauce' ){
 		      				return (
 		      					<Link
 		      						key={product._id}
 		      						className={BIStyles.cardwrap}
 		      						onClick={props.clickHandle}
-		      						modaltype="ingredients"
+		      						data-modaltype="ingredients"
 		      						to={{
 		      							pathname: "/ingredients/"+index,
 		      							state: {background: location}
 		      						}}>
-		      						<Card details={{product}} arraykey={index} />
+		      						<Card details={{product}} arraykey={index} clickHandle={()=>{}} />
 		      					</Link>
 		      				);
 		      			} else {
@@ -122,19 +124,19 @@ function BurgerIngredients(props:IBurgerIngredientsProps) {
 					<h2 className="mt-10 text_color_inactive" id="toppings">Начинки</h2>
 					<div className="pl-4">
 						{
-		      		ingredients.map((product,index)=>{
+		      		ingredients.map((product:TIngredient,index:number)=>{
 		      			if ( product.type === 'main' ){
 		      				return (
 		      					<Link
 		      						key={product._id}
 		      						className={BIStyles.cardwrap}
 		      						onClick={props.clickHandle}
-		      						modaltype="ingredients"
+		      						data-modaltype="ingredients"
 		      						to={{
 		      							pathname: "/ingredients/"+index,
 		      							state: {background: location}
 		      						}}>
-		      						<Card details={{product}} arraykey={index} />
+		      						<Card details={{product}} arraykey={index} clickHandle={()=>{}} />
 		      					</Link>
 		      				);
 		      			} else {
@@ -144,7 +146,7 @@ function BurgerIngredients(props:IBurgerIngredientsProps) {
 		      	}	
 	      	</div>
 	      </>
-			) : apiError ? (<p className="pt-20" style={{'text-align': 'center'}}>Ошибка получения данных</p>) : ''
+			) : apiError ? (<p className="pt-20" style={{'textAlign': 'center'}}>Ошибка получения данных</p>) : ''
 			}	
 		</div>
 	</section>

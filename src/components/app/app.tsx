@@ -1,5 +1,6 @@
 import React, { useEffect, FC } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+//import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../../utils/hooks';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import * as Pages from '../../pages'; 
 import IngredientDetails from '../ingredient-details/ingredient-details';
@@ -23,7 +24,7 @@ function App() {
 
 	const ingredientsIDs:any[] = []; 	// TODO
 
-	useSelector( (store:TRootState) => store.burger.ingredients.constructor ).map( (item:any, index:number) => {
+	useSelector( store => store.burger.ingredients.constructor ).map( (item:any, index:number) => {
 		if ( item.type === 'bun' ) { ingredientsIDs.push(item._id); } // дополнительная булочка
 		return ingredientsIDs.push(item._id);
 	});
@@ -56,10 +57,10 @@ function App() {
 		}
 
 		let visible = false;
-		if ( event.currentTarget.getAttribute('modaltype') )
+		if ( event.currentTarget.getAttribute('data-modaltype') )
 		{
 			let component = null;
-		  switch( event.currentTarget.getAttribute('modaltype') ) {
+		  switch( event.currentTarget.getAttribute('data-modaltype') ) {
 		    case "ingredients":		      
 		      dispatch({
 		      	type: 'SET_AS_DETAILED',
@@ -142,12 +143,12 @@ function App() {
 	        	<Pages.Page404 />
 	        </Route>
         </Switch>
-        {/* ниже первая строчка - это временная заглушка из "обычной" модалки для номера заказа, перед доработками спринта №4 
-        { modalVisible && <Modal isVisible={modalVisible} clickHandle={clickHandle}>{modalChildren}</Modal>  */ }
+        {/* ниже первая строчка - это временная заглушка из "обычной" модалки для номера заказа, перед доработками спринта №4 */ }
+        { modalVisible && <Modal isVisible={modalVisible} clickHandle={clickHandle}>{modalChildren}</Modal> }
 
         { background && !modalVisible && <Route path="/ingredients/:id" children={<Modal ><IngredientDetails /></Modal>} /> }
         { background && !modalVisible && <Route path="/feed/:id" exact children={<Modal ><OrderView appStyles={AppStyles} /></Modal>} /> }
-        { background && !modalVisible && <Route path="/profile/orders/:id" exact reqauth={true} isAuthorized={isAuthorized} children={<Modal ><OrderView appStyles={AppStyles} /></Modal>} /> }
+        { background && !modalVisible && <Route path="/profile/orders/:id" exact  children={<Modal ><OrderView appStyles={AppStyles} /></Modal>} /> }
      
       </main>
    </>

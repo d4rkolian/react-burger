@@ -1,5 +1,7 @@
-import { React, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { History } from 'history';
+// import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../../utils/hooks';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 import { authUser } from '../../services/actions/user';
 import { PASS_RESET_STEP2_SUCCESS_AFTER } from '../../services/actions/user-details';
@@ -8,11 +10,20 @@ import PagesStyles from '../../pages/page.module.css';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import type { TRootState } from '../../index';
 
+interface IHistory extends History {
+	location: {
+		pathname: string;
+		search: string;
+		hash: string;
+		state: any;
+	};
+}
+
 const LoginForm = () => {
 
 	const dispatch = useDispatch();
-	const history = useHistory();
-	const { isAuthorizing, isAuthorized, isPasswordReset } = useSelector( (store:TRootState) => ({
+	const history:IHistory = useHistory();
+	const { isAuthorizing, isAuthorized, isPasswordReset } = useSelector( store => ({
 		isAuthorizing: store.user.isAuthorizing,
 		isAuthorized: store.user.isAuthorized,
 		isPasswordReset: store.userDetails.isPasswordReset,
@@ -28,15 +39,16 @@ const LoginForm = () => {
 	const [state, setState] = useState({
 		notReady: true,
 		noticeShown: false,
-    user: {
-    	email: '',
-    	password: '',
- 		}, 
- 		goTo: history.location && history.location.state && history.location.state.goto ? history.location.state.goto : '/profile',
-  });
+	    user: {
+	    	email: '',
+	    	password: '',
+	    	name: '',
+	 		}, 
+	 		goTo: history.location && history.location.state && history.location.state.goto ? history.location.state.goto : '/profile',
+	  });
   
 	// TODO объединить попробовать
-  const changeHandle = (event) => {
+  const changeHandle = (event:React.ChangeEvent<HTMLInputElement>) => {
 		const target = event.target;
 		const name = target.name;
 		const value = target.value;
@@ -51,7 +63,7 @@ const LoginForm = () => {
 	} 
 
 	// TODO тоже попробовать объединить
-	const submitHandle = (event) => {
+	const submitHandle = (event:React.SyntheticEvent) => {
 		event.preventDefault();
 		if ( state.notReady ) {
 			setState({

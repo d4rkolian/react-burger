@@ -4,7 +4,15 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import BurgerIngredients from '../components/burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../components/burger-constructor/burger-constructor';
 
-export const HomePage = (props) => {
+type TProps = {
+	appStyles: {
+		[x: string]:string;
+	};
+	isLoading: boolean;
+	clickHandle: (event:any) => void;
+};
+
+export const HomePage = (props:TProps) => {
 
 	return (
 		<DndProvider backend={HTML5Backend}>

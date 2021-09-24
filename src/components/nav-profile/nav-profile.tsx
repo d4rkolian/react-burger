@@ -4,7 +4,7 @@ import PNavStyles from './nav-profile.module.css';
 
 
 
-export const ProfileNavigation = (props: { isLoggingOut: boolean; logOutHandle: () => void; }) => {
+export const ProfileNavigation = (props: { isLoggingOut: boolean; logOutHandle: (e:any) => void; }) => {
 	return (
 		<nav className={PNavStyles.navigation}>
 			<ul>

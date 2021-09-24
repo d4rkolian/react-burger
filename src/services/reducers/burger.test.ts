@@ -1,7 +1,8 @@
 import { burgerReducer } from './burger';
 import * as actions from '../actions/';
+import type { TBurgerState } from './burger'; 
 
-const originState = {
+const originState:TBurgerState = {
 	ingredients: {
 		all: [],
 		constructor: [],

@@ -1,7 +1,6 @@
 import { USER_INFORMATION_GET_ENDPOINT, USER_INFORMATION_PATCH_ENDPOINT, TOKEN_ENDPOINT } from '../../utils/endpoints';
 import { getCookie, setCookie } from '../../utils'; 
-import { Dispatch } from 'redux';
-import type { TUser } from '../../types/data';
+import type { TUser, AppThunk, AppDispatch } from '../../types/data';
 
 export const PROFILE_GETINFO_REQUEST:'PROFILE_GETINFO_REQUEST' = 'PROFILE_GETINFO_REQUEST';
 export const PROFILE_GETINFO_SUCCESS:'PROFILE_GETINFO_SUCCESS' = 'PROFILE_GETINFO_SUCCESS';
@@ -15,7 +14,6 @@ export const PROFILE_WAS_UPDATED:'PROFILE_WAS_UPDATED' = 'PROFILE_WAS_UPDATED';
 
 export interface IProfileGetRequestAction {
 	readonly type: typeof PROFILE_GETINFO_REQUEST;
-	readonly payload: TUser;
 }
 export interface IProfileGetSuccessAction {
 	readonly type: typeof PROFILE_GETINFO_SUCCESS;
@@ -28,7 +26,6 @@ export interface IProfileGetErrorAction {
 
 export interface IProfileSetRequestAction {
 	readonly type: typeof PROFILE_SETINFO_REQUEST;
-	readonly payload: TUser;
 }
 export interface IProfileSetSuccessAction {
 	readonly type: typeof PROFILE_SETINFO_SUCCESS;
@@ -53,8 +50,8 @@ export type TProfileActions =
  	| IProfileSetErrorAction
  	| IProfileWasUpdatedAction;
 
-export function getUserInfo () {
-	return function(dispatch: Dispatch){
+export const getUserInfo:AppThunk = () => {
+	return function(dispatch: AppDispatch){
 		dispatch({ type: PROFILE_GETINFO_REQUEST });
 		const accessToken = getCookie('token');
 		const reqOptions = {
@@ -84,8 +81,8 @@ export function getUserInfo () {
 	}
 }
 
-export function setUserInfo (user:TUser) {
-	return function(dispatch: Dispatch){
+export const setUserInfo:AppThunk = (user:TUser) => {
+	return function(dispatch: AppDispatch){
 		dispatch({ type: PROFILE_SETINFO_REQUEST });
 		const accessToken = getCookie('token');
 		const reqOptions = {
