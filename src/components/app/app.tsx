@@ -9,11 +9,12 @@ import OrderDetails from '../order-details/order-details';
 import ProtectedRoute from '../protected-route/protected-route';
 import AppHeader from '../app-header/app-header';
 import Modal from '../modal/modal';
-import { CLEAN_DETAILED, DELETE_FROM_CONSTRUCTOR, TURN_ON_NOTICE, getOrderNumber } from '../../services/actions/index';
+import { SET_AS_DETAILED, CLEAN_DETAILED, DELETE_FROM_CONSTRUCTOR, TURN_ON_NOTICE, getOrderNumber } from '../../services/actions/index';
 import { isAuth } from '../../services/actions/user';
 import AppStyles from './app.module.css';
 
 import type { TRootState } from '../../index';
+import type { TIngredient } from '../../types/data';
 
 function App() {
 
@@ -22,12 +23,18 @@ function App() {
 	const location:any = useLocation(); // TODO
 	const background = (history.action === 'PUSH' || history.action === 'REPLACE') && location.state && location.state.background;
 
-	const ingredientsIDs:any[] = []; 	// TODO
+	const ingredientsIDs:string[] = [];
+	const constructorElements = useSelector( store => store.burger.ingredients.constructor );
 
-	useSelector( store => store.burger.ingredients.constructor ).map( (item:any, index:number) => {
+	// useSelector( store => store.burger.ingredients.constructor ).map( (item, index:number) => {
+	// 	if ( item.type === 'bun' ) { ingredientsIDs.push(item._id); } // дополнительная булочка
+	// 	return ingredientsIDs.push(item._id);
+	// });
+	constructorElements.map( (item, index:number) => {
 		if ( item.type === 'bun' ) { ingredientsIDs.push(item._id); } // дополнительная булочка
 		return ingredientsIDs.push(item._id);
 	});
+
 	const { isLoading, bunChosen, isAuthorized } = useSelector( (store:TRootState) => ({
 		isLoading: store.burger.loaders.ingredients,
 		bunChosen: store.burger.ingredients.bunChosen,
@@ -63,7 +70,7 @@ function App() {
 		  switch( event.currentTarget.getAttribute('data-modaltype') ) {
 		    case "ingredients":		      
 		      dispatch({
-		      	type: 'SET_AS_DETAILED',
+		      	type: SET_AS_DETAILED,
 	      		arraykey: event.currentTarget.getAttribute('arraykey'),
 		      });
 		      break;
